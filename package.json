@@ -12,7 +12,7 @@
   ],
   "author": "",
   "dependencies": {
-    "bootstrap": "^5.2.0"
+    "@kasimirjs/embed": "git@github.com:kasimirjs/kasi-embed.git#v2"
   },
   "devDependencies": {
     "css-loader": "^6.7.1",
