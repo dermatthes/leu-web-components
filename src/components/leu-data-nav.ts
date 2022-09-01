@@ -19,9 +19,6 @@ export class LeuDataNav extends KaHtmlElement {
             elements: [] as {el: HTMLElement, title: string, id: string, active: boolean}[]
         }
 
-
-
-
         document.querySelectorAll("[data-leu-nav]").forEach((el : HTMLElement) => {
             scope.elements.push({el: el, title: el.getAttribute("data-leu-nav"), id: el.id, active: false});
         })
