@@ -1130,7 +1130,7 @@ var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || 
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_container;
+var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_lastElement, _LeuContent_container;
 
 
 let LeuContent = class LeuContent extends HTMLElement {
@@ -1138,6 +1138,7 @@ let LeuContent = class LeuContent extends HTMLElement {
         super(...arguments);
         _LeuContent_selectedElement.set(this, null);
         _LeuContent_attachElement.set(this, null);
+        _LeuContent_lastElement.set(this, null);
         _LeuContent_container.set(this, null);
     }
     createElementTree(def) {
@@ -1156,21 +1157,41 @@ let LeuContent = class LeuContent extends HTMLElement {
         return { start, leaf };
     }
     parseComment(comment) {
+        __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(comment.cloneNode(true));
         let lines = comment.textContent.split("\n");
-        __classPrivateFieldGet(this, _LeuContent_container, "f").appendChild(comment.cloneNode(true));
         for (let line of lines) {
             line = line.trim();
+            if (line === "")
+                continue;
             let cmdLine = line.substring(1).trim();
             switch (line.substring(0, 1)) {
                 case "/":
                     let elem1 = this.createElementTree(cmdLine);
                     __classPrivateFieldGet(this, _LeuContent_container, "f").appendChild(elem1.start);
+                    __classPrivateFieldSet(this, _LeuContent_lastElement, elem1.start, "f");
                     __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem1.leaf, "f"), "f");
                     break;
                 case ">":
                     let elem2 = this.createElementTree(cmdLine);
                     __classPrivateFieldGet(this, _LeuContent_selectedElement, "f").appendChild(elem2.start);
                     __classPrivateFieldSet(this, _LeuContent_attachElement, elem2.leaf, "f");
+                    break;
+                case "~":
+                    let [selector, ...attrMap] = cmdLine.split(":");
+                    let attrs = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.parseAttributeStr)(attrMap.join(":"));
+                    for (let curElem of Array.from(this.querySelectorAll(selector))) {
+                        for (let name in attrs) {
+                            curElem.setAttribute(name, attrs[name]);
+                        }
+                    }
+                    break;
+                case "?":
+                    let elem = __classPrivateFieldGet(this, _LeuContent_container, "f").querySelector(cmdLine);
+                    if (elem === null) {
+                        console.error(`Query Element '${cmdLine}': not found in `, comment, "in", __classPrivateFieldGet(this, _LeuContent_container, "f"));
+                        break;
+                    }
+                    __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem, "f"), "f");
                     break;
                 case "#": // comment
                     break;
@@ -1182,13 +1203,14 @@ let LeuContent = class LeuContent extends HTMLElement {
     }
     connectedCallback() {
         return __awaiter(this, void 0, void 0, function* () {
+            this.style.display = "none";
             yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
-            __classPrivateFieldSet(this, _LeuContent_container, (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("div", null, []), "f");
+            __classPrivateFieldSet(this, _LeuContent_container, __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_attachElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("div", null, []), "f"), "f"), "f"), "f");
             this.parentElement.insertBefore(__classPrivateFieldGet(this, _LeuContent_container, "f"), this.nextElementSibling);
             for (let elem of Array.from(this.childNodes)) {
                 if (elem instanceof Comment) {
                     this.parseComment(elem);
-                    break;
+                    continue;
                 }
                 __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elem.cloneNode(true));
             }
@@ -1200,7 +1222,7 @@ let LeuContent = class LeuContent extends HTMLElement {
         });
     }
 };
-_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_container = new WeakMap();
+_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_lastElement = new WeakMap(), _LeuContent_container = new WeakMap();
 LeuContent = __decorate([
     (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-content")
 ], LeuContent);
@@ -1392,26 +1414,21 @@ LeuFormat = __decorate([
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createElement": () => (/* binding */ createElement)
+/* harmony export */   "createElement": () => (/* binding */ createElement),
+/* harmony export */   "parseAttributeStr": () => (/* binding */ parseAttributeStr)
 /* harmony export */ });
 /* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "./node_modules/@kasimirjs/embed/dist/index.js");
 /* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
 
-function createElement(definition) {
-    let defRest = definition.trim();
-    let tag = "div";
+function parseAttributeStr(attrString) {
     let attrs = {};
-    defRest = defRest.replace("/^[a-zA-Z0-9\-_:]+", (match) => {
-        tag = match;
-        return "";
-    });
-    defRest = defRest.replaceAll(/@[^@]+/g, (match) => {
-        console.log("Replace", match);
+    attrString.replaceAll(/@[^@]+/gi, (match) => {
         match = match.substring(1);
         if (match.indexOf("=") === -1) {
             if (typeof attrs.class === "undefined")
                 attrs.class = "";
-            attrs.class += match + " ";
+            attrs.class += " " + match;
+            attrs.class = attrs.class.trim();
         }
         else {
             let res = match.split("=", 2);
@@ -1419,6 +1436,16 @@ function createElement(definition) {
         }
         return "";
     });
+    return attrs;
+}
+function createElement(definition) {
+    let defRest = definition.trim();
+    let tag = "div";
+    defRest = defRest.replace(/^[a-z0-9_\:\-]+/ig, (match) => {
+        tag = match;
+        return "";
+    });
+    let attrs = parseAttributeStr(defRest);
     let element = (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)(tag, attrs);
     return element;
 }
