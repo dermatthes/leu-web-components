@@ -1091,6 +1091,124 @@ exports.ka_templatify = ka_templatify;
 
 /***/ }),
 
+/***/ "./src/components/leu-content.ts":
+/*!***************************************!*\
+  !*** ./src/components/leu-content.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LeuContent": () => (/* binding */ LeuContent)
+/* harmony export */ });
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "./node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _content_createElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../content/createElement */ "./src/content/createElement.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_container;
+
+
+let LeuContent = class LeuContent extends HTMLElement {
+    constructor() {
+        super(...arguments);
+        _LeuContent_selectedElement.set(this, null);
+        _LeuContent_attachElement.set(this, null);
+        _LeuContent_container.set(this, null);
+    }
+    createElementTree(def) {
+        let start = null;
+        let leaf = null;
+        for (let cur of def.split(">")) {
+            let el = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.createElement)(cur);
+            if (start === null) {
+                start = leaf = el;
+            }
+            else {
+                leaf.appendChild(el);
+                leaf = el;
+            }
+        }
+        return { start, leaf };
+    }
+    parseComment(comment) {
+        let lines = comment.textContent.split("\n");
+        __classPrivateFieldGet(this, _LeuContent_container, "f").appendChild(comment.cloneNode(true));
+        for (let line of lines) {
+            line = line.trim();
+            let cmdLine = line.substring(1).trim();
+            switch (line.substring(0, 1)) {
+                case "/":
+                    let elem1 = this.createElementTree(cmdLine);
+                    __classPrivateFieldGet(this, _LeuContent_container, "f").appendChild(elem1.start);
+                    __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem1.leaf, "f"), "f");
+                    break;
+                case ">":
+                    let elem2 = this.createElementTree(cmdLine);
+                    __classPrivateFieldGet(this, _LeuContent_selectedElement, "f").appendChild(elem2.start);
+                    __classPrivateFieldSet(this, _LeuContent_attachElement, elem2.leaf, "f");
+                    break;
+                case "#": // comment
+                    break;
+                default:
+                    console.error("Cannot parse sequence: " + line + " of block", comment);
+                    throw "Cannot parse sequence: " + line;
+            }
+        }
+    }
+    connectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
+            __classPrivateFieldSet(this, _LeuContent_container, (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("div", null, []), "f");
+            this.parentElement.insertBefore(__classPrivateFieldGet(this, _LeuContent_container, "f"), this.nextElementSibling);
+            for (let elem of Array.from(this.childNodes)) {
+                if (elem instanceof Comment) {
+                    this.parseComment(elem);
+                    break;
+                }
+                __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elem.cloneNode(true));
+            }
+        });
+    }
+    ;
+    disconnectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
+};
+_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_container = new WeakMap();
+LeuContent = __decorate([
+    (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-content")
+], LeuContent);
+
+
+
+/***/ }),
+
 /***/ "./src/components/leu-data-nav.ts":
 /*!****************************************!*\
   !*** ./src/components/leu-data-nav.ts ***!
@@ -1266,6 +1384,48 @@ LeuFormat = __decorate([
 
 /***/ }),
 
+/***/ "./src/content/createElement.ts":
+/*!**************************************!*\
+  !*** ./src/content/createElement.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createElement": () => (/* binding */ createElement)
+/* harmony export */ });
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "./node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+
+function createElement(definition) {
+    let defRest = definition.trim();
+    let tag = "div";
+    let attrs = {};
+    defRest = defRest.replace("/^[a-zA-Z0-9\-_:]+", (match) => {
+        tag = match;
+        return "";
+    });
+    defRest = defRest.replaceAll(/@[^@]+/g, (match) => {
+        console.log("Replace", match);
+        match = match.substring(1);
+        if (match.indexOf("=") === -1) {
+            if (typeof attrs.class === "undefined")
+                attrs.class = "";
+            attrs.class += match + " ";
+        }
+        else {
+            let res = match.split("=", 2);
+            attrs[res[0]] = res[1];
+        }
+        return "";
+    });
+    let element = (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)(tag, attrs);
+    return element;
+}
+
+
+/***/ }),
+
 /***/ "./src/helper/smoothscroll.ts":
 /*!************************************!*\
   !*** ./src/helper/smoothscroll.ts ***!
@@ -1391,6 +1551,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helper_smoothscroll__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helper/smoothscroll */ "./src/helper/smoothscroll.ts");
 /* harmony import */ var _components_leu_data_nav__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/leu-data-nav */ "./src/components/leu-data-nav.ts");
 /* harmony import */ var _components_leu_format__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/leu-format */ "./src/components/leu-format.ts");
+/* harmony import */ var _components_leu_content__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/leu-content */ "./src/components/leu-content.ts");
+
 
 
 
