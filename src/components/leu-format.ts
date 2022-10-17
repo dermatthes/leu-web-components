@@ -1,8 +1,8 @@
-import {KaHtmlElement} from "@kasimirjs/embed/src/element/KaHtmlElement";
-import {customElement} from "@kasimirjs/embed/src/decorators/custom-element";
-import {ka_dom_ready} from "@kasimirjs/embed/src/core/dom-ready";
+import {KaHtmlElement} from "@kasimirjs/embed";
+import {customElement} from "@kasimirjs/embed";
+import {ka_dom_ready} from "@kasimirjs/embed";
 
-import {ka_sleep} from "@kasimirjs/embed/src/core/sleep";
+import {ka_sleep} from "@kasimirjs/embed";
 
 declare global {
     var LeuFormatConfig : any;

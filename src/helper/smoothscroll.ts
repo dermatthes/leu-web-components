@@ -1,4 +1,4 @@
-import {ka_sleep} from "@kasimirjs/embed/src/core/sleep";
+import {ka_sleep} from "@kasimirjs/embed";
 
 
 export class SmoothScroll {

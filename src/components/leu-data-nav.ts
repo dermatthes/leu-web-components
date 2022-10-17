@@ -1,10 +1,7 @@
-import {KaHtmlElement} from "@kasimirjs/embed/src/element/KaHtmlElement";
-import {customElement} from "@kasimirjs/embed/src/decorators/custom-element";
-import {ka_dom_ready} from "@kasimirjs/embed/src/core/dom-ready";
-import {types} from "sass";
-import String = types.String;
-import {ka_debounce} from "@kasimirjs/embed/src/core/debounce";
-import {ka_sleep} from "@kasimirjs/embed/src/core/sleep";
+import {KaHtmlElement} from "@kasimirjs/embed";
+import {customElement} from "@kasimirjs/embed";
+import {ka_dom_ready} from "@kasimirjs/embed";
+import {ka_sleep} from "@kasimirjs/embed";
 
 @customElement("leu-data-nav")
 export class LeuDataNav extends KaHtmlElement {
@@ -24,7 +21,7 @@ export class LeuDataNav extends KaHtmlElement {
         })
 
         window.addEventListener("scroll", async () => {
-            await ka_debounce(100, 100);
+            await ka_sleep(100);
 
             let first = false;
             for(let e of scope.elements) {
