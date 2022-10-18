@@ -2,7 +2,8 @@ import {ka_create_element} from "@kasimirjs/embed";
 
 export function parseVariableStr (varString : string, delimiter = "@") : any {
     let attrs : any = {};
-    varString.replaceAll(/@[^@]+/gi, (match: string) => {
+    let regex = new RegExp(`\\${delimiter}[^${delimiter}]+`, "gi")
+    varString.replaceAll(regex, (match: string) => {
         match = match.substring(1);
         if (match.indexOf("=") === -1) {
             if (typeof attrs.class === "undefined")

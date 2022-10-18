@@ -1174,6 +1174,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                 case "!":
                     let tplName = cmdLine.trim().split(" ", 1).join();
                     let variables = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.parseVariableStr)(cmdLine, "$");
+                    console.log(variables);
                     let tpl = document.querySelector(`template[id='${tplName}']`);
                     if (tpl === null) {
                         console.error("<template id='", tplName, "'> not found. Selected in ", comment);
@@ -1443,7 +1444,8 @@ __webpack_require__.r(__webpack_exports__);
 
 function parseVariableStr(varString, delimiter = "@") {
     let attrs = {};
-    varString.replaceAll(/@[^@]+/gi, (match) => {
+    let regex = new RegExp(`\\${delimiter}[^${delimiter}]+`, "gi");
+    varString.replaceAll(regex, (match) => {
         match = match.substring(1);
         if (match.indexOf("=") === -1) {
             if (typeof attrs.class === "undefined")
