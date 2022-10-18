@@ -1188,11 +1188,14 @@ let LeuContent = class LeuContent extends HTMLElement {
                         return varDefault;
                     });
                     elemCtl = elemCtl.firstElementChild;
-                    __classPrivateFieldGet(this, _LeuContent_selectedElement, "f").append(elemCtl);
-                    __classPrivateFieldSet(this, _LeuContent_selectedElement, elemCtl, "f");
-                    let attachPoint = elemCtl.querySelector("*[attach]");
+                    __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elemCtl);
+                    let attachPoint = elemCtl.querySelector("[attach]");
                     if (attachPoint !== null) {
                         __classPrivateFieldSet(this, _LeuContent_attachElement, attachPoint, "f");
+                        __classPrivateFieldSet(this, _LeuContent_selectedElement, elemCtl, "f");
+                    }
+                    else {
+                        console.warn("Template has no attach point", tpl, elemCtl);
                     }
                     break;
                 case ">":
