@@ -1174,7 +1174,6 @@ let LeuContent = class LeuContent extends HTMLElement {
                 case "!":
                     let tplName = cmdLine.trim().split(" ", 1).join();
                     let variables = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.parseVariableStr)(cmdLine, "$");
-                    console.log(variables);
                     let tpl = document.querySelector(`template[id='${tplName}']`);
                     if (tpl === null) {
                         console.error("<template id='", tplName, "'> not found. Selected in ", comment);
@@ -1182,7 +1181,6 @@ let LeuContent = class LeuContent extends HTMLElement {
                     }
                     let elemCtl = tpl.content.firstElementChild.cloneNode(true);
                     elemCtl.innerHTML = elemCtl.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
-                        console.log(varName, varDefault);
                         if (typeof variables[varName] !== "undefined")
                             return variables[varName];
                         return varDefault;

@@ -44,7 +44,6 @@ export class LeuContent extends HTMLElement {
                 case "!":
                     let tplName = cmdLine.trim().split(" ", 1).join();
                     let variables = parseVariableStr(cmdLine, "$");
-                    console.log(variables);
                     let tpl :HTMLTemplateElement = document.querySelector(`template[id='${tplName}']`);
                     if (tpl === null) {
                         console.error("<template id='", tplName, "'> not found. Selected in ", comment);
@@ -53,7 +52,6 @@ export class LeuContent extends HTMLElement {
 
                     let elemCtl : any = tpl.content.firstElementChild.cloneNode(true);
                     elemCtl.innerHTML = elemCtl.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
-                        console.log(varName, varDefault)
                         if (typeof variables[varName] !== "undefined")
                             return variables[varName];
                         return varDefault;
