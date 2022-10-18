@@ -1,5 +1,6 @@
-import {customElement, ka_create_element, ka_sleep, KaHtmlElement} from "@kasimirjs/embed";
-import {createElement, parseAttributeStr} from "../content/createElement";
+import {customElement, ka_create_element, ka_dom_ready, ka_sleep, KaHtmlElement} from "@kasimirjs/embed";
+import {createElement, parseAttributeStr, parseVariableStr} from "../content/createElement";
+import {ka_query_selector} from "@kasimirjs/embed/dist/core/query-select";
 
 @customElement("leu-content")
 export class LeuContent extends HTMLElement {
@@ -40,6 +41,28 @@ export class LeuContent extends HTMLElement {
                     this.#selectedElement = this.#attachElement = elem1.leaf;
                     break;
 
+                case "!":
+                    let tplName = cmdLine.trim().split(" ", 1).join();
+                    let variables = parseVariableStr(cmdLine, "$");
+                    let tpl :HTMLTemplateElement = document.querySelector(`template[id='${tplName}']`);
+                    if (tpl === null) {
+                        console.error("<template id='", tplName, "'> not found. Selected in ", comment);
+                        break;
+                    }
+
+                    let elemCtl : any = tpl.content.firstElementChild.cloneNode(true);
+                    elemCtl.innerHTML = elemCtl.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
+                        console.log(varName, varDefault)
+                        if (typeof variables[varName] !== "undefined")
+                            return variables[varName];
+                        return varDefault;
+                    })
+
+                    elemCtl = elemCtl.firstElementChild;
+                    this.#container.append(elemCtl);
+                    this.#lastElement = this.#selectedElement = elemCtl;
+                    break;
+
                 case ">":
                     let elem2 = this.createElementTree(cmdLine);
                     this.#selectedElement.appendChild(elem2.start);
@@ -57,7 +80,7 @@ export class LeuContent extends HTMLElement {
                     break;
 
                 case "?":
-                    let elem : HTMLElement = this.#container.querySelector(cmdLine);
+                    let elem : HTMLElement = this.#lastElement.querySelector(cmdLine);
                     if (elem === null) {
                         console.error(`Query Element '${cmdLine}': not found in `,  comment, "in", this.#container);
                         break;
@@ -79,6 +102,7 @@ export class LeuContent extends HTMLElement {
     async connectedCallback() {
         this.style.display = "none";
 
+        await ka_dom_ready();
         await ka_sleep(1);
         this.#container = this.#lastElement = this.#attachElement = this.#selectedElement = ka_create_element("div", null, []);
 

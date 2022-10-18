@@ -1171,6 +1171,25 @@ let LeuContent = class LeuContent extends HTMLElement {
                     __classPrivateFieldSet(this, _LeuContent_lastElement, elem1.start, "f");
                     __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem1.leaf, "f"), "f");
                     break;
+                case "!":
+                    let tplName = cmdLine.trim().split(" ", 1).join();
+                    let variables = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.parseVariableStr)(cmdLine, "$");
+                    let tpl = document.querySelector(`template[id='${tplName}']`);
+                    if (tpl === null) {
+                        console.error("<template id='", tplName, "'> not found. Selected in ", comment);
+                        break;
+                    }
+                    let elemCtl = tpl.content.firstElementChild.cloneNode(true);
+                    elemCtl.innerHTML = elemCtl.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
+                        console.log(varName, varDefault);
+                        if (typeof variables[varName] !== "undefined")
+                            return variables[varName];
+                        return varDefault;
+                    });
+                    elemCtl = elemCtl.firstElementChild;
+                    __classPrivateFieldGet(this, _LeuContent_container, "f").append(elemCtl);
+                    __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, elemCtl, "f"), "f");
+                    break;
                 case ">":
                     let elem2 = this.createElementTree(cmdLine);
                     __classPrivateFieldGet(this, _LeuContent_selectedElement, "f").appendChild(elem2.start);
@@ -1186,7 +1205,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                     }
                     break;
                 case "?":
-                    let elem = __classPrivateFieldGet(this, _LeuContent_container, "f").querySelector(cmdLine);
+                    let elem = __classPrivateFieldGet(this, _LeuContent_lastElement, "f").querySelector(cmdLine);
                     if (elem === null) {
                         console.error(`Query Element '${cmdLine}': not found in `, comment, "in", __classPrivateFieldGet(this, _LeuContent_container, "f"));
                         break;
@@ -1204,6 +1223,7 @@ let LeuContent = class LeuContent extends HTMLElement {
     connectedCallback() {
         return __awaiter(this, void 0, void 0, function* () {
             this.style.display = "none";
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_dom_ready)();
             yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
             __classPrivateFieldSet(this, _LeuContent_container, __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_attachElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("div", null, []), "f"), "f"), "f"), "f");
             this.parentElement.insertBefore(__classPrivateFieldGet(this, _LeuContent_container, "f"), this.nextElementSibling);
@@ -1415,14 +1435,15 @@ LeuFormat = __decorate([
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createElement": () => (/* binding */ createElement),
-/* harmony export */   "parseAttributeStr": () => (/* binding */ parseAttributeStr)
+/* harmony export */   "parseAttributeStr": () => (/* binding */ parseAttributeStr),
+/* harmony export */   "parseVariableStr": () => (/* binding */ parseVariableStr)
 /* harmony export */ });
 /* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "./node_modules/@kasimirjs/embed/dist/index.js");
 /* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
 
-function parseAttributeStr(attrString) {
+function parseVariableStr(varString, delimiter = "@") {
     let attrs = {};
-    attrString.replaceAll(/@[^@]+/gi, (match) => {
+    varString.replaceAll(/@[^@]+/gi, (match) => {
         match = match.substring(1);
         if (match.indexOf("=") === -1) {
             if (typeof attrs.class === "undefined")
@@ -1437,6 +1458,9 @@ function parseAttributeStr(attrString) {
         return "";
     });
     return attrs;
+}
+function parseAttributeStr(attrString) {
+    return parseVariableStr(attrString, "@");
 }
 function createElement(definition) {
     let defRest = definition.trim();

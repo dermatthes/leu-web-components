@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/leu-web-components.js" type="module"></script>
+</head>
+<body>
+
+    <template id="test1">
+        <div style="background-color: ${bgcol?red}; height: 200px;">
+            <section></section>
+        </div>
+    </template>
+
+
+    <leu-content>
+        <!-- !test1 $bgcol=blue -->
+        <!-- ?section -->
+        <h1>Hello World</h1>
+    </leu-content>
+</body>
+</html>

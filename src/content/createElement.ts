@@ -1,8 +1,8 @@
 import {ka_create_element} from "@kasimirjs/embed";
 
-export function parseAttributeStr(attrString : string ) : any {
+export function parseVariableStr (varString : string, delimiter = "@") : any {
     let attrs : any = {};
-    attrString.replaceAll(/@[^@]+/gi, (match: string) => {
+    varString.replaceAll(/@[^@]+/gi, (match: string) => {
         match = match.substring(1);
         if (match.indexOf("=") === -1) {
             if (typeof attrs.class === "undefined")
@@ -17,6 +17,10 @@ export function parseAttributeStr(attrString : string ) : any {
         return "";
     })
     return attrs;
+}
+
+export function parseAttributeStr(attrString : string ) : any {
+    return parseVariableStr(attrString, "@")
 }
 
 export function createElement(definition : string) : HTMLElement {
