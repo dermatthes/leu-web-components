@@ -1179,13 +1179,12 @@ let LeuContent = class LeuContent extends HTMLElement {
                         console.error("<template id='", tplName, "'> not found. Selected in ", comment);
                         break;
                     }
-                    let elemCtl = tpl.content.firstElementChild.cloneNode(true);
-                    elemCtl.innerHTML = elemCtl.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
+                    let elemCtl = document.createElement("div");
+                    elemCtl.innerHTML = tpl.content.firstElementChild.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
                         if (typeof variables[varName] !== "undefined")
                             return variables[varName];
                         return varDefault;
                     });
-                    elemCtl = elemCtl.firstElementChild;
                     __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elemCtl);
                     let attachPoint = elemCtl.querySelector("[attach]");
                     if (attachPoint !== null) {

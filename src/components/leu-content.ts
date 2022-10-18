@@ -50,14 +50,13 @@ export class LeuContent extends HTMLElement {
                         break;
                     }
 
-                    let elemCtl : any = tpl.content.firstElementChild.cloneNode(true);
-                    elemCtl.innerHTML = elemCtl.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
+                    let elemCtl : any = document.createElement("div");
+                    elemCtl.innerHTML = tpl.content.firstElementChild.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
                         if (typeof variables[varName] !== "undefined")
                             return variables[varName];
                         return varDefault;
                     })
 
-                    elemCtl = elemCtl.firstElementChild;
                     this.#attachElement.append(elemCtl);
 
                     let attachPoint = elemCtl.querySelector("[attach]");
