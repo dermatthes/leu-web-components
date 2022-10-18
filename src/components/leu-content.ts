@@ -65,7 +65,7 @@ export class LeuContent extends HTMLElement {
                     let attachPoint = elemCtl.querySelector("[attach]");
                     if (attachPoint !== null) {
                         this.#attachElement = attachPoint;
-                        this.#selectedElement = elemCtl;
+                        this.#selectedElement = attachPoint;
                     } else {
                         console.warn("Template has no attach point", tpl, elemCtl)
                     }

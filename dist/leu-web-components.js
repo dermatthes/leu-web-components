@@ -1192,7 +1192,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                     let attachPoint = elemCtl.querySelector("[attach]");
                     if (attachPoint !== null) {
                         __classPrivateFieldSet(this, _LeuContent_attachElement, attachPoint, "f");
-                        __classPrivateFieldSet(this, _LeuContent_selectedElement, elemCtl, "f");
+                        __classPrivateFieldSet(this, _LeuContent_selectedElement, attachPoint, "f");
                     }
                     else {
                         console.warn("Template has no attach point", tpl, elemCtl);
