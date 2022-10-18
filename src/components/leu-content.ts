@@ -60,8 +60,12 @@ export class LeuContent extends HTMLElement {
                     })
 
                     elemCtl = elemCtl.firstElementChild;
-                    this.#container.append(elemCtl);
-                    this.#lastElement = this.#selectedElement = elemCtl;
+                    this.#selectedElement.append(elemCtl);
+                    this.#selectedElement = elemCtl;
+                    let attachPoint = elemCtl.querySelector("*[attach]");
+                    if (attachPoint !== null) {
+                        this.#attachElement = attachPoint;
+                    }
                     break;
 
                 case ">":
@@ -73,7 +77,7 @@ export class LeuContent extends HTMLElement {
                 case "~":
                     let [selector, ...attrMap] = cmdLine.split(":");
                     let attrs = parseAttributeStr(attrMap.join(":"));
-                    for (let curElem of Array.from(this.querySelectorAll(selector))) {
+                    for (let curElem of Array.from(this.#container.querySelectorAll(selector))) {
                         for (let name in attrs) {
                             curElem.setAttribute(name, attrs[name]);
                         }

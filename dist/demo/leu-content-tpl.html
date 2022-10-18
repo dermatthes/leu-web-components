@@ -9,14 +9,16 @@
 
     <template id="test1">
         <div style="background-color: ${bgcol?red}; height: 200px;">
-            <section></section>
+            <section attach></section>
         </div>
     </template>
 
 
     <leu-content>
         <!-- !test1 $bgcol=blue -->
-        <!-- ?section -->
+        <h1>Hello World</h1>
+
+        <!-- !test1 $bgcol=red -->
         <h1>Hello World</h1>
     </leu-content>
 </body>

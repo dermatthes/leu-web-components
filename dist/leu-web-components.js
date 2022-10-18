@@ -1188,8 +1188,12 @@ let LeuContent = class LeuContent extends HTMLElement {
                         return varDefault;
                     });
                     elemCtl = elemCtl.firstElementChild;
-                    __classPrivateFieldGet(this, _LeuContent_container, "f").append(elemCtl);
-                    __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, elemCtl, "f"), "f");
+                    __classPrivateFieldGet(this, _LeuContent_selectedElement, "f").append(elemCtl);
+                    __classPrivateFieldSet(this, _LeuContent_selectedElement, elemCtl, "f");
+                    let attachPoint = elemCtl.querySelector("*[attach]");
+                    if (attachPoint !== null) {
+                        __classPrivateFieldSet(this, _LeuContent_attachElement, attachPoint, "f");
+                    }
                     break;
                 case ">":
                     let elem2 = this.createElementTree(cmdLine);
@@ -1199,7 +1203,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                 case "~":
                     let [selector, ...attrMap] = cmdLine.split(":");
                     let attrs = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.parseAttributeStr)(attrMap.join(":"));
-                    for (let curElem of Array.from(this.querySelectorAll(selector))) {
+                    for (let curElem of Array.from(__classPrivateFieldGet(this, _LeuContent_container, "f").querySelectorAll(selector))) {
                         for (let name in attrs) {
                             curElem.setAttribute(name, attrs[name]);
                         }
