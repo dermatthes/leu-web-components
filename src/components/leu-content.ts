@@ -123,6 +123,7 @@ export class LeuContent extends HTMLElement {
             this.#attachElement.append(elem.cloneNode(true));
 
         }
+        await ka_sleep(1);
         this.#container.classList.remove("loading");
         this.classList.remove("loading");
     };

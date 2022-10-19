@@ -1239,6 +1239,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                 }
                 __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elem.cloneNode(true));
             }
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
             __classPrivateFieldGet(this, _LeuContent_container, "f").classList.remove("loading");
             this.classList.remove("loading");
         });
