@@ -58,7 +58,7 @@ export class LeuContent extends HTMLElement {
                     });
 
                     // Replace Tags like --src and --id
-                    content = content.replaceAll(/--([a-z]+)=/ig, (a, b) => b + "=");
+                    content = content.replaceAll(/--([a-z\-]+)=/ig, (a, b) => b + "=");
 
                     elemCtl.innerHTML = content;
                     this.#attachElement.append(elemCtl);

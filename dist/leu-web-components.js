@@ -1186,7 +1186,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                         return varDefault;
                     });
                     // Replace Tags like --src and --id
-                    content = content.replaceAll(/--([a-z]+)=/ig, (a, b) => b + "=");
+                    content = content.replaceAll(/--([a-z\-]+)=/ig, (a, b) => b + "=");
                     elemCtl.innerHTML = content;
                     __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elemCtl);
                     // Execute <script> tags
