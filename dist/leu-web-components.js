@@ -1180,11 +1180,14 @@ let LeuContent = class LeuContent extends HTMLElement {
                         break;
                     }
                     let elemCtl = document.createElement("div");
-                    elemCtl.innerHTML = tpl.content.firstElementChild.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
+                    let content = tpl.content.firstElementChild.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
                         if (typeof variables[varName] !== "undefined")
                             return variables[varName];
                         return varDefault;
                     });
+                    // Replace Tags like --src and --id
+                    content = content.replaceAll(/--([a-z]+)=/ig, (a, b) => b + "=");
+                    elemCtl.innerHTML = content;
                     __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elemCtl);
                     let attachPoint = elemCtl.querySelector("[attach]");
                     if (attachPoint !== null) {
@@ -1238,7 +1241,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                 }
                 __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elem.cloneNode(true));
             }
-            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(5);
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(10);
             __classPrivateFieldGet(this, _LeuContent_container, "f").classList.remove("loading");
             this.classList.remove("loading");
             this.style.display = "none";

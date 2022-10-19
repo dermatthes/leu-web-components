@@ -51,12 +51,16 @@ export class LeuContent extends HTMLElement {
                     }
 
                     let elemCtl : any = document.createElement("div");
-                    elemCtl.innerHTML = tpl.content.firstElementChild.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
+                    let content = tpl.content.firstElementChild.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
                         if (typeof variables[varName] !== "undefined")
                             return variables[varName];
                         return varDefault;
-                    })
+                    });
 
+                    // Replace Tags like --src and --id
+                    content = content.replaceAll(/--([a-z]+)=/ig, (a, b) => b + "=");
+
+                    elemCtl.innerHTML = content;
                     this.#attachElement.append(elemCtl);
 
                     let attachPoint = elemCtl.querySelector("[attach]");
@@ -123,7 +127,7 @@ export class LeuContent extends HTMLElement {
             this.#attachElement.append(elem.cloneNode(true));
 
         }
-        await ka_sleep(5);
+        await ka_sleep(10);
         this.#container.classList.remove("loading");
         this.classList.remove("loading");
         this.style.display = "none";
