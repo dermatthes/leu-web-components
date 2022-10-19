@@ -123,7 +123,7 @@ export class LeuContent extends HTMLElement {
             this.#attachElement.append(elem.cloneNode(true));
 
         }
-
+        this.classList.remove("load-hidden");
     };
 
 

@@ -1239,6 +1239,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                 }
                 __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elem.cloneNode(true));
             }
+            this.classList.remove("load-hidden");
         });
     }
     ;
