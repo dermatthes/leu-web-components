@@ -1189,6 +1189,17 @@ let LeuContent = class LeuContent extends HTMLElement {
                     content = content.replaceAll(/--([a-z]+)=/ig, (a, b) => b + "=");
                     elemCtl.innerHTML = content;
                     __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elemCtl);
+                    // Execute <script> tags
+                    for (let elem of elemCtl.querySelectorAll("script")) {
+                        let attrs = {};
+                        if (elem.hasAttribute("src")) {
+                            attrs = { src: elem.getAttribute("src") };
+                        }
+                        let e = (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("script", attrs);
+                        e.append(document.createTextNode(elem.textContent));
+                        elem.parentElement.replaceChild(e, elem);
+                        //this.#attachElement.append(e);
+                    }
                     let attachPoint = elemCtl.querySelector("[attach]");
                     if (attachPoint !== null) {
                         __classPrivateFieldSet(this, _LeuContent_attachElement, attachPoint, "f");

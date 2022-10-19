@@ -63,6 +63,18 @@ export class LeuContent extends HTMLElement {
                     elemCtl.innerHTML = content;
                     this.#attachElement.append(elemCtl);
 
+                    // Execute <script> tags
+                    for(let elem of elemCtl.querySelectorAll("script")) {
+                        let attrs = {};
+                        if (elem.hasAttribute("src")) {
+                            attrs = {src: elem.getAttribute("src")}
+                        }
+                        let e = ka_create_element("script", attrs);
+                        e.append(document.createTextNode(elem.textContent));
+                        elem.parentElement.replaceChild(e, elem);
+                        //this.#attachElement.append(e);
+                    }
+
                     let attachPoint = elemCtl.querySelector("[attach]");
                     if (attachPoint !== null) {
                         this.#attachElement = attachPoint;
