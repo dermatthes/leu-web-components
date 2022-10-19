@@ -1227,7 +1227,6 @@ let LeuContent = class LeuContent extends HTMLElement {
     }
     connectedCallback() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.style.display = "none";
             yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_dom_ready)();
             yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
             __classPrivateFieldSet(this, _LeuContent_container, __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_attachElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("div", { class: this.getAttribute("class") + " loading" }, []), "f"), "f"), "f"), "f");
@@ -1242,6 +1241,7 @@ let LeuContent = class LeuContent extends HTMLElement {
             yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
             __classPrivateFieldGet(this, _LeuContent_container, "f").classList.remove("loading");
             this.classList.remove("loading");
+            this.style.display = "none";
         });
     }
     ;

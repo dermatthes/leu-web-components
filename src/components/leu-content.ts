@@ -105,7 +105,7 @@ export class LeuContent extends HTMLElement {
     }
 
     async connectedCallback() {
-        this.style.display = "none";
+
 
         await ka_dom_ready();
         await ka_sleep(1);
@@ -126,6 +126,7 @@ export class LeuContent extends HTMLElement {
         await ka_sleep(1);
         this.#container.classList.remove("loading");
         this.classList.remove("loading");
+        this.style.display = "none";
     };
 
 
