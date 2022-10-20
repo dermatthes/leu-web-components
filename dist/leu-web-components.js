@@ -1191,13 +1191,13 @@ let LeuContent = class LeuContent extends HTMLElement {
                         break;
                     }
                     let elemCtl = document.createElement("div");
-                    let content = tpl.content.firstElementChild.outerHTML.replaceAll(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
+                    let content = tpl.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
                         if (typeof variables[varName] !== "undefined")
                             return variables[varName];
                         return varDefault;
                     });
                     // Replace Tags like --src and --id
-                    content = content.replaceAll(/--([a-z\-]+)=/ig, (a, b) => b + "=");
+                    content = content.replace(/--([a-z\-]+)=/ig, (a, b) => b + "=");
                     elemCtl.innerHTML = content;
                     __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elemCtl);
                     // Execute <script> tags
