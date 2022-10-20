@@ -1,6 +1,8 @@
 {
+
   "compilerOptions": {
     "outDir": "./dist/",
+    "incremental": true,
     "noImplicitAny": false,
     "module": "esnext",
     "target": "es6",
@@ -16,6 +18,7 @@
     ]
   },
   "exclude": [
-    "./test"
+    "./test",
+    "./dist"
   ]
 }

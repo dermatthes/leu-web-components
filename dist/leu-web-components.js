@@ -1130,9 +1130,10 @@ var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || 
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_lastElement, _LeuContent_container;
+var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_lastElement, _LeuContent_container, _LeuContent_curAttrMap;
 
 
+let defaultAttrMap = {};
 let LeuContent = class LeuContent extends HTMLElement {
     constructor() {
         super(...arguments);
@@ -1140,6 +1141,7 @@ let LeuContent = class LeuContent extends HTMLElement {
         _LeuContent_attachElement.set(this, null);
         _LeuContent_lastElement.set(this, null);
         _LeuContent_container.set(this, null);
+        _LeuContent_curAttrMap.set(this, Object.assign({}, defaultAttrMap));
     }
     createElementTree(def) {
         let start = null;
@@ -1170,6 +1172,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                     __classPrivateFieldGet(this, _LeuContent_container, "f").appendChild(elem1.start);
                     __classPrivateFieldSet(this, _LeuContent_lastElement, elem1.start, "f");
                     __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem1.leaf, "f"), "f");
+                    __classPrivateFieldSet(this, _LeuContent_curAttrMap, Object.assign({}, defaultAttrMap), "f"); // Reset Attribute map to default as clone
                     break;
                 case "!":
                     let tplName = cmdLine.trim().split(" ", 1).join();
@@ -1215,13 +1218,9 @@ let LeuContent = class LeuContent extends HTMLElement {
                     __classPrivateFieldSet(this, _LeuContent_attachElement, elem2.leaf, "f");
                     break;
                 case "~":
-                    let [selector, ...attrMap] = cmdLine.split(":");
+                    let [selector, ...attrMap] = cmdLine.split("=>");
                     let attrs = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.parseAttributeStr)(attrMap.join(":"));
-                    for (let curElem of Array.from(__classPrivateFieldGet(this, _LeuContent_container, "f").querySelectorAll(selector))) {
-                        for (let name in attrs) {
-                            curElem.setAttribute(name, attrs[name]);
-                        }
-                    }
+                    __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")[selector] = { attrs, line };
                     break;
                 case "?":
                     let elem = __classPrivateFieldGet(this, _LeuContent_lastElement, "f").querySelector(cmdLine);
@@ -1239,10 +1238,38 @@ let LeuContent = class LeuContent extends HTMLElement {
             }
         }
     }
+    /**
+     * Apply XPath ~
+     *
+     * @param el
+     * @private
+     */
+    applyAttMap(el) {
+        let appEl = document.createElement("div");
+        appEl.append(el);
+        for (let attrMapSelector in __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")) {
+            try {
+                let result = appEl.querySelectorAll(attrMapSelector);
+                for (let curElement of Array.from(result)) {
+                    for (let attName in __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")[attrMapSelector].attrs) {
+                        curElement.setAttribute(attName, __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")[attrMapSelector].attrs[attName]);
+                    }
+                }
+            }
+            catch (e) {
+                console.error("Cannot evaluate: '" + __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")[attrMapSelector].line + "' - ", e);
+                continue;
+            }
+        }
+    }
     connectedCallback() {
         return __awaiter(this, void 0, void 0, function* () {
             yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_dom_ready)();
             yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
+            if (!this.hasAttribute("default")) {
+                // Wait for defaults
+                yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
+            }
             __classPrivateFieldSet(this, _LeuContent_container, __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_attachElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("div", { class: this.getAttribute("class") + " loading" }, []), "f"), "f"), "f"), "f");
             this.parentElement.insertBefore(__classPrivateFieldGet(this, _LeuContent_container, "f"), this.nextElementSibling);
             for (let elem of Array.from(this.childNodes)) {
@@ -1250,7 +1277,14 @@ let LeuContent = class LeuContent extends HTMLElement {
                     this.parseComment(elem);
                     continue;
                 }
-                __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elem.cloneNode(true));
+                let clone = elem.cloneNode(true);
+                this.applyAttMap(clone);
+                __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(clone);
+            }
+            if (this.hasAttribute("default")) {
+                // Register defaults
+                defaultAttrMap = __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f");
+                console.debug("Register default attribute map: ", defaultAttrMap, "from", this);
             }
             yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(10);
             __classPrivateFieldGet(this, _LeuContent_container, "f").classList.remove("loading");
@@ -1264,7 +1298,7 @@ let LeuContent = class LeuContent extends HTMLElement {
         });
     }
 };
-_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_lastElement = new WeakMap(), _LeuContent_container = new WeakMap();
+_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_lastElement = new WeakMap(), _LeuContent_container = new WeakMap(), _LeuContent_curAttrMap = new WeakMap();
 LeuContent = __decorate([
     (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-content")
 ], LeuContent);

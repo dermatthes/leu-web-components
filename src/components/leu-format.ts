@@ -7,6 +7,7 @@ import {ka_sleep} from "@kasimirjs/embed";
 declare global {
     var LeuFormatConfig : any;
 }
+
 if (typeof window.LeuFormatConfig === "undefined") {
     window.LeuFormatConfig = {
         "h1": ["fs-2", "text-center", "content-space-2"],

@@ -2,12 +2,16 @@ import {customElement, ka_create_element, ka_dom_ready, ka_sleep, KaHtmlElement}
 import {createElement, parseAttributeStr, parseVariableStr} from "../content/createElement";
 import {ka_query_selector} from "@kasimirjs/embed/dist/core/query-select";
 
+let defaultAttrMap = {};
+
 @customElement("leu-content")
 export class LeuContent extends HTMLElement {
     #selectedElement : HTMLElement = null;
     #attachElement : HTMLElement = null;
     #lastElement : HTMLElement = null;
     #container: HTMLElement = null;
+
+    #curAttrMap: Object = {...defaultAttrMap};
 
     private createElementTree (def : string) : {start: HTMLElement, leaf: HTMLElement} {
 
@@ -32,6 +36,7 @@ export class LeuContent extends HTMLElement {
             line = line.trim();
             if (line === "")
                 continue;
+
             let cmdLine = line.substring(1).trim();
             switch (line.substring(0,1)) {
                 case "/":
@@ -39,6 +44,7 @@ export class LeuContent extends HTMLElement {
                     this.#container.appendChild(elem1.start);
                     this.#lastElement = elem1.start;
                     this.#selectedElement = this.#attachElement = elem1.leaf;
+                    this.#curAttrMap = {...defaultAttrMap}; // Reset Attribute map to default as clone
                     break;
 
                 case "!":
@@ -91,13 +97,10 @@ export class LeuContent extends HTMLElement {
                     break;
 
                 case "~":
-                    let [selector, ...attrMap] = cmdLine.split(":");
+
+                    let [selector, ...attrMap] = cmdLine.split("=>");
                     let attrs = parseAttributeStr(attrMap.join(":"));
-                    for (let curElem of Array.from(this.#container.querySelectorAll(selector))) {
-                        for (let name in attrs) {
-                            curElem.setAttribute(name, attrs[name]);
-                        }
-                    }
+                    this.#curAttrMap[selector] = {attrs, line};
                     break;
 
                 case "?":
@@ -120,25 +123,60 @@ export class LeuContent extends HTMLElement {
         }
     }
 
+
+    /**
+     * Apply XPath ~
+     *
+     * @param el
+     * @private
+     */
+    private applyAttMap(el : HTMLElement) {
+        let appEl = document.createElement("div");
+        appEl.append(el);
+        for (let attrMapSelector in this.#curAttrMap) {
+
+            try {
+                let result = appEl.querySelectorAll(attrMapSelector)
+                for (let curElement of Array.from(result)) {
+                    for(let attName in this.#curAttrMap[attrMapSelector].attrs) {
+                        curElement.setAttribute(attName, this.#curAttrMap[attrMapSelector].attrs[attName]);
+                    }
+                }
+            } catch (e) {
+                console.error("Cannot evaluate: '" + this.#curAttrMap[attrMapSelector].line + "' - ", e);
+                continue;
+            }
+
+        }
+    }
+
     async connectedCallback() {
-
-
         await ka_dom_ready();
         await ka_sleep(1);
+        if ( ! this.hasAttribute("default")) {
+            // Wait for defaults
+            await ka_sleep(1);
+        }
         this.#container = this.#lastElement = this.#attachElement = this.#selectedElement = ka_create_element("div", {class: this.getAttribute("class") + " loading"}, []);
 
         this.parentElement.insertBefore(this.#container, this.nextElementSibling);
-
-
 
         for (let elem of Array.from(this.childNodes)) {
             if (elem instanceof Comment) {
                 this.parseComment(elem);
                 continue;
             }
-            this.#attachElement.append(elem.cloneNode(true));
-
+            let clone : any = elem.cloneNode(true)
+            this.applyAttMap(clone);
+            this.#attachElement.append(clone);
         }
+
+        if (this.hasAttribute("default")) {
+            // Register defaults
+            defaultAttrMap = this.#curAttrMap;
+            console.debug("Register default attribute map: ", defaultAttrMap, "from", this);
+        }
+
         await ka_sleep(10);
         this.#container.classList.remove("loading");
         this.classList.remove("loading");

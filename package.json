@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/leu-web-components.js",
-  "type": "module",
+  "type": "commonjs",
   "directories": {
     "doc": "docs",
     "lib": "lib"

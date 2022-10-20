@@ -6,13 +6,32 @@
     <script src="/leu-web-components.js" type="module"></script>
 </head>
 <body>
+
+<leu-content default>
+    <!--
+    ~ h1 => @style=border: 1px solid black
+    -->
+</leu-content>
+
+
     <leu-content>
         <!--
-        ~ h1:  @style=color:red @wurst
+
 
         / @xy1 > @zzz
+        ~ table td => @style=border: 1px solid black
+        ~ table =>  @style=color:red @wurst
+
         -->
         <h1>Some Content</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>hello World</td>
+                </tr>
+            </thead>
+        </table>
 
         Some Text
 
