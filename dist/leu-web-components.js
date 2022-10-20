@@ -1524,7 +1524,7 @@ __webpack_require__.r(__webpack_exports__);
 function parseVariableStr(varString, delimiter = "@") {
     let attrs = {};
     let regex = new RegExp(`\\${delimiter}[^${delimiter}]+`, "gi");
-    varString.replaceAll(regex, (match) => {
+    varString.replace(regex, (match) => {
         match = match.substring(1);
         if (match.indexOf("=") === -1) {
             if (typeof attrs.class === "undefined")
