@@ -11,6 +11,7 @@ export class LeuContent extends HTMLElement {
     #lastElement : HTMLElement = null;
     #container: HTMLElement = null;
 
+    #refs : Map<string, HTMLElement> = new Map;
     #curAttrMap: Object = {...defaultAttrMap};
 
     private createElementTree (def : string) : {start: HTMLElement, leaf: HTMLElement} {
@@ -18,7 +19,16 @@ export class LeuContent extends HTMLElement {
         let start : HTMLElement = null;
         let leaf : HTMLElement = null;
         for(let cur of def.split(">")) {
+            let refName = null;
+            cur = cur.replace(/§([a-z0-9_\-]+)/, (a, name) => {
+                refName = name;
+                return "";
+            });
             let el = createElement(cur);
+
+            if (refName !== null)
+                this.#refs[refName] = el;
+
             if (start === null) {
                 start = leaf = el;
             } else {
@@ -81,11 +91,16 @@ export class LeuContent extends HTMLElement {
                         //this.#attachElement.append(e);
                     }
 
-                    let attachPoint = elemCtl.querySelector("[attach]");
-                    if (attachPoint !== null) {
-                        this.#attachElement = attachPoint;
-                        this.#selectedElement = attachPoint;
-                    } else {
+                    let attachPoints = elemCtl.querySelectorAll("[attach]");
+                    for (let attachPoint of attachPoints) {
+                        if (attachPoint.getAttribute("attach") === "") {
+                            this.#attachElement = attachPoint;
+                            this.#selectedElement = attachPoint;
+                        } else {
+                            this.#refs[attachPoint.getAttribute("attach")] = attachPoint;
+                        }
+                    }
+                    if (attachPoints.length === 0) {
                         console.warn("Template has no attach point", tpl, elemCtl)
                     }
                     break;
@@ -104,10 +119,19 @@ export class LeuContent extends HTMLElement {
                     break;
 
                 case "?":
-                    let elem : HTMLElement = this.#lastElement.querySelector(cmdLine);
-                    if (elem === null) {
-                        console.error(`Query Element '${cmdLine}': not found in `,  comment, "in", this.#container);
-                        break;
+                    let elem: HTMLElement = null;
+                    if (cmdLine.startsWith("§")) {
+                        elem = this.#refs[cmdLine.substring(1)];
+                        if (elem === null) {
+                            console.error("Cannot select reference: '" + line + "': Not found");
+                            break;
+                        }
+                    } else {
+                        elem = this.#lastElement.querySelector(cmdLine);
+                        if (elem === null) {
+                            console.error(`Query Element '${cmdLine}': not found in `, comment, "in", this.#container);
+                            break;
+                        }
                     }
                     this.#selectedElement = this.#attachElement = elem;
                     break;

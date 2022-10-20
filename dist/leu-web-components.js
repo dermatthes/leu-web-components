@@ -1130,7 +1130,7 @@ var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || 
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_lastElement, _LeuContent_container, _LeuContent_curAttrMap;
+var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_lastElement, _LeuContent_container, _LeuContent_refs, _LeuContent_curAttrMap;
 
 
 let defaultAttrMap = {};
@@ -1141,13 +1141,21 @@ let LeuContent = class LeuContent extends HTMLElement {
         _LeuContent_attachElement.set(this, null);
         _LeuContent_lastElement.set(this, null);
         _LeuContent_container.set(this, null);
+        _LeuContent_refs.set(this, new Map);
         _LeuContent_curAttrMap.set(this, Object.assign({}, defaultAttrMap));
     }
     createElementTree(def) {
         let start = null;
         let leaf = null;
         for (let cur of def.split(">")) {
+            let refName = null;
+            cur = cur.replace(/§([a-z0-9_\-]+)/, (a, name) => {
+                refName = name;
+                return "";
+            });
             let el = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.createElement)(cur);
+            if (refName !== null)
+                __classPrivateFieldGet(this, _LeuContent_refs, "f")[refName] = el;
             if (start === null) {
                 start = leaf = el;
             }
@@ -1203,12 +1211,17 @@ let LeuContent = class LeuContent extends HTMLElement {
                         elem.parentElement.replaceChild(e, elem);
                         //this.#attachElement.append(e);
                     }
-                    let attachPoint = elemCtl.querySelector("[attach]");
-                    if (attachPoint !== null) {
-                        __classPrivateFieldSet(this, _LeuContent_attachElement, attachPoint, "f");
-                        __classPrivateFieldSet(this, _LeuContent_selectedElement, attachPoint, "f");
+                    let attachPoints = elemCtl.querySelectorAll("[attach]");
+                    for (let attachPoint of attachPoints) {
+                        if (attachPoint.getAttribute("attach") === "") {
+                            __classPrivateFieldSet(this, _LeuContent_attachElement, attachPoint, "f");
+                            __classPrivateFieldSet(this, _LeuContent_selectedElement, attachPoint, "f");
+                        }
+                        else {
+                            __classPrivateFieldGet(this, _LeuContent_refs, "f")[attachPoint.getAttribute("attach")] = attachPoint;
+                        }
                     }
-                    else {
+                    if (attachPoints.length === 0) {
                         console.warn("Template has no attach point", tpl, elemCtl);
                     }
                     break;
@@ -1223,10 +1236,20 @@ let LeuContent = class LeuContent extends HTMLElement {
                     __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")[selector] = { attrs, line };
                     break;
                 case "?":
-                    let elem = __classPrivateFieldGet(this, _LeuContent_lastElement, "f").querySelector(cmdLine);
-                    if (elem === null) {
-                        console.error(`Query Element '${cmdLine}': not found in `, comment, "in", __classPrivateFieldGet(this, _LeuContent_container, "f"));
-                        break;
+                    let elem = null;
+                    if (cmdLine.startsWith("§")) {
+                        elem = __classPrivateFieldGet(this, _LeuContent_refs, "f")[cmdLine.substring(1)];
+                        if (elem === null) {
+                            console.error("Cannot select reference: '" + line + "': Not found");
+                            break;
+                        }
+                    }
+                    else {
+                        elem = __classPrivateFieldGet(this, _LeuContent_lastElement, "f").querySelector(cmdLine);
+                        if (elem === null) {
+                            console.error(`Query Element '${cmdLine}': not found in `, comment, "in", __classPrivateFieldGet(this, _LeuContent_container, "f"));
+                            break;
+                        }
                     }
                     __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem, "f"), "f");
                     break;
@@ -1299,7 +1322,7 @@ let LeuContent = class LeuContent extends HTMLElement {
         });
     }
 };
-_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_lastElement = new WeakMap(), _LeuContent_container = new WeakMap(), _LeuContent_curAttrMap = new WeakMap();
+_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_lastElement = new WeakMap(), _LeuContent_container = new WeakMap(), _LeuContent_refs = new WeakMap(), _LeuContent_curAttrMap = new WeakMap();
 LeuContent = __decorate([
     (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-content")
 ], LeuContent);
