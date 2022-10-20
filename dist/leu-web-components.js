@@ -1270,6 +1270,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                 // Wait for defaults
                 yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
             }
+            __classPrivateFieldSet(this, _LeuContent_curAttrMap, Object.assign({}, defaultAttrMap), "f"); // Reset Attribute map to default as clone
             __classPrivateFieldSet(this, _LeuContent_container, __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_attachElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("div", { class: this.getAttribute("class") + " loading" }, []), "f"), "f"), "f"), "f");
             this.parentElement.insertBefore(__classPrivateFieldGet(this, _LeuContent_container, "f"), this.nextElementSibling);
             for (let elem of Array.from(this.childNodes)) {

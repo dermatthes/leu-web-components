@@ -157,6 +157,7 @@ export class LeuContent extends HTMLElement {
             // Wait for defaults
             await ka_sleep(1);
         }
+        this.#curAttrMap = {...defaultAttrMap}; // Reset Attribute map to default as clone
         this.#container = this.#lastElement = this.#attachElement = this.#selectedElement = ka_create_element("div", {class: this.getAttribute("class") + " loading"}, []);
 
         this.parentElement.insertBefore(this.#container, this.nextElementSibling);
