@@ -2,9 +2,9 @@
   "name": "@leu/leu-web-components",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "module": "dist/index.js",
+  "module": "dist/index.mjs",
   "type": "module",
   "directories": {
     "doc": "docs",
@@ -12,7 +12,8 @@
   },
   "scripts": {
     "watch": "esbuild src/index.ts --bundle --serve=0.0.0.0:4000 --outdir=docs/js --servedir=docs",
-    "build": "tsc && esbuild src/index.ts --bundle --minify --outfile=./dist/leu-web-components.js",
+    "make.mjs": "tsc -d && mv dist/index.js dist/index.mjs",
+    "build": "tsc && npm run make.mjs && esbuild src/index.ts --bundle --minify --outfile=./dist/leu-web-components.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "workspaces": [
