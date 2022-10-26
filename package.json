@@ -13,7 +13,7 @@
   "scripts": {
     "watch": "esbuild src/index.ts --bundle --serve=0.0.0.0:4000 --outdir=docs/js --servedir=docs",
     "make.mjs": "tsc -d && mv dist/index.js dist/index.mjs",
-    "make.cjs": "tsc -m commonjs",
+    "make.cjs": "tsc -m commonjs && mv dist/index.js dist/index.cjs",
     "build": "npm run make.mjs && npm run make.cjs && esbuild src/index.ts --bundle --minify --outfile=./dist/leu-web-components.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

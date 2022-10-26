@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -14,12 +13,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LeuFormat = void 0;
-const embed_1 = require("@kasimirjs/embed");
-const embed_2 = require("@kasimirjs/embed");
-const embed_3 = require("@kasimirjs/embed");
-const embed_4 = require("@kasimirjs/embed");
+import { KaHtmlElement } from "@kasimirjs/embed";
+import { customElement } from "@kasimirjs/embed";
+import { ka_dom_ready } from "@kasimirjs/embed";
+import { ka_sleep } from "@kasimirjs/embed";
 if (typeof window.LeuFormatConfig === "undefined") {
     window.LeuFormatConfig = {
         "h1": ["fs-2", "text-center", "content-space-2"],
@@ -28,7 +25,7 @@ if (typeof window.LeuFormatConfig === "undefined") {
         "img": ["float-start", "w-lg-50", "w-100", "pt-2", "pb-2", "pe-4"]
     };
 }
-let LeuFormat = class LeuFormat extends embed_1.KaHtmlElement {
+let LeuFormat = class LeuFormat extends KaHtmlElement {
     constructor() {
         super(...arguments);
         // language=html
@@ -36,8 +33,8 @@ let LeuFormat = class LeuFormat extends embed_1.KaHtmlElement {
     }
     connected() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield (0, embed_3.ka_dom_ready)();
-            yield (0, embed_4.ka_sleep)(1);
+            yield ka_dom_ready();
+            yield ka_sleep(1);
             let config = LeuFormatConfig;
             for (let attr of this.getAttributeNames()) {
                 config[attr] = this.getAttribute(attr).split(" ");
@@ -76,6 +73,6 @@ let LeuFormat = class LeuFormat extends embed_1.KaHtmlElement {
     }
 };
 LeuFormat = __decorate([
-    (0, embed_2.customElement)("leu-format")
+    customElement("leu-format")
 ], LeuFormat);
-exports.LeuFormat = LeuFormat;
+export { LeuFormat };

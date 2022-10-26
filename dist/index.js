@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Leu = void 0;
-const smoothscroll_1 = require("./helper/smoothscroll");
-require("./components/leu-data-nav");
-require("./components/leu-format");
-require("./components/leu-content");
-exports.Leu = {
-    SmoothScroll: smoothscroll_1.SmoothScroll
+import { SmoothScroll } from "./helper/smoothscroll";
+import "./components/leu-data-nav";
+import "./components/leu-format";
+import "./components/leu-content";
+export const Leu = {
+    SmoothScroll: SmoothScroll
 };
