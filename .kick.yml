@@ -6,12 +6,10 @@ ports: "80:80;4000:4000;4100:4100"
 
 command:
   build:
-    - sudo chmod 777 -R /var/www/html
-#    - npm install
+    - npm install
 
   dev:
-    - killall jekyll ||  echo "no job"
-    - D:kick jekyll
+    - "D:npm run watch </dev/zero" # npm won't  work without input on stdin:q
 
   killall:
     - killall jekyll

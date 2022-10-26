@@ -18,7 +18,6 @@ if (typeof window.LeuFormatConfig === "undefined") {
     }
 }
 
-
 @customElement("leu-format")
 export class LeuFormat extends KaHtmlElement {
 

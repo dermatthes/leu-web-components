@@ -67,7 +67,7 @@ export class LeuContent extends HTMLElement {
                     }
 
                     let elemCtl : any = document.createElement("div");
-                    let content = tpl.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))\}/gi, (a, varName, e, varDefault) => {
+                    let content = tpl.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))?\}/gi, (a, varName, e, varDefault) => {
                         if (typeof variables[varName] !== "undefined")
                             return variables[varName];
                         return varDefault;
@@ -137,6 +137,7 @@ export class LeuContent extends HTMLElement {
                     break;
 
                 case "#": // comment
+                case "*":
                     break;
 
                 default:

@@ -2,11 +2,18 @@
   "name": "@leu/leu-web-components",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/leu-web-components.js",
-  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "src/index.ts",
+  "type": "module",
   "directories": {
     "doc": "docs",
-    "lib": "lib"
+    "lib": "dist"
+  },
+  "scripts": {
+    "watch": "esbuild src/index.ts --bundle --serve=0.0.0.0:4000 --outdir=docs/js --servedir=docs",
+    "build": "tsc && esbuild src/index.ts --bundle --minify --outfile=./dist/leu-web-components.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "workspaces": [
     "workspaces/kasi-embed"
