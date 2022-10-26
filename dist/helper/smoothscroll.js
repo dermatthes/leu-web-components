@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,13 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { ka_sleep } from "@kasimirjs/embed";
-export class SmoothScroll {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SmoothScroll = void 0;
+const embed_1 = require("@kasimirjs/embed");
+class SmoothScroll {
     constructor(offsetTop = 86) {
         window.addEventListener("hashchange", (e) => __awaiter(this, void 0, void 0, function* () {
             console.log(e);
             e.preventDefault();
-            yield ka_sleep(1);
+            yield (0, embed_1.ka_sleep)(1);
             let elem = document.getElementById(window.location.hash.slice(1));
             if (elem === null)
                 return;
@@ -26,3 +29,4 @@ export class SmoothScroll {
         }));
     }
 }
+exports.SmoothScroll = SmoothScroll;
