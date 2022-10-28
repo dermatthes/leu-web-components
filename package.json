@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index",
   "types": "dist/index.d.ts",
-  "module": "dist/index.ts",
+  "module": "src/index.ts",
   "type": "module",
   "directories": {
     "doc": "docs",
