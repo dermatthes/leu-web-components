@@ -4,6 +4,7 @@ import {ka_query_selector} from "@kasimirjs/embed/dist/core/query-select";
 
 let defaultAttrMap = {};
 
+
 @customElement("leu-content")
 export class LeuContent extends HTMLElement {
     #selectedElement : HTMLElement = null;

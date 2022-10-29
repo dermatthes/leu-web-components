@@ -62,7 +62,8 @@ export class LeuSwitcher extends HTMLElement {
             this._selectElement(0);
     }
 
-    next (e=null) {
+    async next (e=null) {
+        await ka_sleep(500);
         // console.log(this.curDivE.nextElementSibling);
         //location.hash = this.curDivE.nextElementSibling.id;
         if (this.curDivE.nextElementSibling === null)
