@@ -4,5 +4,5 @@
  * @param selector
  */
 export function leu_modal_open(selector : string) : Promise<any> {
-    
+    return new Promise({resolve})
 }

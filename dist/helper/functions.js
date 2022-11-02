@@ -1,16 +1,11 @@
-
-type Constructor<T> = new (...args: any[]) => T;
-
-export function findParent<T>(searchParent : Constructor<T>, curElement : HTMLElement): T {
+export function findParent(searchParent, curElement) {
     if (curElement instanceof searchParent)
-        return curElement as T;
+        return curElement;
     if (curElement.parentElement === null)
         return null;
     return findParent(searchParent, curElement.parentElement);
 }
-
-
-export function isset(val : any) : boolean {
+export function isset(val) {
     if (typeof val === "undefined" || val === null)
         return false;
     return true;

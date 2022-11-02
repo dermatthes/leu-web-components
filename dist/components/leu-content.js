@@ -27,6 +27,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_lastElement, _LeuContent_container, _LeuContent_refs, _LeuContent_curAttrMap;
 import { customElement, ka_create_element, ka_dom_ready, ka_sleep } from "@kasimirjs/embed";
 import { createElement, parseAttributeStr, parseVariableStr } from "../content/createElement";
+import { isset } from "../helper/functions";
 let defaultAttrMap = {};
 let LeuContent = class LeuContent extends HTMLElement {
     constructor() {
@@ -133,7 +134,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                     let elem = null;
                     if (cmdLine.startsWith("§")) {
                         elem = __classPrivateFieldGet(this, _LeuContent_refs, "f")[cmdLine.substring(1)];
-                        if (elem === null) {
+                        if (!isset(elem)) {
                             console.error("Cannot select reference: '" + line + "': Not found");
                             break;
                         }

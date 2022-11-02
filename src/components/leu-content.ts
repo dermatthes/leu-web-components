@@ -1,6 +1,7 @@
 import {customElement, ka_create_element, ka_dom_ready, ka_sleep, KaHtmlElement} from "@kasimirjs/embed";
 import {createElement, parseAttributeStr, parseVariableStr} from "../content/createElement";
 import {ka_query_selector} from "@kasimirjs/embed/dist/core/query-select";
+import {isset} from "../helper/functions";
 
 let defaultAttrMap = {};
 
@@ -123,7 +124,7 @@ export class LeuContent extends HTMLElement {
                     let elem: HTMLElement = null;
                     if (cmdLine.startsWith("§")) {
                         elem = this.#refs[cmdLine.substring(1)];
-                        if (elem === null) {
+                        if ( ! isset(elem)) {
                             console.error("Cannot select reference: '" + line + "': Not found");
                             break;
                         }
