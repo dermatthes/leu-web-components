@@ -1,6 +1,5 @@
 import {ka_query_selector} from "@kasimirjs/embed/dist/core/query-select";
 import {customElement, ka_dom_ready, ka_sleep} from "@kasimirjs/embed";
-import {ka_ce_define} from "@kasimirjs/embed/dist/ce/ka-ce-define.js";
 import {Leu} from "../index";
 
 
