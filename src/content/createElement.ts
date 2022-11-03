@@ -4,7 +4,6 @@ export function parseVariableAndStyleStr (varString : string) : any {
     let attrs : any = {"$": {}, "@": {}};
     let regex = new RegExp(`([@$])[^@^$]+`, "gi")
     varString.replace(regex, (match: string, type: string) => {
-        console.log("Match", match);
         match = match.substring(1);
         if (match.indexOf("=") === -1 && type === "@" ) {
             if (typeof attrs[type].class === "undefined")

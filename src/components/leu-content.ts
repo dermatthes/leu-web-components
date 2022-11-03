@@ -12,6 +12,7 @@ export class LeuContent extends HTMLElement {
     #attachElement : HTMLElement = null;
     #lastElement : HTMLElement = null;
     #container: HTMLElement = null;
+    #curContainer: HTMLElement = null;
 
     #refs : Map<string, HTMLElement> = new Map;
     #curAttrMap: Object = {...defaultAttrMap};
@@ -53,7 +54,7 @@ export class LeuContent extends HTMLElement {
             switch (line.substring(0,1)) {
                 case "/":
                     let elem1 = this.createElementTree(cmdLine);
-                    this.#container.appendChild(elem1.start);
+                    this.#curContainer.appendChild(elem1.start);
                     this.#lastElement = elem1.start;
                     this.#selectedElement = this.#attachElement = elem1.leaf;
                     this.#curAttrMap = {...defaultAttrMap}; // Reset Attribute map to default as clone
@@ -62,7 +63,7 @@ export class LeuContent extends HTMLElement {
                 case "!":
                     let tplName = cmdLine.trim().split(" ", 1).join();
                     let varAndStyle = parseVariableAndStyleStr(cmdLine);
-                    console.log(varAndStyle, varAndStyle);
+
                     let tpl :HTMLTemplateElement = document.querySelector(`template[id='${tplName}']`);
                     if (tpl === null) {
                         console.error("<template id='", tplName, "'> not found. Selected in ", comment);
@@ -133,7 +134,16 @@ export class LeuContent extends HTMLElement {
 
                 case "?":
                     let elem: HTMLElement = null;
-                    if (cmdLine.startsWith("§")) {
+                    let isMoveContainer = false;
+                    if (cmdLine.indexOf("***") !== -1) {
+                        isMoveContainer = true;
+                        cmdLine = cmdLine.replace("***", "");
+                    }
+                    if (cmdLine.startsWith("/")) {
+                        elem = this.#container;
+                    } else if (cmdLine.trim() === "§§") {
+                        elem = this.#attachElement;
+                    } else if (cmdLine.startsWith("§")) {
                         elem = this.#refs[cmdLine.substring(1)];
                         if ( ! isset(elem)) {
                             console.error("Cannot select reference: '" + line + "': Not found in block", comment);
@@ -147,6 +157,8 @@ export class LeuContent extends HTMLElement {
                         }
                     }
                     this.#selectedElement = this.#attachElement = elem;
+                    if (isMoveContainer)
+                        this.#curContainer = elem;
                     break;
 
                 case "#": // comment
@@ -196,7 +208,7 @@ export class LeuContent extends HTMLElement {
             await ka_sleep(1);
         }
         this.#curAttrMap = {...defaultAttrMap}; // Reset Attribute map to default as clone
-        this.#container = this.#lastElement = this.#attachElement = this.#selectedElement = ka_create_element("div", {class: this.getAttribute("class") + " loading"}, []);
+        this.#container = this.#curContainer = this.#lastElement = this.#attachElement = this.#selectedElement = ka_create_element("div", {class: this.getAttribute("class") + " loading"}, []);
 
         this.parentElement.insertBefore(this.#container, this.nextElementSibling);
 
