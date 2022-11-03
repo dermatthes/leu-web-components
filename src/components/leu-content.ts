@@ -125,7 +125,7 @@ export class LeuContent extends HTMLElement {
                     if (cmdLine.startsWith("§")) {
                         elem = this.#refs[cmdLine.substring(1)];
                         if ( ! isset(elem)) {
-                            console.error("Cannot select reference: '" + line + "': Not found");
+                            console.error("Cannot select reference: '" + line + "': Not found in block", comment);
                             break;
                         }
                     } else {
