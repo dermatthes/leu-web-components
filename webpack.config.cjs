@@ -6,7 +6,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(t|j)sx?$/,
+                test: /\.tsx?$/,
                 use: "ts-loader",
                 include: path.resolve(__dirname, "src"),
 

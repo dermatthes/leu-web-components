@@ -138,7 +138,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                     if (cmdLine.startsWith("§")) {
                         elem = __classPrivateFieldGet(this, _LeuContent_refs, "f")[cmdLine.substring(1)];
                         if (!(0, functions_1.isset)(elem)) {
-                            console.error("Cannot select reference: '" + line + "': Not found");
+                            console.error("Cannot select reference: '" + line + "': Not found in block", comment);
                             break;
                         }
                     }

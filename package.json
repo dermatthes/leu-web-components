@@ -2,9 +2,10 @@
   "name": "@leu/leu-web-components",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "module": "dist/index.cjs",
+  "module": "src/index.ts",
+
   "type": "module",
   "directories": {
     "doc": "docs",
