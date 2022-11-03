@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16,9 +17,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { ka_query_selector } from "@kasimirjs/embed/dist/core/query-select";
-import { customElement, ka_dom_ready, ka_sleep } from "@kasimirjs/embed";
-import { Leu } from "../index";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LeuSwitcher = void 0;
+const query_select_1 = require("@kasimirjs/embed/dist/core/query-select");
+const embed_1 = require("@kasimirjs/embed");
+const index_1 = require("../index");
 let LeuSwitcher = class LeuSwitcher extends HTMLElement {
     constructor() {
         super();
@@ -43,7 +46,7 @@ let LeuSwitcher = class LeuSwitcher extends HTMLElement {
         this.progressBarE.ariaValueNow = idx + 1;
         this.progressBarE.style.width = ((idx + 1) / this.content.childElementCount * 100) + "%";
         this.titleE.textContent = e.getAttribute("data-title");
-        e.classList.remove(Leu.config.switcher.hiddenClass);
+        e.classList.remove(index_1.Leu.config.switcher.hiddenClass);
         this.nextE.hidden = false;
         if (idx + 1 === this.content.childElementCount)
             this.nextE.hidden = true;
@@ -58,7 +61,7 @@ let LeuSwitcher = class LeuSwitcher extends HTMLElement {
             for (let i = 0; i < this.content.children.length; i++) {
                 let e = this.content.children[i];
                 console.log("scan", e);
-                e.classList.add(Leu.config.switcher.hiddenClass);
+                e.classList.add(index_1.Leu.config.switcher.hiddenClass);
                 if (e.id === hash || this.hasAttribute("show-all")) {
                     this._selectElement(i);
                     found = true;
@@ -70,7 +73,7 @@ let LeuSwitcher = class LeuSwitcher extends HTMLElement {
     }
     next(e = null) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield ka_sleep(500);
+            yield (0, embed_1.ka_sleep)(500);
             // console.log(this.curDivE.nextElementSibling);
             //location.hash = this.curDivE.nextElementSibling.id;
             if (this.curDivE.nextElementSibling === null)
@@ -101,12 +104,12 @@ let LeuSwitcher = class LeuSwitcher extends HTMLElement {
     }
     connectedCallback() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield ka_dom_ready();
-            this.progressBarE = ka_query_selector("[data-leu-role='progress-bar']", this, "data-leu-role='progress-bar'");
-            this.content = ka_query_selector("[data-leu-role='content']", this, "data-leu-role='progress-bar'");
-            this.titleE = ka_query_selector("[data-leu-role='title']", this, "data-leu-role='title'");
-            this.nextE = ka_query_selector("[data-leu-role='next-btn']", this, "data-leu-role='next-btn'");
-            this.backE = ka_query_selector("[data-leu-role='back-btn']", this, "data-leu-role='back-btn'");
+            yield (0, embed_1.ka_dom_ready)();
+            this.progressBarE = (0, query_select_1.ka_query_selector)("[data-leu-role='progress-bar']", this, "data-leu-role='progress-bar'");
+            this.content = (0, query_select_1.ka_query_selector)("[data-leu-role='content']", this, "data-leu-role='progress-bar'");
+            this.titleE = (0, query_select_1.ka_query_selector)("[data-leu-role='title']", this, "data-leu-role='title'");
+            this.nextE = (0, query_select_1.ka_query_selector)("[data-leu-role='next-btn']", this, "data-leu-role='next-btn'");
+            this.backE = (0, query_select_1.ka_query_selector)("[data-leu-role='back-btn']", this, "data-leu-role='back-btn'");
             this.backE.addEventListener("click", (e) => this.backClickCb(e));
             this.nextE.addEventListener("click", (e) => this.next(e));
             window.setInterval(() => this._locationListener(), 200);
@@ -120,7 +123,7 @@ let LeuSwitcher = class LeuSwitcher extends HTMLElement {
     }
 };
 LeuSwitcher = __decorate([
-    customElement("leu-switcher"),
+    (0, embed_1.customElement)("leu-switcher"),
     __metadata("design:paramtypes", [])
 ], LeuSwitcher);
-export { LeuSwitcher };
+exports.LeuSwitcher = LeuSwitcher;

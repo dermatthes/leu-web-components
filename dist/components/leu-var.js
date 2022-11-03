@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13,21 +14,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { customElement, ka_dom_ready } from "@kasimirjs/embed";
-import { isset } from "../helper/functions";
-export let leuTemplateVariables = {};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.leuTemplateVariables = void 0;
+const embed_1 = require("@kasimirjs/embed");
+const functions_1 = require("../helper/functions");
+exports.leuTemplateVariables = {};
 let LeuVar = class LeuVar extends HTMLElement {
     connectedCallback() {
         return __awaiter(this, void 0, void 0, function* () {
             this.style.display = "none";
-            yield ka_dom_ready();
-            if (isset(this.dataset.value)) {
-                leuTemplateVariables[this.dataset.name] = this.dataset.value;
+            yield (0, embed_1.ka_dom_ready)();
+            if ((0, functions_1.isset)(this.dataset.value)) {
+                exports.leuTemplateVariables[this.dataset.name] = this.dataset.value;
             }
-            if (isset(this.dataset.increment)) {
-                if (!isset(leuTemplateVariables[this.dataset.name]))
-                    leuTemplateVariables[this.dataset.name] = 0;
-                leuTemplateVariables[this.dataset.name]++;
+            if ((0, functions_1.isset)(this.dataset.increment)) {
+                if (!(0, functions_1.isset)(exports.leuTemplateVariables[this.dataset.name]))
+                    exports.leuTemplateVariables[this.dataset.name] = 0;
+                exports.leuTemplateVariables[this.dataset.name]++;
             }
             let comment = new Comment(this.outerHTML);
             this.replaceWith(comment);
@@ -35,5 +38,5 @@ let LeuVar = class LeuVar extends HTMLElement {
     }
 };
 LeuVar = __decorate([
-    customElement("leu-var")
+    (0, embed_1.customElement)("leu-var")
 ], LeuVar);

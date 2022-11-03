@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16,15 +17,16 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _LeuShow_listener;
-import { customElement } from "@kasimirjs/embed";
-import { ka_eval } from "@kasimirjs/embed/dist/core/eval";
+Object.defineProperty(exports, "__esModule", { value: true });
+const embed_1 = require("@kasimirjs/embed");
+const eval_1 = require("@kasimirjs/embed/dist/core/eval");
 let LeuShow = class LeuShow extends HTMLElement {
     constructor() {
         super(...arguments);
         _LeuShow_listener.set(this, null);
     }
     evalIf(e = null) {
-        let result = ka_eval(this.dataset.if, this, e, {});
+        let result = (0, eval_1.ka_eval)(this.dataset.if, this, e, {});
         if (result === true) {
             this.classList.remove(Leu.config.switcher.hiddenClass);
         }
@@ -44,5 +46,5 @@ let LeuShow = class LeuShow extends HTMLElement {
 };
 _LeuShow_listener = new WeakMap();
 LeuShow = __decorate([
-    customElement("leu-show")
+    (0, embed_1.customElement)("leu-show")
 ], LeuShow);
