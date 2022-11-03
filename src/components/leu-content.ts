@@ -1,5 +1,5 @@
 import {customElement, ka_create_element, ka_dom_ready, ka_sleep, KaHtmlElement} from "@kasimirjs/embed";
-import {createElement, parseAttributeStr, parseVariableStr} from "../content/createElement";
+import {createElement, parseAttributeStr, parseVariableAndStyleStr, parseVariableStr} from "../content/createElement";
 import {ka_query_selector} from "@kasimirjs/embed/dist/core/query-select";
 import {isset} from "../helper/functions";
 
@@ -61,7 +61,8 @@ export class LeuContent extends HTMLElement {
 
                 case "!":
                     let tplName = cmdLine.trim().split(" ", 1).join();
-                    let variables = parseVariableStr(cmdLine, "$");
+                    let varAndStyle = parseVariableAndStyleStr(cmdLine);
+                    console.log(varAndStyle, varAndStyle);
                     let tpl :HTMLTemplateElement = document.querySelector(`template[id='${tplName}']`);
                     if (tpl === null) {
                         console.error("<template id='", tplName, "'> not found. Selected in ", comment);
@@ -69,9 +70,18 @@ export class LeuContent extends HTMLElement {
                     }
 
                     let elemCtl : any = document.createElement("div");
+                    if (varAndStyle["@"].length === 0) {
+                        elemCtl.style.display = "contents";
+                    } else {
+                        for(let attrName in varAndStyle["@"]) {
+                            elemCtl.setAttribute(attrName, varAndStyle["@"][attrName]);
+                        }
+                    }
+
+
                     let content = tpl.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))?\}/gi, (a, varName, e, varDefault) => {
-                        if (typeof variables[varName] !== "undefined")
-                            return variables[varName];
+                        if (typeof varAndStyle["$"][varName] !== "undefined")
+                            return varAndStyle["$"][varName];
                         return varDefault;
                     });
 
@@ -79,6 +89,7 @@ export class LeuContent extends HTMLElement {
                     content = content.replace(/--([a-z\-]+)=/ig, (a, b) => b + "=");
 
                     elemCtl.innerHTML = content;
+
                     this.#attachElement.append(elemCtl);
 
                     // Execute <script> tags
