@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13,19 +14,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { customElement, ka_dom_ready, ka_sleep } from "@kasimirjs/embed";
-import { ka_query_selector } from "@kasimirjs/embed/dist/core/query-select";
-import { leuTemplateVariables } from "./leu-var";
+Object.defineProperty(exports, "__esModule", { value: true });
+const embed_1 = require("@kasimirjs/embed");
+const query_select_1 = require("@kasimirjs/embed/dist/core/query-select");
+const leu_var_1 = require("./leu-var");
 let LeuUse = class LeuUse extends HTMLElement {
     connectedCallback() {
         return __awaiter(this, void 0, void 0, function* () {
             this.style.display = "contents";
-            yield ka_dom_ready();
-            yield ka_sleep(1);
+            yield (0, embed_1.ka_dom_ready)();
+            yield (0, embed_1.ka_sleep)(1);
             let id = this.dataset.tplId;
-            let tpl = ka_query_selector("template[id='" + id + "']", null, "leu-use: template with id '" + id + "' not found");
+            let tpl = (0, query_select_1.ka_query_selector)("template[id='" + id + "']", null, "leu-use: template with id '" + id + "' not found");
             // Import Variable from <leu-var data-name="" data-value=""></leu-val>
-            let variables = Object.assign(Object.assign({}, leuTemplateVariables), this.dataset);
+            let variables = Object.assign(Object.assign({}, leu_var_1.leuTemplateVariables), this.dataset);
             console.log(variables);
             let content = tpl.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))?}/gi, (a, varName, e, varDefault) => {
                 if (typeof variables[varName] !== "undefined")
@@ -49,5 +51,5 @@ let LeuUse = class LeuUse extends HTMLElement {
     }
 };
 LeuUse = __decorate([
-    customElement("leu-use")
+    (0, embed_1.customElement)("leu-use")
 ], LeuUse);

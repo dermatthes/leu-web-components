@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13,11 +14,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { KaHtmlElement } from "@kasimirjs/embed";
-import { customElement } from "@kasimirjs/embed";
-import { ka_dom_ready } from "@kasimirjs/embed";
-import { ka_sleep } from "@kasimirjs/embed";
-let LeuDataNav = class LeuDataNav extends KaHtmlElement {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LeuDataNav = void 0;
+const embed_1 = require("@kasimirjs/embed");
+const embed_2 = require("@kasimirjs/embed");
+const embed_3 = require("@kasimirjs/embed");
+const embed_4 = require("@kasimirjs/embed");
+let LeuDataNav = class LeuDataNav extends embed_1.KaHtmlElement {
     constructor() {
         super(...arguments);
         // language=html
@@ -29,7 +32,7 @@ let LeuDataNav = class LeuDataNav extends KaHtmlElement {
     }
     connected() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield ka_dom_ready();
+            yield (0, embed_3.ka_dom_ready)();
             // Allow attaching to any element
             this.style.display = "contents";
             let scope = {
@@ -39,7 +42,7 @@ let LeuDataNav = class LeuDataNav extends KaHtmlElement {
                 scope.elements.push({ el: el, title: el.getAttribute("data-leu-nav"), id: el.id, active: false });
             });
             window.addEventListener("scroll", () => __awaiter(this, void 0, void 0, function* () {
-                yield ka_sleep(100);
+                yield (0, embed_4.ka_sleep)(100);
                 let first = false;
                 for (let e of scope.elements) {
                     e.active = false;
@@ -60,6 +63,6 @@ let LeuDataNav = class LeuDataNav extends KaHtmlElement {
     }
 };
 LeuDataNav = __decorate([
-    customElement("leu-data-nav")
+    (0, embed_2.customElement)("leu-data-nav")
 ], LeuDataNav);
-export { LeuDataNav };
+exports.LeuDataNav = LeuDataNav;

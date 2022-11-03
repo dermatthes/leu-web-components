@@ -1,5 +1,8 @@
-import { ka_create_element } from "@kasimirjs/embed";
-export function parseVariableStr(varString, delimiter = "@") {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createElement = exports.parseAttributeStr = exports.parseVariableStr = void 0;
+const embed_1 = require("@kasimirjs/embed");
+function parseVariableStr(varString, delimiter = "@") {
     let attrs = {};
     let regex = new RegExp(`\\${delimiter}[^${delimiter}]+`, "gi");
     varString.replace(regex, (match) => {
@@ -18,10 +21,12 @@ export function parseVariableStr(varString, delimiter = "@") {
     });
     return attrs;
 }
-export function parseAttributeStr(attrString) {
+exports.parseVariableStr = parseVariableStr;
+function parseAttributeStr(attrString) {
     return parseVariableStr(attrString, "@");
 }
-export function createElement(definition) {
+exports.parseAttributeStr = parseAttributeStr;
+function createElement(definition) {
     let defRest = definition.trim();
     let tag = "div";
     defRest = defRest.replace(/^[a-z0-9_\:\-]+/ig, (match) => {
@@ -29,6 +34,7 @@ export function createElement(definition) {
         return "";
     });
     let attrs = parseAttributeStr(defRest);
-    let element = ka_create_element(tag, attrs);
+    let element = (0, embed_1.ka_create_element)(tag, attrs);
     return element;
 }
+exports.createElement = createElement;
