@@ -25,7 +25,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_lastElement, _LeuContent_container, _LeuContent_refs, _LeuContent_curAttrMap;
+var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_lastElement, _LeuContent_container, _LeuContent_curContainer, _LeuContent_refs, _LeuContent_curAttrMap;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LeuContent = void 0;
 const embed_1 = require("@kasimirjs/embed");
@@ -39,6 +39,7 @@ let LeuContent = class LeuContent extends HTMLElement {
         _LeuContent_attachElement.set(this, null);
         _LeuContent_lastElement.set(this, null);
         _LeuContent_container.set(this, null);
+        _LeuContent_curContainer.set(this, null);
         _LeuContent_refs.set(this, new Map);
         _LeuContent_curAttrMap.set(this, Object.assign({}, defaultAttrMap));
     }
@@ -75,23 +76,31 @@ let LeuContent = class LeuContent extends HTMLElement {
             switch (line.substring(0, 1)) {
                 case "/":
                     let elem1 = this.createElementTree(cmdLine);
-                    __classPrivateFieldGet(this, _LeuContent_container, "f").appendChild(elem1.start);
+                    __classPrivateFieldGet(this, _LeuContent_curContainer, "f").appendChild(elem1.start);
                     __classPrivateFieldSet(this, _LeuContent_lastElement, elem1.start, "f");
                     __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem1.leaf, "f"), "f");
                     __classPrivateFieldSet(this, _LeuContent_curAttrMap, Object.assign({}, defaultAttrMap), "f"); // Reset Attribute map to default as clone
                     break;
                 case "!":
                     let tplName = cmdLine.trim().split(" ", 1).join();
-                    let variables = (0, createElement_1.parseVariableStr)(cmdLine, "$");
+                    let varAndStyle = (0, createElement_1.parseVariableAndStyleStr)(cmdLine);
                     let tpl = document.querySelector(`template[id='${tplName}']`);
                     if (tpl === null) {
                         console.error("<template id='", tplName, "'> not found. Selected in ", comment);
                         break;
                     }
                     let elemCtl = document.createElement("div");
+                    if (varAndStyle["@"].length === 0) {
+                        elemCtl.style.display = "contents";
+                    }
+                    else {
+                        for (let attrName in varAndStyle["@"]) {
+                            elemCtl.setAttribute(attrName, varAndStyle["@"][attrName]);
+                        }
+                    }
                     let content = tpl.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))?\}/gi, (a, varName, e, varDefault) => {
-                        if (typeof variables[varName] !== "undefined")
-                            return variables[varName];
+                        if (typeof varAndStyle["$"][varName] !== "undefined")
+                            return varAndStyle["$"][varName];
                         return varDefault;
                     });
                     // Replace Tags like --src and --id
@@ -135,7 +144,18 @@ let LeuContent = class LeuContent extends HTMLElement {
                     break;
                 case "?":
                     let elem = null;
-                    if (cmdLine.startsWith("§")) {
+                    let isMoveContainer = false;
+                    if (cmdLine.indexOf("***") !== -1) {
+                        isMoveContainer = true;
+                        cmdLine = cmdLine.replace("***", "");
+                    }
+                    if (cmdLine.startsWith("/")) {
+                        elem = __classPrivateFieldGet(this, _LeuContent_container, "f");
+                    }
+                    else if (cmdLine.trim() === "§§") {
+                        elem = __classPrivateFieldGet(this, _LeuContent_attachElement, "f");
+                    }
+                    else if (cmdLine.startsWith("§")) {
                         elem = __classPrivateFieldGet(this, _LeuContent_refs, "f")[cmdLine.substring(1)];
                         if (!(0, functions_1.isset)(elem)) {
                             console.error("Cannot select reference: '" + line + "': Not found in block", comment);
@@ -150,6 +170,8 @@ let LeuContent = class LeuContent extends HTMLElement {
                         }
                     }
                     __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem, "f"), "f");
+                    if (isMoveContainer)
+                        __classPrivateFieldSet(this, _LeuContent_curContainer, elem, "f");
                     break;
                 case "#": // comment
                 case "*":
@@ -193,7 +215,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                 yield (0, embed_1.ka_sleep)(1);
             }
             __classPrivateFieldSet(this, _LeuContent_curAttrMap, Object.assign({}, defaultAttrMap), "f"); // Reset Attribute map to default as clone
-            __classPrivateFieldSet(this, _LeuContent_container, __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_attachElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, (0, embed_1.ka_create_element)("div", { class: this.getAttribute("class") + " loading" }, []), "f"), "f"), "f"), "f");
+            __classPrivateFieldSet(this, _LeuContent_container, __classPrivateFieldSet(this, _LeuContent_curContainer, __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_attachElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, (0, embed_1.ka_create_element)("div", { class: this.getAttribute("class") + " loading" }, []), "f"), "f"), "f"), "f"), "f");
             this.parentElement.insertBefore(__classPrivateFieldGet(this, _LeuContent_container, "f"), this.nextElementSibling);
             for (let elem of Array.from(this.childNodes)) {
                 if (elem instanceof Comment) {
@@ -221,7 +243,7 @@ let LeuContent = class LeuContent extends HTMLElement {
         });
     }
 };
-_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_lastElement = new WeakMap(), _LeuContent_container = new WeakMap(), _LeuContent_refs = new WeakMap(), _LeuContent_curAttrMap = new WeakMap();
+_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_lastElement = new WeakMap(), _LeuContent_container = new WeakMap(), _LeuContent_curContainer = new WeakMap(), _LeuContent_refs = new WeakMap(), _LeuContent_curAttrMap = new WeakMap();
 LeuContent = __decorate([
     (0, embed_1.customElement)("leu-content")
 ], LeuContent);
