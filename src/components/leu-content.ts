@@ -71,7 +71,8 @@ export class LeuContent extends HTMLElement {
                     }
 
                     let elemCtl : any = document.createElement("div");
-                    if (varAndStyle["@"].length === 0) {
+                    console.log(varAndStyle);
+                    if (Object.keys(varAndStyle["@"]).length === 0) {
                         elemCtl.style.display = "contents";
                     } else {
                         for(let attrName in varAndStyle["@"]) {
@@ -87,7 +88,7 @@ export class LeuContent extends HTMLElement {
                     });
 
                     // Replace Tags like --src and --id
-                    content = content.replace(/--([a-z\-]+)=/ig, (a, b) => b + "=");
+                    content = content.replace(/([a-z\-]+)--=/ig, (a, b) => b + "=");
 
                     elemCtl.innerHTML = content;
 
