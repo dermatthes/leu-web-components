@@ -223,6 +223,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                     continue;
                 }
                 let clone = elem.cloneNode(true);
+                elem.remove(); // Important: Remove to avoid SEO trouble
                 this.applyAttMap(clone);
                 __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(clone);
             }
