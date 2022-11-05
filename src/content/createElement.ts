@@ -13,7 +13,7 @@ export function parseVariableAndStyleStr (varString : string) : any {
         } else {
             let res = match.split("=", 2);
 
-            attrs[type][res[0]] = res[1];
+            attrs[type][res[0]] = res[1].trim();
         }
         return "";
     })

@@ -1,2 +1,2136 @@
-(()=>{var bt=Object.create;var ne=Object.defineProperty;var Be=Object.getOwnPropertyDescriptor;var vt=Object.getOwnPropertyNames,Ve=Object.getOwnPropertySymbols,gt=Object.getPrototypeOf,Ie=Object.prototype.hasOwnProperty,wt=Object.prototype.propertyIsEnumerable;var Ne=(n,t,i)=>t in n?ne(n,t,{enumerable:!0,configurable:!0,writable:!0,value:i}):n[t]=i,q=(n,t)=>{for(var i in t||={})Ie.call(t,i)&&Ne(n,i,t[i]);if(Ve)for(var i of Ve(t))wt.call(t,i)&&Ne(n,i,t[i]);return n};var b=(n,t)=>()=>(t||n((t={exports:{}}).exports,t),t.exports);var Et=(n,t,i,a)=>{if(t&&typeof t=="object"||typeof t=="function")for(let s of vt(t))!Ie.call(n,s)&&s!==i&&ne(n,s,{get:()=>t[s],enumerable:!(a=Be(t,s))||a.enumerable});return n};var k=(n,t,i)=>(i=n!=null?bt(gt(n)):{},Et(t||!n||!n.__esModule?ne(i,"default",{value:n,enumerable:!0}):i,n));var w=(n,t,i,a)=>{for(var s=a>1?void 0:a?Be(t,i):t,l=n.length-1,u;l>=0;l--)(u=n[l])&&(s=(a?u(t,i,s):u(s))||s);return a&&s&&ne(t,i,s),s};var Pe=(n,t,i)=>{if(!t.has(n))throw TypeError("Cannot "+i)};var p=(n,t,i)=>(Pe(n,t,"read from private field"),i?i.call(n):t.get(n)),L=(n,t,i)=>{if(t.has(n))throw TypeError("Cannot add the same private member more than once");t instanceof WeakSet?t.add(n):t.set(n,i)},y=(n,t,i,a)=>(Pe(n,t,"write to private field"),a?a.call(n,i):t.set(n,i),i);var m=(n,t,i)=>new Promise((a,s)=>{var l=h=>{try{f(i.next(h))}catch(c){s(c)}},u=h=>{try{f(i.throw(h))}catch(c){s(c)}},f=h=>h.done?a(h.value):Promise.resolve(h.value).then(l,u);f((i=i.apply(n,t)).next())});var De=b(V=>{"use strict";var Ct=V&&V.__awaiter||function(n,t,i,a){function s(l){return l instanceof i?l:new i(function(u){u(l)})}return new(i||(i=Promise))(function(l,u){function f(o){try{c(a.next(o))}catch(d){u(d)}}function h(o){try{c(a.throw(o))}catch(d){u(d)}}function c(o){o.done?l(o.value):s(o.value).then(f,h)}c((a=a.apply(n,t||[])).next())})};Object.defineProperty(V,"__esModule",{value:!0});V.ka_sleep=void 0;function Tt(n){return Ct(this,void 0,void 0,function*(){return new Promise(t=>{window.setTimeout(()=>t(),n)})})}V.ka_sleep=Tt});var Re=b(ie=>{"use strict";Object.defineProperty(ie,"__esModule",{value:!0});ie.ka_create_element=void 0;function Mt(n,t=null,i=null,a=null){let s=document.createElement(n);t===null&&(t={});for(let l in t)s.setAttribute(l,t[l]);if(Array.isArray(i))for(let l of i)s.appendChild(l);return a!==null&&a.appendChild(s),s}ie.ka_create_element=Mt});var Ke=b(N=>{"use strict";var Lt=N&&N.__awaiter||function(n,t,i,a){function s(l){return l instanceof i?l:new i(function(u){u(l)})}return new(i||(i=Promise))(function(l,u){function f(o){try{c(a.next(o))}catch(d){u(d)}}function h(o){try{c(a.throw(o))}catch(d){u(d)}}function c(o){o.done?l(o.value):s(o.value).then(f,h)}c((a=a.apply(n,t||[])).next())})};Object.defineProperty(N,"__esModule",{value:!0});N.ka_dom_ready=void 0;function xt(){return Lt(this,void 0,void 0,function*(){return new Promise(n=>{if(document.readyState==="complete"||document.readyState==="interactive")return n("loaded");document.addEventListener("DOMContentLoaded",()=>n("DOMContentLoaded"))})})}N.ka_dom_ready=xt});var ze=b(ae=>{"use strict";Object.defineProperty(ae,"__esModule",{value:!0});ae.customElement=void 0;function At(n){return function(t){return console.debug("registering custom element",t,n),customElements.define(n,t),t}}ae.customElement=At});var le=b((exports,module)=>{"use strict";Object.defineProperty(exports,"__esModule",{value:!0});exports.ka_eval=void 0;function ka_eval(stmt,__scope,e,__refs){stmt.endsWith(";")&&(stmt=stmt.slice(0,-1));let reserved=["var","null","let","const","function","class","in","of","for","true","false","await","$this"],r="var $this = e;";for(let n in __scope)if(reserved.indexOf(n)===-1){if(n.indexOf("-")!==-1)throw console.error(`Invalid scope key '${n}': Cannot contain - in scope:`,__scope),`eval() failed: Invalid scope key: '${n}': Cannot contain minus char '-'`;r+=`var ${n} = __scope['${n}'];`}typeof __scope.$scope>"u"&&(r+="var $scope = __scope;");try{return eval(r+"("+stmt+")")}catch(n){throw console.error("cannot eval() stmt: '"+stmt+"': "+n," on element ",e,n,"(context:",__scope,")"),"eval('"+stmt+"') failed: "+n}}exports.ka_eval=ka_eval});var Ce=b(re=>{"use strict";Object.defineProperty(re,"__esModule",{value:!0});re.ka_elwalk=void 0;function We(n,t,i=!1,a=!1){if(Array.isArray(n)&&(n.children=n),!(typeof n.children>"u")){if(a&&n instanceof HTMLElement&&t(n)===!1)return!1;for(let s of n.children)t(s)!==!1&&i&&typeof s.children<"u"&&We(s,t,i)}}re.ka_elwalk=We});var Fe=b(se=>{"use strict";Object.defineProperty(se,"__esModule",{value:!0});se.ka_str_to_camel_case=void 0;function $t(n){return n.replace(/(?:^\w|[A-Z]|\b\w)/g,(t,i)=>i===0?t.toLowerCase():t.toUpperCase()).replace(/[^a-zA-Z0-9]+/g,"")}se.ka_str_to_camel_case=$t});var Ze=b(B=>{"use strict";var Ht=B&&B.__awaiter||function(n,t,i,a){function s(l){return l instanceof i?l:new i(function(u){u(l)})}return new(i||(i=Promise))(function(l,u){function f(o){try{c(a.next(o))}catch(d){u(d)}}function h(o){try{c(a.throw(o))}catch(d){u(d)}}function c(o){o.done?l(o.value):s(o.value).then(f,h)}c((a=a.apply(n,t||[])).next())})};Object.defineProperty(B,"__esModule",{value:!0});B.ka_apply=void 0;var x=le(),oe=Fe();function Ye(n,t,i=!1){typeof n=="string"&&(n=KaToolsV1.querySelector(n));let a={textcontent:"textContent",htmlcontent:"innerHTML",innerhtml:"innerHTML"};for(let s of n.getAttributeNames()){if(!s.startsWith("ka."))continue;let l=n.getAttribute(s),u=s.split(".")[1],f=s.split(".")[2];typeof f>"u"&&(f=null);let h=function(o,d,_,A){typeof o._ka_on>"u"&&(o._ka_on={}),typeof o._ka_on[d]>"u"&&o.addEventListener(d,S=>o._ka_on[d](S)),o._ka_on[d]=S=>Ht(this,void 0,void 0,function*(){return A.$event=S,typeof _=="function"?_(S,o,A):(0,x.ka_eval)(_,A,o)})};if(u==="on"){let o=Object.assign({$scope:t},t);if(f!==null)h(n,f,l,o);else{let d=KaToolsV1.eval(l,o,n);for(let _ in d)h(n,_,d[_],o)}continue}let c=null;switch(typeof l<"u"&&typeof l!==null&&l!==""&&(c=(0,x.ka_eval)(l,t,n)),u){case"ref":typeof t.$ref>"u"&&(t.$ref={}),c!==null&&(t.$ref[c]=n),t.$ref.$last=n;break;case"classlist":if(f!==null){c===!0?n.classList.add(f):n.classList.remove(f);break}for(let d in c)c[d]===!0?n.classList.add(d):n.classList.remove(d);break;case"style":if(f!==null){let d=c;typeof d=="number"&&["left","top","height","width","bottom","right","line-height","font-size"].indexOf(f)!==-1&&(d=d+"px"),n.style[(0,oe.ka_str_to_camel_case)(f)]=d;break}for(let d in c){let _=c[d];typeof _=="number"&&["left","top","height","width","bottom","right","line-height","font-size"].indexOf(d)!==-1&&(_=_+"px"),n.style[(0,oe.ka_str_to_camel_case)(d)]=_}break;case"bindarray":if(f==="default")continue;if(typeof c>"u"&&n.hasAttribute("ka.bind.default")&&(t=Object.assign({$scope:t},t),t=Object.assign(Object.assign({$scope:t},t),{__curVal:(0,x.ka_eval)(n.getAttribute("ka.bind.default"),t,n)}),(0,x.ka_eval)(`${l} = __curVal`,t,n),c=t.__curVal),!Array.isArray(c)){console.error("kap:bindarr: Not an array!",c,n);return}c.indexOf(n.value)===-1?n.checked=!1:n.checked=!0,typeof n._kap_bind>"u"&&(n.addEventListener("change",d=>{let _=(0,x.ka_eval)(l,t,n);_.indexOf(n.value)===-1&&n.checked&&_.push(n.value),_.indexOf(n.value)!==-1&&!n.checked&&(_=_.filter(A=>A!==n.value)),t=Object.assign(Object.assign({$scope:t},t),{__curVal:_}),(0,x.ka_eval)(`${l} = __curVal`,t,n),t.$on&&t.$on.change&&t.$on.change(d)}),n._kap_bind=!0);break;case"bind":if(f==="default")continue;typeof c>"u"&&n.hasAttribute("ka.bind.default")&&(t=Object.assign({$scope:t},t),t=Object.assign(Object.assign({$scope:t},t),{__curVal:(0,x.ka_eval)(n.getAttribute("ka.bind.default"),t,n)}),(0,x.ka_eval)(`${l} = __curVal`,t,n),c=t.__curVal),n.type==="checkbox"||n.type==="radio"?n.hasAttribute("value")?c===n.getAttribute("value")?n.checked=!0:n.checked=!1:c===!0?n.checked=!0:n.checked=!1:n.value=typeof c<"u"?c:"",typeof n._kap_bind>"u"&&(n.addEventListener("change",d=>{let _=null;if(n.type==="checkbox"||n.type==="radio")if(n.hasAttribute("value")){if(n.checked===!1)return;_=n.getAttribute("value")}else _=n.checked;else _=n.value;t=Object.assign(Object.assign({$scope:t},t),{__curVal:_}),(0,x.ka_eval)(`${l} = __curVal`,t,n),t.$on&&t.$on.change&&t.$on.change(d)}),n.addEventListener("keyup",d=>{t=Object.assign(Object.assign({$scope:t},t),{__curVal:n.value}),(0,x.ka_eval)(`${l} = __curVal`,t,n),t.$on&&t.$on.change&&t.$on.change(d)}),n._kap_bind=!0);break;case"options":let o=n.value;n.innerHTML="";for(let d in c)isNaN(d)?n.appendChild(new Option(c[d],d)):typeof c[d].text<"u"?n.appendChild(new Option(c[d].text,c[d].value)):n.appendChild(new Option(c[d],c[d]));o!==null&&(n.value=o);break;case"attr":if(f!==null){c===null||c===!1?n.removeAttribute(f):n.setAttribute(f,c);break}for(let d in c)c[d]===null||c[d]===!1?n.removeAttribute(d):n.setAttribute(d,c[d]);break;case"prop":if(f!==null){n[(0,oe.ka_str_to_camel_case)(f)]=c;break}for(let d in c)n[(0,oe.ka_str_to_camel_case)(d)]=c[d];break;default:typeof a[u]<"u"&&(u=a[u]),typeof n[u]>"u"&&console.warn("apply(): trying to set undefined property ",u,"on element",n),n[u]=c;break}}if(i)for(let s of n.children)Ye(s,t,i)}B.ka_apply=Ye});var U=b(ue=>{"use strict";Object.defineProperty(ue,"__esModule",{value:!0});ue.ka_query_selector=void 0;function Ot(n,t,i){typeof i>"u"&&(i=`querySelector '${n}' not found`),(typeof t>"u"||t===null)&&(t=document);let a=t.querySelectorAll(n);if(a.length===0)throw console.warn(i,"on parent: ",t),i;return a[0]}ue.ka_query_selector=Ot});var Te=b(de=>{"use strict";Object.defineProperty(de,"__esModule",{value:!0});de.ka_templatify=void 0;var jt=U(),qt=Ce();window._ka_el_idx=0;function ce(n,t=!0){if(typeof n=="string"&&(n=(0,jt.ka_query_selector)(n)),!(n instanceof Node))throw console.error("[ka-templatify] Parameter 1 is not a html element: ",n),`[ka-templify] Parameter 1 is not a html element: ${n}`;if(t){let a=document.createElement("template");return a.setAttribute("_kaidx",(window._ka_el_idx++).toString()),a.innerHTML=n.innerHTML.replace(/\[\[(.*?)\]\]/g,(s,l)=>`<span ka.textContent="${l}"></span>`),ce(a.content,!1),a}n instanceof HTMLTemplateElement&&(n=n.content);let i=(a,s,l)=>{let u=document.createElement("template");u.setAttribute("_kaidx",(window._ka_el_idx++).toString());let f=a.cloneNode(!0);return f.removeAttribute(s),u.content.append(f),u.setAttribute(s,l),a.replaceWith(u),u};(0,qt.ka_elwalk)(n,a=>{if(!(a instanceof HTMLElement))return;let s=null;for(let l of a.getAttributeNames()){if(l==="ka.for"){s=i(a,"ka.for",a.getAttribute("ka.for")),ce(s,!1);break}if(l==="ka.if"){s=i(a,"ka.if",a.getAttribute("ka.if")),ce(s,!1);break}}},!0,!1)}de.ka_templatify=ce});var Qe=b(I=>{"use strict";var St=I&&I.__awaiter||function(n,t,i,a){function s(l){return l instanceof i?l:new i(function(u){u(l)})}return new(i||(i=Promise))(function(l,u){function f(o){try{c(a.next(o))}catch(d){u(d)}}function h(o){try{c(a.throw(o))}catch(d){u(d)}}function c(o){o.done?l(o.value):s(o.value).then(f,h)}c((a=a.apply(n,t||[])).next())})};Object.defineProperty(I,"__esModule",{value:!0});I.ka_load_html=void 0;function Vt(n){return St(this,void 0,void 0,function*(){let t=document.createElement("template"),i=yield fetch(n);if(!i.ok)throw console.error(`[loadHtml] failed to load '${n}'`),`[loadHtml] failed to load '${n}'`;let a=yield i.text();return t.innerHTML=a,t})}I.ka_load_html=Vt});var Ge=b(P=>{"use strict";var Nt=P&&P.__awaiter||function(n,t,i,a){function s(l){return l instanceof i?l:new i(function(u){u(l)})}return new(i||(i=Promise))(function(l,u){function f(o){try{c(a.next(o))}catch(d){u(d)}}function h(o){try{c(a.throw(o))}catch(d){u(d)}}function c(o){o.done?l(o.value):s(o.value).then(f,h)}c((a=a.apply(n,t||[])).next())})};Object.defineProperty(P,"__esModule",{value:!0});P.RemoteTemplate=void 0;var Bt=Qe(),Me=class{constructor(t){this.url=t,this.tpl=null}load(){return Nt(this,void 0,void 0,function*(){return this.tpl===null&&(this.tpl=yield(0,Bt.ka_load_html)(this.url)),this.tpl})}};P.RemoteTemplate=Me});var Je=b(D=>{"use strict";var Le=D&&D.__awaiter||function(n,t,i,a){function s(l){return l instanceof i?l:new i(function(u){u(l)})}return new(i||(i=Promise))(function(l,u){function f(o){try{c(a.next(o))}catch(d){u(d)}}function h(o){try{c(a.throw(o))}catch(d){u(d)}}function c(o){o.done?l(o.value):s(o.value).then(f,h)}c((a=a.apply(n,t||[])).next())})};Object.defineProperty(D,"__esModule",{value:!0});D.KaCustomElement=void 0;var It=Te(),Pt=Ae(),Dt=U(),Rt=Ge(),xe=class extends HTMLElement{constructor(t){super(t),this.__tpl=null,this.__isConnected=!1}get $tpl(){return this.__tpl}isConnected(){return this.isConnected}connected(t,i){return Le(this,void 0,void 0,function*(){console.warn("connected() method not overridden in",this)})}connectedCallback(){return Le(this,void 0,void 0,function*(){let t=this.constructor.__callback;if(t===null||t.bind(this),this.constructor.__tpl!==null){let i=this.constructor.__tpl;i instanceof Rt.RemoteTemplate&&(i=yield i.load());let a=(0,It.ka_templatify)(i);this.constructor.__options.shadowDom===!0?this.attachShadow(this.constructor.__options.shadowDomOptions).appendChild(a):this.appendChild(a),this.__tpl=new Pt.KaTemplate(a)}if(this.constructor.__options.waitEvent!==null){let i=this.constructor.__options.waitEvent.split("@"),a=i[0],s=document;i.length===2&&(s=(0,Dt.ka_query_selector)(i[1])),s.addEventListener(a,l=>Le(this,void 0,void 0,function*(){t(this.$tpl,this),this.__isConnected=!0}));return}if(t===null){yield this.connected(this.$tpl,this),this.__isConnected=!0;return}t(this.$tpl,this),this.__isConnected=!0})}};D.KaCustomElement=xe});var Ae=b(fe=>{"use strict";Object.defineProperty(fe,"__esModule",{value:!0});fe.KaTemplate=void 0;var Xe=le(),Kt=Ce(),zt=Ze(),Wt=Je(),$e=class{constructor(t){this.template=t,typeof this.template.__kachilds>"u"&&(this.template.__kachilds=[]),typeof this.template.__kasibling>"u"&&(this.template.__kasibling=this.template.nextElementSibling),this.__renderCount=0,this.$scope={}}_error(t){throw console.error(`[ka-template] ${t} on element`,this.template),`[ka-template] ${t} on element`+this.template}_appendTemplate(){let t=this.template.content,i=[];for(let a of t.children)a=a.cloneNode(!0),a._ka_maintained_by=this.template.getAttribute("_kaidx"),i.push(a),this.template.parentNode.insertBefore(a,this.template.__kasibling);this.template.__kachilds.push(i)}_removeLastChild(){if(this.template.__kachilds.length===0)return;let t=this.template.__kachilds[this.template.__kachilds.length-1];for(let i of t)this.template.parentElement.removeChild(i);this.template.__kachilds.length=this.template.__kachilds.length-1}_renderFor(t,i){let a=i.match(/^(let)?\s*(?<target>.+)\s+(?<type>of|in|repeat)\s+(?<select>.+)$/);a===null&&this._error(`Can't parse ka.for='${i}'`);let s=(0,Xe.ka_eval)(a.groups.select,t,this.template);a.groups.type==="repeat"&&(typeof s!="number"&&this._error(`Error ka.for='${i}': Selected val must be number in repeat loop`),s=new Array(s).fill(null));let l=0;for(let u in s){let f=Object.assign({$scope:t},t);f[a.groups.target]=u,a.groups.type==="of"&&(f[a.groups.target]=s[u]),this.template.__kachilds.length<l+1&&this._appendTemplate(),this._maintain(f,this.template.__kachilds[l],l),l++}for(let u=l;u<this.template.__kachilds.length;)this._removeLastChild()}_maintain(t,i,a=0){for(let s of i)s._ka_for_index=a,(0,Kt.ka_elwalk)(s,l=>{if(l instanceof HTMLTemplateElement)return new this.constructor(l).render(t),!1;if(typeof l._ka_maintained_by<"u"&&l._ka_maintained_by!==this.template.getAttribute("_kaidx")||((0,zt.ka_apply)(l,t),l instanceof HTMLElement&&(l.hasAttribute("ka.stop")||l instanceof Wt.KaCustomElement)))return!1},!0,!0)}_renderIf(t,i){(0,Xe.ka_eval)(i,t,this.template)===!0?(this.template.__kachilds.length===0&&this._appendTemplate(),this._maintain(t,this.template.__kachilds[0])):this._removeLastChild()}dispose(){for(;this.template.__kachilds.length>0;)this._removeLastChild()}render(t=null){t===null&&(t=this.$scope),this.$scope=t,this.__renderCount++,this.template.hasAttribute("ka.for")?this._renderFor(t,this.template.getAttribute("ka.for")):this.template.hasAttribute("ka.if")?this._renderIf(t,this.template.getAttribute("ka.if")):(typeof this.template._ka_active>"u"&&(this._appendTemplate(),this.template._ka_active=!0),this._maintain(t,this.template.__kachilds))}isFirstRender(){return this.__renderCount===1}};fe.KaTemplate=$e});var He=b(he=>{"use strict";Object.defineProperty(he,"__esModule",{value:!0});he.ka_html=void 0;function Ft(n){let t=document.createElement("template");return t.innerHTML=n,t}he.ka_html=Ft});var et=b(R=>{"use strict";var Ue=R&&R.__awaiter||function(n,t,i,a){function s(l){return l instanceof i?l:new i(function(u){u(l)})}return new(i||(i=Promise))(function(l,u){function f(o){try{c(a.next(o))}catch(d){u(d)}}function h(o){try{c(a.throw(o))}catch(d){u(d)}}function c(o){o.done?l(o.value):s(o.value).then(f,h)}c((a=a.apply(n,t||[])).next())})};Object.defineProperty(R,"__esModule",{value:!0});R.KaHtmlElement=void 0;var Yt=Ae(),Zt=Te(),Qt=He(),Oe=class extends HTMLElement{constructor(t=null){super(),this.shadowRootInit=t,this.addEventListener("load",i=>console.log(i))}connectedCallback(){return Ue(this,void 0,void 0,function*(){let t;if(typeof this.html=="function"){let a=this.html;t=yield a(this)}typeof t=="string"&&(t=(0,Qt.ka_html)(t));let i=this;if(this.shadowRootInit!==null&&(i=this.attachShadow(this.shadowRootInit)),this.html!==null){let a=(0,Zt.ka_templatify)(t);this.$tpl=new Yt.KaTemplate(a),i.appendChild(a)}this.connected()})}disconnectedCallback(){return Ue(this,void 0,void 0,function*(){this.disconnected()})}};R.KaHtmlElement=Oe});var g=b(E=>{"use strict";var Gt=E&&E.__createBinding||(Object.create?function(n,t,i,a){a===void 0&&(a=i);var s=Object.getOwnPropertyDescriptor(t,i);(!s||("get"in s?!t.__esModule:s.writable||s.configurable))&&(s={enumerable:!0,get:function(){return t[i]}}),Object.defineProperty(n,a,s)}:function(n,t,i,a){a===void 0&&(a=i),n[a]=t[i]}),ee=E&&E.__exportStar||function(n,t){for(var i in n)i!=="default"&&!Object.prototype.hasOwnProperty.call(t,i)&&Gt(t,n,i)};Object.defineProperty(E,"__esModule",{value:!0});E.ka_dom_ready=void 0;ee(De(),E);ee(Re(),E);var Jt=Ke();Object.defineProperty(E,"ka_dom_ready",{enumerable:!0,get:function(){return Jt.ka_dom_ready}});ee(ze(),E);ee(et(),E);ee(He(),E)});var tt=k(g(),1);var _e=class{constructor(t=86){window.addEventListener("hashchange",i=>m(this,null,function*(){console.log(i),i.preventDefault(),yield(0,tt.ka_sleep)(1);let a=document.getElementById(window.location.hash.slice(1));if(a===null)return;let s=a.getBoundingClientRect().top+window.scrollY-t;console.log("scrollto",a,window.location.hash,a.getBoundingClientRect().top,s),window.scrollTo({top:s,behavior:"smooth"})}))}};var nt=k(g(),1),it=k(g(),1),at=k(g(),1),lt=k(g(),1);var pe=class extends nt.KaHtmlElement{constructor(){super(...arguments);this.html=()=>m(this,null,function*(){let i=this.innerHTML;return this.innerHTML="",i})}connected(){return m(this,null,function*(){yield(0,at.ka_dom_ready)(),this.style.display="contents";let i={elements:[]};document.querySelectorAll("[data-leu-nav]").forEach(a=>{i.elements.push({el:a,title:a.getAttribute("data-leu-nav"),id:a.id,active:!1})}),window.addEventListener("scroll",()=>m(this,null,function*(){yield(0,lt.ka_sleep)(100);let a=!1;for(let s of i.elements)s.active=!1,s.el.getBoundingClientRect().top+window.scrollY+10>window.scrollY&&!a&&(a=!0,s.active=!0);this.$tpl.render()}),{passive:!0}),this.removeAttribute("hidden"),this.$tpl.render(i)})}disconnected(){return m(this,null,function*(){})}};pe=w([(0,it.customElement)("leu-data-nav")],pe);var rt=k(g(),1),st=k(g(),1),ot=k(g(),1),ut=k(g(),1);typeof window.LeuFormatConfig=="undefined"&&(window.LeuFormatConfig={h1:["fs-2","text-center","content-space-2"],h2:["fs-3","mt-5"],hr:["clearboth"],img:["float-start","w-lg-50","w-100","pt-2","pb-2","pe-4"]});var me=class extends rt.KaHtmlElement{constructor(){super(...arguments);this.html=null}connected(){return m(this,null,function*(){yield(0,ot.ka_dom_ready)(),yield(0,ut.ka_sleep)(1);let i=LeuFormatConfig;for(let l of this.getAttributeNames())i[l]=this.getAttribute(l).split(" ");for(let l in i)for(let u of Array.from(this.querySelectorAll(l))){let f=i[l];for(let h of f)u.classList.add(h)}let a=null,s=0;e:do{if(this.children.length<s+1)break;let l=this.children[s],u=l.querySelector("[container]");if(u!==null){a=u,s++;continue}if(a===null){s++;continue}a.append(l)}while(!0)})}disconnected(){return m(this,null,function*(){})}};me=w([(0,st.customElement)("leu-format")],me);var M=k(g(),1);var ct=k(g(),1);function dt(n){let t={$:{},"@":{}},i=new RegExp("([@$])[^@^$]+","gi");return n.replace(i,(a,s)=>{if(a=a.substring(1),a.indexOf("=")===-1&&s==="@")typeof t[s].class=="undefined"&&(t[s].class=""),t[s].class+=" "+a,t[s].class=t[s].class.trim();else{let l=a.split("=",2);t[s][l[0]]=l[1]}return""}),t}function Xt(n,t="@"){let i={},a=new RegExp(`\\${t}[^${t}]+`,"gi");return n.replace(a,s=>{if(s=s.substring(1),s.indexOf("=")===-1)typeof i.class=="undefined"&&(i.class=""),i.class+=" "+s,i.class=i.class.trim();else{let l=s.split("=",2);i[l[0]]=l[1]}return""}),i}function je(n){return Xt(n,"@")}function ft(n){let t=n.trim(),i="div";t=t.replace(/^[a-z0-9_\:\-]+/ig,l=>(i=l,""));let a=je(t);return(0,ct.ka_create_element)(i,a)}function qe(n,t){return t instanceof n?t:t.parentElement===null?null:qe(n,t.parentElement)}function K(n){return!(typeof n=="undefined"||n===null)}var te={},H,C,z,O,W,F,T,ye=class extends HTMLElement{constructor(){super(...arguments);L(this,H,null);L(this,C,null);L(this,z,null);L(this,O,null);L(this,W,null);L(this,F,new Map);L(this,T,q({},te))}createElementTree(i){let a=null,s=null;for(let l of i.split(">")){let u=null;l=l.replace(/§([a-z0-9_\-]+)/,(h,c)=>(u=c,""));let f=ft(l);u!==null&&(p(this,F)[u]=f),a===null?a=s=f:(s.appendChild(f),s=f)}return{start:a,leaf:s}}parseComment(i){p(this,C).append(i.cloneNode(!0));let a=i.textContent.split(`
-`);for(let s of a){if(s=s.trim(),s==="")continue;let l=s.substring(1).trim();switch(s.substring(0,1)){case"/":let u=this.createElementTree(l);p(this,W).appendChild(u.start),y(this,z,u.start),y(this,H,y(this,C,u.leaf)),y(this,T,q({},te));break;case"!":let f=l.trim().split(" ",1).join(),h=dt(l),c=document.querySelector(`template[id='${f}']`);if(c===null){console.error("<template id='",f,"'> not found. Selected in ",i);break}let o=document.createElement("div");if(h["@"].length===0)o.style.display="contents";else for(let v in h["@"])o.setAttribute(v,h["@"][v]);let d=c.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))?\}/gi,(v,j,Ee,kt)=>typeof h.$[j]!="undefined"?h.$[j]:kt);d=d.replace(/--([a-z\-]+)=/ig,(v,j)=>j+"="),o.innerHTML=d,p(this,C).append(o);for(let v of o.querySelectorAll("script")){let j={};v.hasAttribute("src")&&(j={src:v.getAttribute("src")});let Ee=(0,M.ka_create_element)("script",j);Ee.append(document.createTextNode(v.textContent)),v.parentElement.replaceChild(Ee,v)}let _=o.querySelectorAll("[attach]");for(let v of _)v.getAttribute("attach")===""?(y(this,C,v),y(this,H,v)):p(this,F)[v.getAttribute("attach")]=v;_.length===0&&console.warn("Template has no attach point",c,o);break;case">":let A=this.createElementTree(l);p(this,H).appendChild(A.start),y(this,C,A.leaf);break;case"~":let[S,...mt]=l.split("=>"),yt=je(mt.join(":"));p(this,T)[S]={attrs:yt,line:s};break;case"?":let $=null,Se=!1;if(l.indexOf("***")!==-1&&(Se=!0,l=l.replace("***","")),l.startsWith("/"))$=p(this,O);else if(l.trim()==="\xA7\xA7")$=p(this,C);else if(l.startsWith("\xA7")){if($=p(this,F)[l.substring(1)],!K($)){console.error("Cannot select reference: '"+s+"': Not found in block",i);break}}else if($=p(this,z).querySelector(l),$===null){console.error(`Query Element '${l}': not found in `,i,"in",p(this,O));break}y(this,H,y(this,C,$)),Se&&y(this,W,$);break;case"#":case"*":break;default:throw console.error("Cannot parse sequence: "+s+" of block",i),"Cannot parse sequence: "+s}}}applyAttMap(i){let a=document.createElement("div");a.append(i);for(let s in p(this,T))try{let l=a.querySelectorAll(s);for(let u of Array.from(l))for(let f in p(this,T)[s].attrs)u.setAttribute(f,p(this,T)[s].attrs[f])}catch(l){console.error("Cannot evaluate: '"+p(this,T)[s].line+"' - ",l);continue}}connectedCallback(){return m(this,null,function*(){yield(0,M.ka_dom_ready)(),yield(0,M.ka_sleep)(1),this.hasAttribute("default")||(yield(0,M.ka_sleep)(1)),y(this,T,q({},te)),y(this,O,y(this,W,y(this,z,y(this,C,y(this,H,(0,M.ka_create_element)("div",{class:this.getAttribute("class")+" loading"},[])))))),this.parentElement.insertBefore(p(this,O),this.nextElementSibling);for(let i of Array.from(this.childNodes)){if(i instanceof Comment){this.parseComment(i);continue}let a=i.cloneNode(!0);i.remove(),this.applyAttMap(a),p(this,C).append(a)}this.hasAttribute("default")&&(te=p(this,T),console.debug("Register default attribute map: ",te,"from",this)),yield(0,M.ka_sleep)(10),p(this,O).classList.remove("loading"),this.classList.remove("loading"),this.style.display="none"})}disconnectedCallback(){return m(this,null,function*(){})}};H=new WeakMap,C=new WeakMap,z=new WeakMap,O=new WeakMap,W=new WeakMap,F=new WeakMap,T=new WeakMap,ye=w([(0,M.customElement)("leu-content")],ye);var Y=k(U(),1),Q=k(g(),1);var Z=class extends HTMLElement{constructor(){super();this._oldHash=null;this.progressBarE=null;this.content=null;this.titleE=null;this.nextE=null;this.backE=null;this.curDivE=null;let i=this}_selectElement(i){let a=this.content.children[i];this.curDivE=a,this.progressBarE.ariaValueMin=0,this.progressBarE.ariaValueMax=this.content.childElementCount,this.progressBarE.ariaValueNow=i+1,this.progressBarE.style.width=(i+1)/this.content.childElementCount*100+"%",this.titleE.textContent=a.getAttribute("data-title"),a.classList.remove(ke.config.switcher.hiddenClass),this.nextE.hidden=!1,i+1===this.content.childElementCount&&(this.nextE.hidden=!0),this.backE.hidden=!1,i===0&&(this.backE.hidden=!0)}_routeChange(){return m(this,null,function*(){let i=window.location.hash.substring(1),a=!1;for(let s=0;s<this.content.children.length;s++){let l=this.content.children[s];console.log("scan",l),l.classList.add(ke.config.switcher.hiddenClass),(l.id===i||this.hasAttribute("show-all"))&&(this._selectElement(s),a=!0)}a===!1&&this._selectElement(0)})}next(i=null){return m(this,null,function*(){if(yield(0,Q.ka_sleep)(500),this.curDivE.nextElementSibling!==null)return history.pushState(null,null,"#"+this.curDivE.nextElementSibling.id),i!==null&&i.preventDefault(),console.log("next"),!1})}backClickCb(i){return history.pushState(null,null,"#"+this.curDivE.previousElementSibling.id),i.preventDefault(),!1}_locationListener(){return m(this,null,function*(){window.location.hash!==this._oldHash&&(this._oldHash=window.location.hash,yield this._routeChange(),this.hidden=!1)})}connectedCallback(){return m(this,null,function*(){yield(0,Q.ka_dom_ready)(),this.progressBarE=(0,Y.ka_query_selector)("[data-leu-role='progress-bar']",this,"data-leu-role='progress-bar'"),this.content=(0,Y.ka_query_selector)("[data-leu-role='content']",this,"data-leu-role='progress-bar'"),this.titleE=(0,Y.ka_query_selector)("[data-leu-role='title']",this,"data-leu-role='title'"),this.nextE=(0,Y.ka_query_selector)("[data-leu-role='next-btn']",this,"data-leu-role='next-btn'"),this.backE=(0,Y.ka_query_selector)("[data-leu-role='back-btn']",this,"data-leu-role='back-btn'"),this.backE.addEventListener("click",i=>this.backClickCb(i)),this.nextE.addEventListener("click",i=>this.next(i)),window.setInterval(()=>this._locationListener(),200),window.setInterval(()=>{this.style.height=this.curDivE.offsetHeight+"px"},500),window.addEventListener("pushstate",()=>{console.log("State pushed")})})}};Z=w([(0,Q.customElement)("leu-switcher")],Z);var ht=k(g(),1),_t=k(le(),1);var G,be=class extends HTMLElement{constructor(){super(...arguments);L(this,G,null)}evalIf(i=null){(0,_t.ka_eval)(this.dataset.if,this,i,{})===!0?this.classList.remove(Leu.config.switcher.hiddenClass):this.classList.remove(Leu.config.switcher.hiddenClass)}connectedCallback(){this.style.display="contents",y(this,G,i=>this.evalIf(i)),document.addEventListener("click",p(this,G)),this.evalIf()}disconnectedCallback(){document.removeEventListener("click",p(this,G))}};G=new WeakMap,be=w([(0,ht.customElement)("leu-show")],be);var X=k(g(),1),pt=k(U(),1);var ge=k(g(),1);var J={},ve=class extends HTMLElement{connectedCallback(){return m(this,null,function*(){this.style.display="none",yield(0,ge.ka_dom_ready)(),K(this.dataset.value)&&(J[this.dataset.name]=this.dataset.value),K(this.dataset.increment)&&(K(J[this.dataset.name])||(J[this.dataset.name]=0),J[this.dataset.name]++);let t=new Comment(this.outerHTML);this.replaceWith(t)})}};ve=w([(0,ge.customElement)("leu-var")],ve);var we=class extends HTMLElement{connectedCallback(){return m(this,null,function*(){this.style.display="contents",yield(0,X.ka_dom_ready)(),yield(0,X.ka_sleep)(1);let t=this.dataset.tplId,i=(0,pt.ka_query_selector)("template[id='"+t+"']",null,"leu-use: template with id '"+t+"' not found"),a=q(q({},J),this.dataset);console.log(a);let s=i.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))?}/gi,(c,o,d,_)=>typeof a[o]!="undefined"?a[o]:(typeof _=="undefined"&&console.error(`[<leu-use>] Data-Attribute missing: 'data-${o}' on <template id="${t}>" called by <leu-use></leu-use>`,this),_));s=s.replace(/([a-z\-]+)--=(["'])/ig,(c,o,d)=>o+"="+d);let l=this.innerHTML,u=document.createElement("div");u.innerHTML=s;let f=u.querySelector("*[attach]");f!==null&&(f.innerHTML=l),u.childNodes.forEach(c=>this.parentElement.insertBefore(c,this.nextElementSibling));let h=new Comment(this.outerHTML);this.replaceWith(h)})}};we=w([(0,X.customElement)("leu-use")],we);var ke={config:{switcher:{hiddenClass:"visually-hidden"}},findParent:qe,Switcher:Z,SmoothScroll:_e};globalThis.Leu=ke;})();
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/ce/custom-element.js":
+/*!*********************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/ce/custom-element.js ***!
+  \*********************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.KaCustomElement = void 0;
+const templatify_js_1 = __webpack_require__(/*! ../tpl/templatify.js */ "../../node_modules/@kasimirjs/embed/dist/tpl/templatify.js");
+const template_js_1 = __webpack_require__(/*! ../tpl/template.js */ "../../node_modules/@kasimirjs/embed/dist/tpl/template.js");
+const query_select_js_1 = __webpack_require__(/*! ../core/query-select.js */ "../../node_modules/@kasimirjs/embed/dist/core/query-select.js");
+const htmlFile_1 = __webpack_require__(/*! ./htmlFile */ "../../node_modules/@kasimirjs/embed/dist/ce/htmlFile.js");
+class KaCustomElement extends HTMLElement {
+    constructor(props) {
+        super(props);
+        /**
+         *
+         * @protected
+         * @var {KaTemplate}
+         */
+        this.__tpl = null;
+        this.__isConnected = false;
+    }
+    /**
+     * The Template associated with this Element
+     *
+     * @return {KaTemplate}
+     */
+    get $tpl() {
+        return this.__tpl;
+    }
+    isConnected() {
+        return this.isConnected;
+    }
+    /**
+     * @abstract
+     * @return {Promise<void>}
+     */
+    connected($tpl, $this) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.warn("connected() method not overridden in", this);
+        });
+    }
+    connectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let callback = this.constructor.__callback;
+            if (callback === null) {
+            }
+            else {
+                callback.bind(this);
+            }
+            if (this.constructor.__tpl !== null) {
+                let origTpl = this.constructor.__tpl;
+                if (origTpl instanceof htmlFile_1.RemoteTemplate)
+                    origTpl = yield origTpl.load();
+                let tpl = (0, templatify_js_1.ka_templatify)(origTpl);
+                if (this.constructor.__options.shadowDom === true) {
+                    let shadowDom = this.attachShadow(this.constructor.__options.shadowDomOptions);
+                    shadowDom.appendChild(tpl);
+                }
+                else {
+                    this.appendChild(tpl);
+                }
+                this.__tpl = new template_js_1.KaTemplate(tpl);
+            }
+            if (this.constructor.__options.waitEvent !== null) {
+                let wd = this.constructor.__options.waitEvent.split("@");
+                let eventName = wd[0];
+                let target = document;
+                if (wd.length === 2) {
+                    target = (0, query_select_js_1.ka_query_selector)(wd[1]);
+                }
+                target.addEventListener(eventName, (event) => __awaiter(this, void 0, void 0, function* () {
+                    callback(this.$tpl, this);
+                    this.__isConnected = true;
+                }));
+                return;
+            }
+            if (callback === null) {
+                // Class: Call connected() Method
+                yield this.connected(this.$tpl, this);
+                this.__isConnected = true;
+                return;
+            }
+            // Function
+            callback(this.$tpl, this);
+            this.__isConnected = true;
+        });
+    }
+}
+exports.KaCustomElement = KaCustomElement;
+;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/ce/html.js":
+/*!***********************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/ce/html.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_html = void 0;
+function ka_html(htmlContent) {
+    let e = document.createElement("template");
+    e.innerHTML = htmlContent;
+    return e;
+}
+exports.ka_html = ka_html;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/ce/htmlFile.js":
+/*!***************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/ce/htmlFile.js ***!
+  \***************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RemoteTemplate = void 0;
+const loadHtml_1 = __webpack_require__(/*! ./loadHtml */ "../../node_modules/@kasimirjs/embed/dist/ce/loadHtml.js");
+class RemoteTemplate {
+    constructor(url) {
+        this.url = url;
+        this.tpl = null;
+    }
+    /**
+     *
+     * @return {Promise<HTMLTemplateElement>}
+     */
+    load() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.tpl === null)
+                this.tpl = yield (0, loadHtml_1.ka_load_html)(this.url);
+            return this.tpl;
+        });
+    }
+}
+exports.RemoteTemplate = RemoteTemplate;
+/**
+ * Load the Template on usage from remote location
+ *
+ *
+ * @param url {string}
+ * @return {RemoteTemplate}
+ */
+function htmlUrl(url) {
+    return new RemoteTemplate(url);
+}
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/ce/loadHtml.js":
+/*!***************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/ce/loadHtml.js ***!
+  \***************************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_load_html = void 0;
+/**
+ *
+ * @param url {string}
+ * @return {Promise<HTMLTemplateElement>}
+ */
+function ka_load_html(url) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let e = document.createElement("template");
+        let result = yield fetch(url);
+        if (!result.ok) {
+            console.error(`[loadHtml] failed to load '${url}'`);
+            throw `[loadHtml] failed to load '${url}'`;
+        }
+        let body = yield result.text();
+        e.innerHTML = body;
+        return e;
+    });
+}
+exports.ka_load_html = ka_load_html;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/core/apply.js":
+/*!**************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/core/apply.js ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_apply = void 0;
+const eval_js_1 = __webpack_require__(/*! ./eval.js */ "../../node_modules/@kasimirjs/embed/dist/core/eval.js");
+const str_to_camelcase_js_1 = __webpack_require__(/*! ./str-to-camelcase.js */ "../../node_modules/@kasimirjs/embed/dist/core/str-to-camelcase.js");
+function ka_apply(selector, scope, recursive = false) {
+    if (typeof selector === "string")
+        selector = KaToolsV1.querySelector(selector);
+    let attMap = {
+        "textcontent": "textContent",
+        "htmlcontent": "innerHTML",
+        "innerhtml": "innerHTML",
+    };
+    for (let attName of selector.getAttributeNames()) {
+        //console.log(attName);
+        if (!attName.startsWith("ka.")) {
+            continue;
+        }
+        let attVal = selector.getAttribute(attName);
+        let attType = attName.split(".")[1];
+        let attSelector = attName.split(".")[2];
+        if (typeof attSelector === "undefined")
+            attSelector = null;
+        let registerEventHandler = function (element, action, callbackOrCode, scope) {
+            if (typeof element._ka_on === "undefined")
+                element._ka_on = {};
+            if (typeof element._ka_on[action] === "undefined")
+                element.addEventListener(action, (e) => element._ka_on[action](e));
+            element._ka_on[action] = (e) => __awaiter(this, void 0, void 0, function* () {
+                scope["$event"] = e;
+                if (typeof callbackOrCode === "function") {
+                    return callbackOrCode(e, element, scope);
+                }
+                else {
+                    return (0, eval_js_1.ka_eval)(callbackOrCode, scope, element);
+                }
+            });
+        };
+        if (attType === "on") {
+            let attScope = Object.assign({ $scope: scope }, scope);
+            if (attSelector !== null) {
+                registerEventHandler(selector, attSelector, attVal, attScope);
+            }
+            else {
+                let callBackMap = KaToolsV1.eval(attVal, attScope, selector);
+                for (let curAction in callBackMap) {
+                    registerEventHandler(selector, curAction, callBackMap[curAction], attScope);
+                }
+            }
+            continue;
+        }
+        let r = null;
+        if (typeof attVal !== "undefined" && typeof attVal !== null && attVal !== "")
+            r = (0, eval_js_1.ka_eval)(attVal, scope, selector);
+        switch (attType) {
+            case "ref":
+                if (typeof scope.$ref === "undefined")
+                    scope.$ref = {};
+                // Allow ref without parameter to use $ref.$last
+                if (r !== null)
+                    scope.$ref[r] = selector;
+                scope.$ref.$last = selector;
+                break;
+            case "classlist":
+                if (attSelector !== null) {
+                    if (r === true) {
+                        selector.classList.add(attSelector);
+                    }
+                    else {
+                        selector.classList.remove(attSelector);
+                    }
+                    break;
+                }
+                for (let cname in r) {
+                    if (r[cname] === true) {
+                        selector.classList.add(cname);
+                    }
+                    else {
+                        selector.classList.remove(cname);
+                    }
+                }
+                break;
+            case "style":
+                if (attSelector !== null) {
+                    let val = r;
+                    if (typeof val === "number" && ["left", "top", "height", "width", "bottom", "right", "line-height", "font-size"].indexOf(attSelector) !== -1)
+                        val = val + "px";
+                    selector.style[(0, str_to_camelcase_js_1.ka_str_to_camel_case)(attSelector)] = val;
+                    break;
+                }
+                for (let cname in r) {
+                    let val = r[cname];
+                    if (typeof val === "number" && ["left", "top", "height", "width", "bottom", "right", "line-height", "font-size"].indexOf(cname) !== -1)
+                        val = val + "px";
+                    selector.style[(0, str_to_camelcase_js_1.ka_str_to_camel_case)(cname)] = val;
+                }
+                break;
+            case "bindarray":
+                if (attSelector === "default")
+                    continue;
+                if (typeof r === "undefined") {
+                    // Bind default values
+                    if (selector.hasAttribute("ka.bind.default")) {
+                        scope = Object.assign({ $scope: scope }, scope);
+                        scope = Object.assign(Object.assign({ $scope: scope }, scope), { __curVal: (0, eval_js_1.ka_eval)(selector.getAttribute("ka.bind.default"), scope, selector) });
+                        (0, eval_js_1.ka_eval)(`${attVal} = __curVal`, scope, selector);
+                        r = scope.__curVal;
+                    }
+                }
+                if (!Array.isArray(r)) {
+                    console.error("kap:bindarr: Not an array!", r, selector);
+                    return;
+                }
+                if (r.indexOf(selector.value) === -1)
+                    selector.checked = false;
+                else
+                    selector.checked = true;
+                if (typeof selector._kap_bind === "undefined") {
+                    selector.addEventListener("change", (event) => {
+                        let arr = (0, eval_js_1.ka_eval)(attVal, scope, selector);
+                        if (arr.indexOf(selector.value) === -1 && selector.checked)
+                            arr.push(selector.value);
+                        if (arr.indexOf(selector.value) !== -1 && !selector.checked)
+                            arr = arr.filter((e) => e !== selector.value);
+                        scope = Object.assign(Object.assign({ $scope: scope }, scope), { __curVal: arr });
+                        (0, eval_js_1.ka_eval)(`${attVal} = __curVal`, scope, selector);
+                        if (scope.$on && scope.$on.change)
+                            scope.$on.change(event);
+                    });
+                    selector._kap_bind = true;
+                }
+                break;
+            case "bind":
+                if (attSelector === "default")
+                    continue;
+                if (typeof r === "undefined") {
+                    // Bind default values
+                    if (selector.hasAttribute("ka.bind.default")) {
+                        scope = Object.assign({ $scope: scope }, scope);
+                        scope = Object.assign(Object.assign({ $scope: scope }, scope), { __curVal: (0, eval_js_1.ka_eval)(selector.getAttribute("ka.bind.default"), scope, selector) });
+                        (0, eval_js_1.ka_eval)(`${attVal} = __curVal`, scope, selector);
+                        r = scope.__curVal;
+                    }
+                }
+                if (selector.type === "checkbox" || selector.type === "radio") {
+                    if (selector.hasAttribute("value")) {
+                        if (r === selector.getAttribute("value"))
+                            selector.checked = true;
+                        else
+                            selector.checked = false;
+                    }
+                    else {
+                        if (r === true)
+                            selector.checked = true;
+                        else
+                            selector.checked = false;
+                    }
+                }
+                else {
+                    selector.value = typeof r !== "undefined" ? r : "";
+                }
+                if (typeof selector._kap_bind === "undefined") {
+                    selector.addEventListener("change", (event) => {
+                        let value = null;
+                        if (selector.type === "checkbox" || selector.type === "radio") {
+                            if (selector.hasAttribute("value")) {
+                                if (selector.checked === false)
+                                    return;
+                                value = selector.getAttribute("value");
+                            }
+                            else {
+                                value = selector.checked;
+                            }
+                        }
+                        else {
+                            value = selector.value;
+                        }
+                        scope = Object.assign(Object.assign({ $scope: scope }, scope), { __curVal: value });
+                        (0, eval_js_1.ka_eval)(`${attVal} = __curVal`, scope, selector);
+                        if (scope.$on && scope.$on.change)
+                            scope.$on.change(event);
+                    });
+                    selector.addEventListener("keyup", (event) => {
+                        scope = Object.assign(Object.assign({ $scope: scope }, scope), { __curVal: selector.value });
+                        (0, eval_js_1.ka_eval)(`${attVal} = __curVal`, scope, selector);
+                        if (scope.$on && scope.$on.change)
+                            scope.$on.change(event);
+                    });
+                    selector._kap_bind = true;
+                }
+                break;
+            case "options":
+                let value = selector.value;
+                selector.innerHTML = "";
+                for (let option in r) {
+                    if (isNaN(option)) {
+                        selector.appendChild(new Option(r[option], option));
+                    }
+                    else {
+                        if (typeof r[option].text !== "undefined") {
+                            selector.appendChild(new Option(r[option].text, r[option].value));
+                        }
+                        else {
+                            selector.appendChild(new Option(r[option], r[option]));
+                        }
+                    }
+                }
+                if (value !== null)
+                    selector.value = value;
+                break;
+            case "attr":
+                if (attSelector !== null) {
+                    if (r === null || r === false) {
+                        selector.removeAttribute(attSelector);
+                    }
+                    else {
+                        selector.setAttribute(attSelector, r);
+                    }
+                    break;
+                }
+                for (let cname in r) {
+                    if (r[cname] === null || r[cname] === false) {
+                        selector.removeAttribute(cname);
+                    }
+                    else {
+                        selector.setAttribute(cname, r[cname]);
+                    }
+                }
+                break;
+            case "prop":
+                if (attSelector !== null) {
+                    // Set Property directly
+                    selector[(0, str_to_camelcase_js_1.ka_str_to_camel_case)(attSelector)] = r;
+                    break;
+                }
+                for (let cname in r) {
+                    selector[(0, str_to_camelcase_js_1.ka_str_to_camel_case)(cname)] = r[cname];
+                }
+                break;
+            default:
+                if (typeof attMap[attType] !== "undefined")
+                    attType = attMap[attType];
+                if (typeof selector[attType] === "undefined") {
+                    console.warn("apply(): trying to set undefined property ", attType, "on element", selector);
+                }
+                selector[attType] = r;
+                break;
+        }
+    }
+    if (recursive) {
+        for (let e of selector.children) {
+            ka_apply(e, scope, recursive);
+        }
+    }
+}
+exports.ka_apply = ka_apply;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/core/create-element.js":
+/*!***********************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/core/create-element.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_create_element = void 0;
+/**
+ * Create a new Element
+ *
+ * @param tagName {string}      The Tag Name
+ * @param attributes {string<string>}   Attributes to set initially
+ * @param appendToElement {HTMLElement}
+ * @param children {HTMLElement[]}
+ * @return HTMLElement
+ */
+function ka_create_element(tagName, attributes = null, children = null, appendToElement = null) {
+    let e = document.createElement(tagName);
+    if (attributes === null)
+        attributes = {};
+    for (let attName in attributes) {
+        e.setAttribute(attName, attributes[attName]);
+    }
+    if (Array.isArray(children)) {
+        for (let ce of children)
+            e.appendChild(ce);
+    }
+    if (appendToElement !== null) {
+        appendToElement.appendChild(e);
+    }
+    return e;
+}
+exports.ka_create_element = ka_create_element;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/core/dom-ready.js":
+/*!******************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/core/dom-ready.js ***!
+  \******************************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_dom_ready = void 0;
+/**
+ * Wait for DomContentLoaded or resolve immediate
+ *
+ * <example>
+ * await MicxToolsVx.domReady();
+ * </example>
+ *
+ * @return {Promise<string>}
+ */
+function ka_dom_ready() {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve) => {
+            if (document.readyState === "complete" || document.readyState === "interactive")
+                return resolve("loaded");
+            document.addEventListener("DOMContentLoaded", () => resolve('DOMContentLoaded'));
+        });
+    });
+}
+exports.ka_dom_ready = ka_dom_ready;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/core/elwalk.js":
+/*!***************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/core/elwalk.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_elwalk = void 0;
+/**
+ *
+ * @param {HTMLElement} elem
+ * @param fn
+ * @param recursive
+ */
+function ka_elwalk(elem, fn, recursive = false, includeFirst = false) {
+    if (Array.isArray(elem))
+        elem.children = elem;
+    if (typeof elem.children === "undefined")
+        return;
+    if (includeFirst && elem instanceof HTMLElement) {
+        let ret = fn(elem);
+        if (ret === false)
+            return false;
+    }
+    for (let child of elem.children) {
+        let ret = fn(child);
+        if (ret === false)
+            continue; // No recursiion
+        if (recursive && typeof child.children !== "undefined")
+            ka_elwalk(child, fn, recursive);
+    }
+}
+exports.ka_elwalk = ka_elwalk;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/core/eval.js":
+/*!*************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/core/eval.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_eval = void 0;
+function ka_eval(stmt, __scope, e, __refs) {
+    if (stmt.endsWith(";"))
+        stmt = stmt.slice(0, -1);
+    const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false", "await", "$this"];
+    let r = "var $this = e;";
+    for (let __name in __scope) {
+        if (reserved.indexOf(__name) !== -1)
+            continue;
+        if (__name.indexOf("-") !== -1) {
+            console.error(`Invalid scope key '${__name}': Cannot contain - in scope:`, __scope);
+            throw `eval() failed: Invalid scope key: '${__name}': Cannot contain minus char '-'`;
+        }
+        r += `var ${__name} = __scope['${__name}'];`;
+    }
+    // If the scope was cloned, the original will be in $scope. This is important when
+    // Using events [on.click], e.g.
+    if (typeof __scope.$scope === "undefined") {
+        r += "var $scope = __scope;";
+    }
+    try {
+        // console.log(r + '(' + stmt + ')');
+        return eval(r + '(' + stmt + ')');
+    }
+    catch (ex) {
+        console.error("cannot eval() stmt: '" + stmt + "': " + ex, " on element ", e, ex, "(context:", __scope, ")");
+        throw "eval('" + stmt + "') failed: " + ex;
+    }
+}
+exports.ka_eval = ka_eval;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/core/query-select.js":
+/*!*********************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/core/query-select.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_query_selector = void 0;
+/**
+ * Query a Element or trigger an Exception
+ *
+ * @param query
+ * @param parent
+ * @param exception
+ * @return {HTMLElement}
+ */
+function ka_query_selector(query, parent, exception) {
+    if (typeof exception === "undefined")
+        exception = `querySelector '${query}' not found`;
+    if (typeof parent === "undefined" || parent === null)
+        parent = document;
+    let e = parent.querySelectorAll(query);
+    if (e.length === 0) {
+        console.warn(exception, "on parent: ", parent);
+        throw exception;
+    }
+    return e[0];
+}
+exports.ka_query_selector = ka_query_selector;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/core/sleep.js":
+/*!**************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/core/sleep.js ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_sleep = void 0;
+function ka_sleep(sleepms) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve) => {
+            window.setTimeout(() => {
+                return resolve();
+            }, sleepms);
+        });
+    });
+}
+exports.ka_sleep = ka_sleep;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/core/str-to-camelcase.js":
+/*!*************************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/core/str-to-camelcase.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_str_to_camel_case = void 0;
+/**
+ * Transform any input to CamelCase
+ *
+ * Example: some-class => someClass
+ *
+ * @param str {string}
+ * @return {string}
+ */
+function ka_str_to_camel_case(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, (ltr, idx) => idx === 0 ? ltr.toLowerCase() : ltr.toUpperCase()).replace(/[^a-zA-Z0-9]+/g, '');
+}
+exports.ka_str_to_camel_case = ka_str_to_camel_case;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/decorators/custom-element.js":
+/*!*****************************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/decorators/custom-element.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.customElement = void 0;
+/**
+ * Defines a customElement
+ *
+ * Usage as class decorator @customElement("some-tag")
+ *
+ * @param tagName
+ */
+function customElement(tagName) {
+    return function (classOrDescriptor) {
+        console.debug("registering custom element", classOrDescriptor, tagName);
+        customElements.define(tagName, classOrDescriptor);
+        return classOrDescriptor;
+    };
+}
+exports.customElement = customElement;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/element/KaHtmlElement.js":
+/*!*************************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/element/KaHtmlElement.js ***!
+  \*************************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.KaHtmlElement = void 0;
+const template_1 = __webpack_require__(/*! ../tpl/template */ "../../node_modules/@kasimirjs/embed/dist/tpl/template.js");
+const templatify_1 = __webpack_require__(/*! ../tpl/templatify */ "../../node_modules/@kasimirjs/embed/dist/tpl/templatify.js");
+const html_1 = __webpack_require__(/*! ../ce/html */ "../../node_modules/@kasimirjs/embed/dist/ce/html.js");
+class KaHtmlElement extends HTMLElement {
+    constructor(shadowRootInit = null) {
+        super();
+        this.shadowRootInit = shadowRootInit;
+        this.addEventListener("load", (e) => console.log(e));
+    }
+    connectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let htmlTpl;
+            if (typeof this.html === "function") {
+                let fn = this.html;
+                htmlTpl = yield fn(this);
+            }
+            if (typeof htmlTpl === "string")
+                htmlTpl = (0, html_1.ka_html)(htmlTpl);
+            let attachTo = this;
+            if (this.shadowRootInit !== null) {
+                attachTo = this.attachShadow(this.shadowRootInit);
+            }
+            if (this.html !== null) {
+                let tpl = (0, templatify_1.ka_templatify)(htmlTpl);
+                this.$tpl = new template_1.KaTemplate(tpl);
+                attachTo.appendChild(tpl);
+            }
+            this.connected();
+        });
+    }
+    disconnectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.disconnected();
+        });
+    }
+}
+exports.KaHtmlElement = KaHtmlElement;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/index.js":
+/*!*********************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/index.js ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_dom_ready = void 0;
+__exportStar(__webpack_require__(/*! ./core/sleep */ "../../node_modules/@kasimirjs/embed/dist/core/sleep.js"), exports);
+__exportStar(__webpack_require__(/*! ./core/create-element */ "../../node_modules/@kasimirjs/embed/dist/core/create-element.js"), exports);
+var dom_ready_1 = __webpack_require__(/*! ./core/dom-ready */ "../../node_modules/@kasimirjs/embed/dist/core/dom-ready.js");
+Object.defineProperty(exports, "ka_dom_ready", ({ enumerable: true, get: function () { return dom_ready_1.ka_dom_ready; } }));
+__exportStar(__webpack_require__(/*! ./decorators/custom-element */ "../../node_modules/@kasimirjs/embed/dist/decorators/custom-element.js"), exports);
+__exportStar(__webpack_require__(/*! ./element/KaHtmlElement */ "../../node_modules/@kasimirjs/embed/dist/element/KaHtmlElement.js"), exports);
+__exportStar(__webpack_require__(/*! ./ce/html */ "../../node_modules/@kasimirjs/embed/dist/ce/html.js"), exports);
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/tpl/template.js":
+/*!****************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/tpl/template.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.KaTemplate = void 0;
+const eval_js_1 = __webpack_require__(/*! ../core/eval.js */ "../../node_modules/@kasimirjs/embed/dist/core/eval.js");
+const elwalk_js_1 = __webpack_require__(/*! ../core/elwalk.js */ "../../node_modules/@kasimirjs/embed/dist/core/elwalk.js");
+const apply_js_1 = __webpack_require__(/*! ../core/apply.js */ "../../node_modules/@kasimirjs/embed/dist/core/apply.js");
+const custom_element_js_1 = __webpack_require__(/*! ../ce/custom-element.js */ "../../node_modules/@kasimirjs/embed/dist/ce/custom-element.js");
+class KaTemplate {
+    constructor(template) {
+        this.template = template;
+        if (typeof this.template.__kachilds === "undefined")
+            this.template.__kachilds = [];
+        if (typeof this.template.__kasibling === "undefined")
+            this.template.__kasibling = this.template.nextElementSibling;
+        this.__renderCount = 0;
+        this.$scope = {};
+    }
+    _error(msg) {
+        console.error(`[ka-template] ${msg} on element`, this.template);
+        throw `[ka-template] ${msg} on element` + this.template;
+    }
+    _appendTemplate() {
+        let elements = this.template.content;
+        let elList = [];
+        for (let curE of elements.children) {
+            curE = curE.cloneNode(true);
+            curE._ka_maintained_by = this.template.getAttribute("_kaidx");
+            elList.push(curE);
+            this.template.parentNode.insertBefore(curE, this.template.__kasibling);
+        }
+        this.template.__kachilds.push(elList);
+    }
+    _removeLastChild() {
+        if (this.template.__kachilds.length === 0)
+            return;
+        let childs = this.template.__kachilds[this.template.__kachilds.length - 1];
+        for (let curE of childs) {
+            this.template.parentElement.removeChild(curE);
+        }
+        this.template.__kachilds.length = this.template.__kachilds.length - 1;
+    }
+    _renderFor($scope, stmt) {
+        //console.log("kachilds", this.template.__kachilds);
+        let matches = stmt.match(/^(let)?\s*(?<target>.+)\s+(?<type>of|in|repeat)\s+(?<select>.+)$/);
+        if (matches === null) {
+            this._error(`Can't parse ka.for='${stmt}'`);
+        }
+        let selectVal = (0, eval_js_1.ka_eval)(matches.groups.select, $scope, this.template);
+        if (matches.groups.type === "repeat") {
+            if (typeof selectVal !== "number")
+                this._error(`Error ka.for='${stmt}': Selected val must be number in repeat loop`);
+            selectVal = new Array(selectVal).fill(null);
+        }
+        let eIndex = 0;
+        for (let index in selectVal) {
+            let curScope = Object.assign({ $scope: $scope }, $scope);
+            curScope[matches.groups.target] = index;
+            if (matches.groups.type === "of")
+                curScope[matches.groups.target] = selectVal[index];
+            if (this.template.__kachilds.length < eIndex + 1) {
+                //console.log("append", eIndex, this.template.__kachilds.length);
+                this._appendTemplate();
+            }
+            this._maintain(curScope, this.template.__kachilds[eIndex], eIndex);
+            eIndex++;
+        }
+        for (let remIdx = eIndex; remIdx < this.template.__kachilds.length;) {
+            this._removeLastChild();
+        }
+    }
+    _maintain($scope, childs, forIndex = 0) {
+        for (let child of childs) {
+            child._ka_for_index = forIndex;
+            (0, elwalk_js_1.ka_elwalk)(child, (el) => {
+                //console.log("walk", el);
+                if (el instanceof HTMLTemplateElement) {
+                    //console.log("maintain", el);
+                    let r = new this.constructor(el);
+                    r.render($scope);
+                    return false;
+                }
+                if (typeof el._ka_maintained_by !== "undefined" && el._ka_maintained_by !== this.template.getAttribute("_kaidx")) {
+                    return false;
+                }
+                (0, apply_js_1.ka_apply)(el, $scope);
+                if (el instanceof HTMLElement && (el.hasAttribute("ka.stop") || el instanceof custom_element_js_1.KaCustomElement))
+                    return false; // Skip Element rendering
+            }, true, true);
+        }
+    }
+    _renderIf($scope, stmt) {
+        let selectVal = (0, eval_js_1.ka_eval)(stmt, $scope, this.template);
+        if (selectVal === true) {
+            if (this.template.__kachilds.length === 0)
+                this._appendTemplate();
+            this._maintain($scope, this.template.__kachilds[0]);
+        }
+        else {
+            this._removeLastChild();
+        }
+    }
+    /**
+     * Remove all rendered element
+     */
+    dispose() {
+        for (; this.template.__kachilds.length > 0;)
+            this._removeLastChild();
+    }
+    /**
+     * Render / Update the Template
+     *
+     * Once the scope in parameter 1 was set, it will render
+     * without any parameters. Scope is available via property $scope
+     *
+     * @param $scope
+     */
+    render($scope = null) {
+        if ($scope === null)
+            $scope = this.$scope;
+        this.$scope = $scope;
+        this.__renderCount++;
+        if (this.template.hasAttribute("ka.for")) {
+            this._renderFor($scope, this.template.getAttribute("ka.for"));
+        }
+        else if (this.template.hasAttribute("ka.if")) {
+            this._renderIf($scope, this.template.getAttribute("ka.if"));
+        }
+        else {
+            if (typeof this.template._ka_active === "undefined") {
+                this._appendTemplate();
+                this.template._ka_active = true;
+            }
+            this._maintain($scope, this.template.__kachilds);
+        }
+    }
+    /**
+     * Return true if this template was renderd the first time
+     *
+     * @returns {boolean}
+     */
+    isFirstRender() {
+        return this.__renderCount === 1;
+    }
+}
+exports.KaTemplate = KaTemplate;
+;
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kasimirjs/embed/dist/tpl/templatify.js":
+/*!******************************************************************!*\
+  !*** ../../node_modules/@kasimirjs/embed/dist/tpl/templatify.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ka_templatify = void 0;
+const query_select_js_1 = __webpack_require__(/*! ../core/query-select.js */ "../../node_modules/@kasimirjs/embed/dist/core/query-select.js");
+const elwalk_js_1 = __webpack_require__(/*! ../core/elwalk.js */ "../../node_modules/@kasimirjs/embed/dist/core/elwalk.js");
+window._ka_el_idx = 0;
+/**
+ * Generate a renderable Template from <template> Element
+ *
+ * @param {HTMLElement|string} elem
+ * @return {HTMLTemplateElement}
+ */
+function ka_templatify(elem, returnMode = true) {
+    if (typeof elem === "string")
+        elem = (0, query_select_js_1.ka_query_selector)(elem);
+    if (!(elem instanceof Node)) {
+        console.error("[ka-templatify] Parameter 1 is not a html element: ", elem);
+        throw `[ka-templify] Parameter 1 is not a html element: ${elem}`;
+    }
+    if (returnMode) {
+        let returnTpl = document.createElement("template");
+        returnTpl.setAttribute("_kaidx", (window._ka_el_idx++).toString());
+        /* @var {HTMLTemplateElement} returnTpl */
+        returnTpl.innerHTML = elem.innerHTML
+            .replace(/\[\[(.*?)\]\]/g, (matches, m1) => `<span ka.textContent="${m1}"></span>`);
+        ka_templatify(returnTpl.content, false);
+        return returnTpl;
+    }
+    if (elem instanceof HTMLTemplateElement)
+        elem = elem.content;
+    let wrapElem = (el, attName, attVal) => {
+        let tpl = document.createElement("template");
+        tpl.setAttribute("_kaidx", (window._ka_el_idx++).toString());
+        let clonedEl = el.cloneNode(true);
+        clonedEl.removeAttribute(attName);
+        tpl.content.append(clonedEl);
+        tpl.setAttribute(attName, attVal);
+        el.replaceWith(tpl);
+        return tpl;
+    };
+    (0, elwalk_js_1.ka_elwalk)(elem, (el) => {
+        //console.log(el);
+        if (!(el instanceof HTMLElement))
+            return;
+        let tpl = null;
+        for (let attrName of el.getAttributeNames()) {
+            if (attrName === "ka.for") {
+                tpl = wrapElem(el, "ka.for", el.getAttribute("ka.for"));
+                ka_templatify(tpl, false);
+                break;
+            }
+            if (attrName === "ka.if") {
+                tpl = wrapElem(el, "ka.if", el.getAttribute("ka.if"));
+                ka_templatify(tpl, false);
+                break;
+            }
+        }
+    }, true, false);
+}
+exports.ka_templatify = ka_templatify;
+
+
+/***/ }),
+
+/***/ "./src/components/leu-content.ts":
+/*!***************************************!*\
+  !*** ./src/components/leu-content.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LeuContent": () => (/* binding */ LeuContent)
+/* harmony export */ });
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "../../node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _content_createElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../content/createElement */ "./src/content/createElement.ts");
+/* harmony import */ var _helper_functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helper/functions */ "./src/helper/functions.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _LeuContent_selectedElement, _LeuContent_attachElement, _LeuContent_lastElement, _LeuContent_container, _LeuContent_curContainer, _LeuContent_refs, _LeuContent_curAttrMap;
+
+
+
+let defaultAttrMap = {};
+let LeuContent = class LeuContent extends HTMLElement {
+    constructor() {
+        super(...arguments);
+        _LeuContent_selectedElement.set(this, null);
+        _LeuContent_attachElement.set(this, null);
+        _LeuContent_lastElement.set(this, null);
+        _LeuContent_container.set(this, null);
+        _LeuContent_curContainer.set(this, null);
+        _LeuContent_refs.set(this, new Map);
+        _LeuContent_curAttrMap.set(this, Object.assign({}, defaultAttrMap));
+    }
+    createElementTree(def) {
+        let start = null;
+        let leaf = null;
+        for (let cur of def.split(">")) {
+            let refName = null;
+            cur = cur.replace(/§([a-z0-9_\-]+)/, (a, name) => {
+                refName = name;
+                return "";
+            });
+            if (cur.trim().startsWith("|")) {
+                // TextNode
+                let tn = document.createTextNode(cur.trim().substring(1));
+                leaf.appendChild(tn);
+                continue;
+            }
+            let el = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.createElement)(cur);
+            if (refName !== null)
+                __classPrivateFieldGet(this, _LeuContent_refs, "f")[refName] = el;
+            if (start === null) {
+                start = leaf = el;
+            }
+            else {
+                leaf.appendChild(el);
+                leaf = el;
+            }
+        }
+        return { start, leaf };
+    }
+    parseComment(comment) {
+        __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(comment.cloneNode(true));
+        let lines = comment.textContent.split("\n");
+        for (let line of lines) {
+            line = line.trim();
+            if (line === "")
+                continue;
+            let cmdLine = line.substring(1).trim();
+            switch (line.substring(0, 1)) {
+                case "/":
+                    let elem1 = this.createElementTree(cmdLine);
+                    __classPrivateFieldGet(this, _LeuContent_curContainer, "f").appendChild(elem1.start);
+                    __classPrivateFieldSet(this, _LeuContent_lastElement, elem1.start, "f");
+                    __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem1.leaf, "f"), "f");
+                    __classPrivateFieldSet(this, _LeuContent_curAttrMap, Object.assign({}, defaultAttrMap), "f"); // Reset Attribute map to default as clone
+                    break;
+                case "!":
+                    let tplName = cmdLine.trim().split(" ", 1).join();
+                    let varAndStyle = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.parseVariableAndStyleStr)(cmdLine);
+                    let tpl = document.querySelector(`template[id='${tplName}']`);
+                    if (tpl === null) {
+                        console.error("<template id='", tplName, "'> not found. Selected in ", comment);
+                        break;
+                    }
+                    let elemCtl = document.createElement("div");
+                    console.log(varAndStyle);
+                    if (Object.keys(varAndStyle["@"]).length === 0) {
+                        elemCtl.style.display = "contents";
+                    }
+                    else {
+                        for (let attrName in varAndStyle["@"]) {
+                            elemCtl.setAttribute(attrName, varAndStyle["@"][attrName]);
+                        }
+                    }
+                    let content = tpl.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))?\}/gi, (a, varName, e, varDefault) => {
+                        if (typeof varAndStyle["$"][varName] !== "undefined")
+                            return varAndStyle["$"][varName];
+                        return varDefault;
+                    });
+                    // Replace Tags like --src and --id
+                    content = content.replace(/([a-z\-]+)--=/ig, (a, b) => b + "=");
+                    elemCtl.innerHTML = content;
+                    __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elemCtl);
+                    // Execute <script> tags
+                    for (let elem of elemCtl.querySelectorAll("script")) {
+                        let attrs = {};
+                        if (elem.hasAttribute("src")) {
+                            attrs = { src: elem.getAttribute("src") };
+                        }
+                        let e = (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("script", attrs);
+                        e.append(document.createTextNode(elem.textContent));
+                        elem.parentElement.replaceChild(e, elem);
+                        //this.#attachElement.append(e);
+                    }
+                    let attachPoints = elemCtl.querySelectorAll("[attach]");
+                    for (let attachPoint of attachPoints) {
+                        if (attachPoint.getAttribute("attach") === "") {
+                            __classPrivateFieldSet(this, _LeuContent_attachElement, attachPoint, "f");
+                            __classPrivateFieldSet(this, _LeuContent_selectedElement, attachPoint, "f");
+                        }
+                        else {
+                            __classPrivateFieldGet(this, _LeuContent_refs, "f")[attachPoint.getAttribute("attach")] = attachPoint;
+                        }
+                    }
+                    if (attachPoints.length === 0) {
+                        console.warn("Template has no attach point", tpl, elemCtl);
+                    }
+                    break;
+                case ">":
+                    let elem2 = this.createElementTree(cmdLine);
+                    __classPrivateFieldGet(this, _LeuContent_selectedElement, "f").appendChild(elem2.start);
+                    __classPrivateFieldSet(this, _LeuContent_attachElement, elem2.leaf, "f");
+                    break;
+                case "~":
+                    let [selector, ...attrMap] = cmdLine.split("=>");
+                    let attrs = (0,_content_createElement__WEBPACK_IMPORTED_MODULE_1__.parseAttributeStr)(attrMap.join(":"));
+                    __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")[selector] = { attrs, line };
+                    break;
+                case "?":
+                    let elem = null;
+                    let isMoveContainer = false;
+                    if (cmdLine.indexOf("***") !== -1) {
+                        isMoveContainer = true;
+                        cmdLine = cmdLine.replace("***", "");
+                    }
+                    if (cmdLine.startsWith("/")) {
+                        elem = __classPrivateFieldGet(this, _LeuContent_container, "f");
+                    }
+                    else if (cmdLine.trim() === "§§") {
+                        elem = __classPrivateFieldGet(this, _LeuContent_attachElement, "f");
+                    }
+                    else if (cmdLine.startsWith("§")) {
+                        elem = __classPrivateFieldGet(this, _LeuContent_refs, "f")[cmdLine.substring(1)];
+                        if (!(0,_helper_functions__WEBPACK_IMPORTED_MODULE_2__.isset)(elem)) {
+                            console.error("Cannot select reference: '" + line + "': Not found in block", comment);
+                            break;
+                        }
+                    }
+                    else {
+                        elem = __classPrivateFieldGet(this, _LeuContent_lastElement, "f").querySelector(cmdLine);
+                        if (elem === null) {
+                            console.error(`Query Element '${cmdLine}': not found in `, comment, "in", __classPrivateFieldGet(this, _LeuContent_container, "f"));
+                            break;
+                        }
+                    }
+                    __classPrivateFieldSet(this, _LeuContent_selectedElement, __classPrivateFieldSet(this, _LeuContent_attachElement, elem, "f"), "f");
+                    if (isMoveContainer)
+                        __classPrivateFieldSet(this, _LeuContent_curContainer, elem, "f");
+                    break;
+                case "#": // comment
+                case "*":
+                    break;
+                default:
+                    console.error("Cannot parse sequence: " + line + " of block", comment);
+                    throw "Cannot parse sequence: " + line;
+            }
+        }
+    }
+    /**
+     * Apply XPath ~
+     *
+     * @param el
+     * @private
+     */
+    applyAttMap(el) {
+        let appEl = document.createElement("div");
+        appEl.append(el);
+        for (let attrMapSelector in __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")) {
+            try {
+                let result = appEl.querySelectorAll(attrMapSelector);
+                for (let curElement of Array.from(result)) {
+                    for (let attName in __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")[attrMapSelector].attrs) {
+                        curElement.setAttribute(attName, __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")[attrMapSelector].attrs[attName]);
+                    }
+                }
+            }
+            catch (e) {
+                console.error("Cannot evaluate: '" + __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f")[attrMapSelector].line + "' - ", e);
+                continue;
+            }
+        }
+    }
+    connectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_dom_ready)();
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
+            if (!this.hasAttribute("default")) {
+                // Wait for defaults
+                yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
+            }
+            __classPrivateFieldSet(this, _LeuContent_curAttrMap, Object.assign({}, defaultAttrMap), "f"); // Reset Attribute map to default as clone
+            __classPrivateFieldSet(this, _LeuContent_container, __classPrivateFieldSet(this, _LeuContent_curContainer, __classPrivateFieldSet(this, _LeuContent_lastElement, __classPrivateFieldSet(this, _LeuContent_attachElement, __classPrivateFieldSet(this, _LeuContent_selectedElement, (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)("div", { class: this.getAttribute("class") + " loading" }, []), "f"), "f"), "f"), "f"), "f");
+            this.parentElement.insertBefore(__classPrivateFieldGet(this, _LeuContent_container, "f"), this.nextElementSibling);
+            for (let elem of Array.from(this.childNodes)) {
+                if (elem instanceof Comment) {
+                    this.parseComment(elem);
+                    continue;
+                }
+                let clone = elem.cloneNode(true);
+                elem.remove(); // Important: Remove to avoid SEO trouble
+                this.applyAttMap(clone);
+                __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(clone);
+            }
+            if (this.hasAttribute("default")) {
+                // Register defaults
+                defaultAttrMap = __classPrivateFieldGet(this, _LeuContent_curAttrMap, "f");
+                console.debug("Register default attribute map: ", defaultAttrMap, "from", this);
+            }
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(10);
+            __classPrivateFieldGet(this, _LeuContent_container, "f").classList.remove("loading");
+            this.classList.remove("loading");
+            this.style.display = "none";
+        });
+    }
+    ;
+    disconnectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
+};
+_LeuContent_selectedElement = new WeakMap(), _LeuContent_attachElement = new WeakMap(), _LeuContent_lastElement = new WeakMap(), _LeuContent_container = new WeakMap(), _LeuContent_curContainer = new WeakMap(), _LeuContent_refs = new WeakMap(), _LeuContent_curAttrMap = new WeakMap();
+LeuContent = __decorate([
+    (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-content")
+], LeuContent);
+
+
+
+/***/ }),
+
+/***/ "./src/components/leu-data-nav.ts":
+/*!****************************************!*\
+  !*** ./src/components/leu-data-nav.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LeuDataNav": () => (/* binding */ LeuDataNav)
+/* harmony export */ });
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "../../node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+let LeuDataNav = class LeuDataNav extends _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.KaHtmlElement {
+    constructor() {
+        super(...arguments);
+        // language=html
+        this.html = () => __awaiter(this, void 0, void 0, function* () {
+            let inner = this.innerHTML;
+            this.innerHTML = "";
+            return inner;
+        });
+    }
+    connected() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_dom_ready)();
+            // Allow attaching to any element
+            this.style.display = "contents";
+            let scope = {
+                elements: []
+            };
+            document.querySelectorAll("[data-leu-nav]").forEach((el) => {
+                scope.elements.push({ el: el, title: el.getAttribute("data-leu-nav"), id: el.id, active: false });
+            });
+            window.addEventListener("scroll", () => __awaiter(this, void 0, void 0, function* () {
+                yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(100);
+                let first = false;
+                for (let e of scope.elements) {
+                    e.active = false;
+                    if (e.el.getBoundingClientRect().top + window.scrollY + 10 > window.scrollY && !first) {
+                        first = true;
+                        e.active = true;
+                    }
+                }
+                this.$tpl.render();
+            }), { passive: true });
+            this.removeAttribute("hidden");
+            this.$tpl.render(scope);
+        });
+    }
+    disconnected() {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
+};
+LeuDataNav = __decorate([
+    (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-data-nav")
+], LeuDataNav);
+
+
+
+/***/ }),
+
+/***/ "./src/components/leu-format.ts":
+/*!**************************************!*\
+  !*** ./src/components/leu-format.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LeuFormat": () => (/* binding */ LeuFormat)
+/* harmony export */ });
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "../../node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+if (typeof window.LeuFormatConfig === "undefined") {
+    window.LeuFormatConfig = {
+        "h1": ["fs-2", "text-center", "content-space-2"],
+        "h2": ["fs-3", "mt-5"],
+        "hr": ["clearboth"],
+        "img": ["float-start", "w-lg-50", "w-100", "pt-2", "pb-2", "pe-4"]
+    };
+}
+let LeuFormat = class LeuFormat extends _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.KaHtmlElement {
+    constructor() {
+        super(...arguments);
+        // language=html
+        this.html = null;
+    }
+    connected() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_dom_ready)();
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
+            let config = LeuFormatConfig;
+            for (let attr of this.getAttributeNames()) {
+                config[attr] = this.getAttribute(attr).split(" ");
+            }
+            for (let select in config) {
+                for (let e of Array.from(this.querySelectorAll(select))) {
+                    let classes = config[select];
+                    for (let cls of classes) {
+                        e.classList.add(cls);
+                    }
+                }
+            }
+            let lastContainer = null;
+            let i = 0;
+            main: do {
+                if (this.children.length < i + 1)
+                    break;
+                let e = this.children[i];
+                let container = e.querySelector("[container]");
+                if (container !== null) {
+                    lastContainer = container;
+                    i++;
+                    continue;
+                }
+                if (lastContainer === null) {
+                    i++;
+                    continue;
+                }
+                lastContainer.append(e);
+            } while (true);
+        });
+    }
+    disconnected() {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
+};
+LeuFormat = __decorate([
+    (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-format")
+], LeuFormat);
+
+
+
+/***/ }),
+
+/***/ "./src/components/leu-show.ts":
+/*!************************************!*\
+  !*** ./src/components/leu-show.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "../../node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _kasimirjs_embed_dist_core_eval__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @kasimirjs/embed/dist/core/eval */ "../../node_modules/@kasimirjs/embed/dist/core/eval.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _LeuShow_listener;
+
+
+let LeuShow = class LeuShow extends HTMLElement {
+    constructor() {
+        super(...arguments);
+        _LeuShow_listener.set(this, null);
+    }
+    evalIf(e = null) {
+        let result = (0,_kasimirjs_embed_dist_core_eval__WEBPACK_IMPORTED_MODULE_1__.ka_eval)(this.dataset.if, this, e, {});
+        if (result === true) {
+            this.classList.remove(Leu.config.switcher.hiddenClass);
+        }
+        else {
+            this.classList.remove(Leu.config.switcher.hiddenClass);
+        }
+    }
+    connectedCallback() {
+        this.style.display = "contents";
+        __classPrivateFieldSet(this, _LeuShow_listener, (e) => this.evalIf(e), "f");
+        document.addEventListener("click", __classPrivateFieldGet(this, _LeuShow_listener, "f"));
+        this.evalIf();
+    }
+    disconnectedCallback() {
+        document.removeEventListener("click", __classPrivateFieldGet(this, _LeuShow_listener, "f"));
+    }
+};
+_LeuShow_listener = new WeakMap();
+LeuShow = __decorate([
+    (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-show")
+], LeuShow);
+
+
+/***/ }),
+
+/***/ "./src/components/leu-switcher.ts":
+/*!****************************************!*\
+  !*** ./src/components/leu-switcher.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LeuSwitcher": () => (/* binding */ LeuSwitcher)
+/* harmony export */ });
+/* harmony import */ var _kasimirjs_embed_dist_core_query_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed/dist/core/query-select */ "../../node_modules/@kasimirjs/embed/dist/core/query-select.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @kasimirjs/embed */ "../../node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../index */ "./src/index.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+let LeuSwitcher = class LeuSwitcher extends HTMLElement {
+    constructor() {
+        super();
+        this._oldHash = null;
+        this.progressBarE = null;
+        this.content = null;
+        /**
+         *
+         * @type {HTMLHeadingElement}
+         */
+        this.titleE = null;
+        this.nextE = null;
+        this.backE = null;
+        this.curDivE = null;
+        let self = this;
+    }
+    _selectElement(idx) {
+        let e = this.content.children[idx];
+        this.curDivE = e;
+        this.progressBarE.ariaValueMin = 0;
+        this.progressBarE.ariaValueMax = this.content.childElementCount;
+        this.progressBarE.ariaValueNow = idx + 1;
+        this.progressBarE.style.width = ((idx + 1) / this.content.childElementCount * 100) + "%";
+        this.titleE.textContent = e.getAttribute("data-title");
+        e.classList.remove(_index__WEBPACK_IMPORTED_MODULE_2__.Leu.config.switcher.hiddenClass);
+        this.nextE.hidden = false;
+        if (idx + 1 === this.content.childElementCount)
+            this.nextE.hidden = true;
+        this.backE.hidden = false;
+        if (idx === 0)
+            this.backE.hidden = true;
+    }
+    _routeChange() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let hash = window.location.hash.substring(1);
+            let found = false;
+            for (let i = 0; i < this.content.children.length; i++) {
+                let e = this.content.children[i];
+                console.log("scan", e);
+                e.classList.add(_index__WEBPACK_IMPORTED_MODULE_2__.Leu.config.switcher.hiddenClass);
+                if (e.id === hash || this.hasAttribute("show-all")) {
+                    this._selectElement(i);
+                    found = true;
+                }
+            }
+            if (found === false)
+                this._selectElement(0);
+        });
+    }
+    next(e = null) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_1__.ka_sleep)(500);
+            // console.log(this.curDivE.nextElementSibling);
+            //location.hash = this.curDivE.nextElementSibling.id;
+            if (this.curDivE.nextElementSibling === null)
+                return;
+            history.pushState(null, null, "#" + this.curDivE.nextElementSibling.id);
+            if (e !== null)
+                e.preventDefault();
+            console.log("next");
+            return false;
+        });
+    }
+    backClickCb(e) {
+        // console.log(this.curDivE.nextElementSibling);
+        //location.hash = this.curDivE.nextElementSibling.id;
+        history.pushState(null, null, "#" + this.curDivE.previousElementSibling.id);
+        e.preventDefault();
+        return false;
+    }
+    _locationListener() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (window.location.hash === this._oldHash) {
+                return;
+            }
+            this._oldHash = window.location.hash;
+            yield this._routeChange();
+            this.hidden = false; // Show element
+        });
+    }
+    connectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_1__.ka_dom_ready)();
+            this.progressBarE = (0,_kasimirjs_embed_dist_core_query_select__WEBPACK_IMPORTED_MODULE_0__.ka_query_selector)("[data-leu-role='progress-bar']", this, "data-leu-role='progress-bar'");
+            this.content = (0,_kasimirjs_embed_dist_core_query_select__WEBPACK_IMPORTED_MODULE_0__.ka_query_selector)("[data-leu-role='content']", this, "data-leu-role='progress-bar'");
+            this.titleE = (0,_kasimirjs_embed_dist_core_query_select__WEBPACK_IMPORTED_MODULE_0__.ka_query_selector)("[data-leu-role='title']", this, "data-leu-role='title'");
+            this.nextE = (0,_kasimirjs_embed_dist_core_query_select__WEBPACK_IMPORTED_MODULE_0__.ka_query_selector)("[data-leu-role='next-btn']", this, "data-leu-role='next-btn'");
+            this.backE = (0,_kasimirjs_embed_dist_core_query_select__WEBPACK_IMPORTED_MODULE_0__.ka_query_selector)("[data-leu-role='back-btn']", this, "data-leu-role='back-btn'");
+            this.backE.addEventListener("click", (e) => this.backClickCb(e));
+            this.nextE.addEventListener("click", (e) => this.next(e));
+            window.setInterval(() => this._locationListener(), 200);
+            window.setInterval(() => {
+                this.style.height = this.curDivE.offsetHeight + "px";
+            }, 500);
+            window.addEventListener("pushstate", () => {
+                console.log("State pushed");
+            });
+        });
+    }
+};
+LeuSwitcher = __decorate([
+    (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_1__.customElement)("leu-switcher"),
+    __metadata("design:paramtypes", [])
+], LeuSwitcher);
+
+
+
+/***/ }),
+
+/***/ "./src/components/leu-use.ts":
+/*!***********************************!*\
+  !*** ./src/components/leu-use.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "../../node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _kasimirjs_embed_dist_core_query_select__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @kasimirjs/embed/dist/core/query-select */ "../../node_modules/@kasimirjs/embed/dist/core/query-select.js");
+/* harmony import */ var _leu_var__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./leu-var */ "./src/components/leu-var.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+let LeuUse = class LeuUse extends HTMLElement {
+    connectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.style.display = "contents";
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_dom_ready)();
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
+            let id = this.dataset.tplId;
+            let tpl = (0,_kasimirjs_embed_dist_core_query_select__WEBPACK_IMPORTED_MODULE_1__.ka_query_selector)("template[id='" + id + "']", null, "leu-use: template with id '" + id + "' not found");
+            // Import Variable from <leu-var data-name="" data-value=""></leu-val>
+            let variables = Object.assign(Object.assign({}, _leu_var__WEBPACK_IMPORTED_MODULE_2__.leuTemplateVariables), this.dataset);
+            console.log(variables);
+            let content = tpl.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))?}/gi, (a, varName, e, varDefault) => {
+                if (typeof variables[varName] !== "undefined")
+                    return variables[varName];
+                if (typeof varDefault === "undefined")
+                    console.error(`[<leu-use>] Data-Attribute missing: 'data-${varName}' on <template id="${id}>" called by <leu-use></leu-use>`, this);
+                return varDefault;
+            });
+            content = content.replace(/([a-z\-]+)--=(["'])/ig, (a, b, c) => b + "=" + c);
+            let origContent = this.innerHTML;
+            // Replace Tags like --src and --id
+            let wrapper = document.createElement("div");
+            wrapper.innerHTML = content;
+            let attachElem = wrapper.querySelector("*[attach]");
+            if (attachElem !== null)
+                attachElem.innerHTML = origContent;
+            wrapper.childNodes.forEach((el) => this.parentElement.insertBefore(el, this.nextElementSibling));
+            let comment = new Comment(this.outerHTML);
+            this.replaceWith(comment);
+        });
+    }
+};
+LeuUse = __decorate([
+    (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-use")
+], LeuUse);
+
+
+/***/ }),
+
+/***/ "./src/components/leu-var.ts":
+/*!***********************************!*\
+  !*** ./src/components/leu-var.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "leuTemplateVariables": () => (/* binding */ leuTemplateVariables)
+/* harmony export */ });
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "../../node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _helper_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helper/functions */ "./src/helper/functions.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+let leuTemplateVariables = {};
+let LeuVar = class LeuVar extends HTMLElement {
+    connectedCallback() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.style.display = "none";
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_dom_ready)();
+            if ((0,_helper_functions__WEBPACK_IMPORTED_MODULE_1__.isset)(this.dataset.value)) {
+                leuTemplateVariables[this.dataset.name] = this.dataset.value;
+            }
+            if ((0,_helper_functions__WEBPACK_IMPORTED_MODULE_1__.isset)(this.dataset.increment)) {
+                if (!(0,_helper_functions__WEBPACK_IMPORTED_MODULE_1__.isset)(leuTemplateVariables[this.dataset.name]))
+                    leuTemplateVariables[this.dataset.name] = 0;
+                leuTemplateVariables[this.dataset.name]++;
+            }
+            let comment = new Comment(this.outerHTML);
+            this.replaceWith(comment);
+        });
+    }
+};
+LeuVar = __decorate([
+    (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.customElement)("leu-var")
+], LeuVar);
+
+
+/***/ }),
+
+/***/ "./src/content/createElement.ts":
+/*!**************************************!*\
+  !*** ./src/content/createElement.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createElement": () => (/* binding */ createElement),
+/* harmony export */   "parseAttributeStr": () => (/* binding */ parseAttributeStr),
+/* harmony export */   "parseVariableAndStyleStr": () => (/* binding */ parseVariableAndStyleStr),
+/* harmony export */   "parseVariableStr": () => (/* binding */ parseVariableStr)
+/* harmony export */ });
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "../../node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+
+function parseVariableAndStyleStr(varString) {
+    let attrs = { "$": {}, "@": {} };
+    let regex = new RegExp(`([@$])[^@^$]+`, "gi");
+    varString.replace(regex, (match, type) => {
+        match = match.substring(1);
+        if (match.indexOf("=") === -1 && type === "@") {
+            if (typeof attrs[type].class === "undefined")
+                attrs[type].class = "";
+            attrs[type].class += " " + match;
+            attrs[type].class = attrs[type].class.trim();
+        }
+        else {
+            let res = match.split("=", 2);
+            attrs[type][res[0]] = res[1];
+        }
+        return "";
+    });
+    return attrs;
+}
+function parseVariableStr(varString, delimiter = "@") {
+    let attrs = {};
+    let regex = new RegExp(`\\${delimiter}[^${delimiter}]+`, "gi");
+    varString.replace(regex, (match) => {
+        match = match.substring(1);
+        if (match.indexOf("=") === -1) {
+            if (typeof attrs.class === "undefined")
+                attrs.class = "";
+            attrs.class += " " + match;
+            attrs.class = attrs.class.trim();
+        }
+        else {
+            let res = match.split("=", 2);
+            attrs[res[0]] = res[1];
+        }
+        return "";
+    });
+    return attrs;
+}
+function parseAttributeStr(attrString) {
+    return parseVariableStr(attrString, "@");
+}
+function createElement(definition) {
+    let defRest = definition.trim();
+    let tag = "div";
+    defRest = defRest.replace(/^[a-z0-9_\:\-]+/ig, (match) => {
+        tag = match;
+        return "";
+    });
+    let attrs = parseAttributeStr(defRest);
+    let element = (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_create_element)(tag, attrs);
+    return element;
+}
+
+
+/***/ }),
+
+/***/ "./src/helper/functions.ts":
+/*!*********************************!*\
+  !*** ./src/helper/functions.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "findParent": () => (/* binding */ findParent),
+/* harmony export */   "isset": () => (/* binding */ isset)
+/* harmony export */ });
+function findParent(searchParent, curElement) {
+    if (curElement instanceof searchParent)
+        return curElement;
+    if (curElement.parentElement === null)
+        return null;
+    return findParent(searchParent, curElement.parentElement);
+}
+function isset(val) {
+    if (typeof val === "undefined" || val === null)
+        return false;
+    return true;
+}
+
+
+/***/ }),
+
+/***/ "./src/helper/smoothscroll.ts":
+/*!************************************!*\
+  !*** ./src/helper/smoothscroll.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SmoothScroll": () => (/* binding */ SmoothScroll)
+/* harmony export */ });
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kasimirjs/embed */ "../../node_modules/@kasimirjs/embed/dist/index.js");
+/* harmony import */ var _kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__);
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+class SmoothScroll {
+    constructor(offsetTop = 86) {
+        window.addEventListener("hashchange", (e) => __awaiter(this, void 0, void 0, function* () {
+            console.log(e);
+            e.preventDefault();
+            yield (0,_kasimirjs_embed__WEBPACK_IMPORTED_MODULE_0__.ka_sleep)(1);
+            let elem = document.getElementById(window.location.hash.slice(1));
+            if (elem === null)
+                return;
+            let top = elem.getBoundingClientRect().top + window.scrollY - offsetTop;
+            console.log("scrollto", elem, window.location.hash, elem.getBoundingClientRect().top, top);
+            window.scrollTo({
+                top: top,
+                behavior: 'smooth'
+            });
+        }));
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Leu": () => (/* binding */ Leu)
+/* harmony export */ });
+/* harmony import */ var _helper_smoothscroll__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helper/smoothscroll */ "./src/helper/smoothscroll.ts");
+/* harmony import */ var _components_leu_data_nav__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/leu-data-nav */ "./src/components/leu-data-nav.ts");
+/* harmony import */ var _components_leu_format__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/leu-format */ "./src/components/leu-format.ts");
+/* harmony import */ var _components_leu_content__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/leu-content */ "./src/components/leu-content.ts");
+/* harmony import */ var _components_leu_switcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/leu-switcher */ "./src/components/leu-switcher.ts");
+/* harmony import */ var _components_leu_show__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/leu-show */ "./src/components/leu-show.ts");
+/* harmony import */ var _components_leu_use__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/leu-use */ "./src/components/leu-use.ts");
+/* harmony import */ var _components_leu_var__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/leu-var */ "./src/components/leu-var.ts");
+/* harmony import */ var _helper_functions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./helper/functions */ "./src/helper/functions.ts");
+
+
+
+
+
+
+
+
+
+
+const Leu = {
+    config: {
+        switcher: {
+            hiddenClass: "visually-hidden"
+        }
+    },
+    findParent: _helper_functions__WEBPACK_IMPORTED_MODULE_8__.findParent,
+    Switcher: _components_leu_switcher__WEBPACK_IMPORTED_MODULE_4__.LeuSwitcher,
+    SmoothScroll: _helper_smoothscroll__WEBPACK_IMPORTED_MODULE_0__.SmoothScroll
+};
+globalThis.Leu = Leu;
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.ts");
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=leu-web-components.js.map

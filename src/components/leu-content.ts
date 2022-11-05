@@ -32,7 +32,7 @@ export class LeuContent extends HTMLElement {
                 // TextNode
                 let tn = document.createTextNode(cur.trim().substring(1));
                 leaf.appendChild(tn)
-                continue;
+                break;
             }
 
             let el = createElement(cur);
