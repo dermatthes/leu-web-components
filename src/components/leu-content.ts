@@ -27,6 +27,14 @@ export class LeuContent extends HTMLElement {
                 refName = name;
                 return "";
             });
+
+            if (cur.trim().startsWith("|")) {
+                // TextNode
+                let tn = document.createTextNode(cur.trim().substring(1));
+                leaf.appendChild(tn)
+                continue;
+            }
+
             let el = createElement(cur);
 
             if (refName !== null)
@@ -219,6 +227,7 @@ export class LeuContent extends HTMLElement {
                 continue;
             }
             let clone : any = elem.cloneNode(true)
+            elem.remove(); // Important: Remove to avoid SEO trouble
             this.applyAttMap(clone);
             this.#attachElement.append(clone);
         }
