@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/index.js" type="module"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+</head>
+<body>
+
+<template id="modal-default">
+    <div class="modal fade d-block" tabindex="-1" data-leu-dismiss="modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">%%title%%</h5>
+                    <button type="button" class="btn-close" data-leu-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    %%body%%
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-leu-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<template id="modalContent1" data-leu-title="Title of the Modal">
+    <h1>Modal Content 1</h1>
+    <p>This is Modal content number 1</p>
+</template>
+
+
+<button onclick="Leu.modal('#modalContent1')">Open Popup</button>
+</body>
+</html>
