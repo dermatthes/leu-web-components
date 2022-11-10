@@ -210,7 +210,7 @@ export class LeuContent extends HTMLElement {
     }
 
     async connectedCallback() {
-        await ka_dom_ready();
+        // await ka_dom_ready(); Skip DomReady to speedup the process
         await ka_sleep(1);
         if ( ! this.hasAttribute("default")) {
             // Wait for defaults

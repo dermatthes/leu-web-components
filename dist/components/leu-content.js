@@ -52,6 +52,12 @@ let LeuContent = class LeuContent extends HTMLElement {
                 refName = name;
                 return "";
             });
+            if (cur.trim().startsWith("|")) {
+                // TextNode
+                let tn = document.createTextNode(cur.trim().substring(1));
+                leaf.appendChild(tn);
+                break;
+            }
             let el = (0, createElement_1.createElement)(cur);
             if (refName !== null)
                 __classPrivateFieldGet(this, _LeuContent_refs, "f")[refName] = el;
@@ -90,7 +96,8 @@ let LeuContent = class LeuContent extends HTMLElement {
                         break;
                     }
                     let elemCtl = document.createElement("div");
-                    if (varAndStyle["@"].length === 0) {
+                    console.log(varAndStyle);
+                    if (Object.keys(varAndStyle["@"]).length === 0) {
                         elemCtl.style.display = "contents";
                     }
                     else {
@@ -104,7 +111,7 @@ let LeuContent = class LeuContent extends HTMLElement {
                         return varDefault;
                     });
                     // Replace Tags like --src and --id
-                    content = content.replace(/--([a-z\-]+)=/ig, (a, b) => b + "=");
+                    content = content.replace(/([a-z\-]+)--=/ig, (a, b) => b + "=");
                     elemCtl.innerHTML = content;
                     __classPrivateFieldGet(this, _LeuContent_attachElement, "f").append(elemCtl);
                     // Execute <script> tags
