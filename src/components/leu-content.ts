@@ -2,6 +2,7 @@ import {customElement, ka_create_element, ka_dom_ready, ka_sleep, KaHtmlElement}
 import {createElement, parseAttributeStr, parseVariableAndStyleStr, parseVariableStr} from "../content/createElement";
 import {ka_query_selector} from "@kasimirjs/embed/dist/core/query-select";
 import {isset} from "../helper/functions";
+import {leuTemplateVariables} from "./leu-var";
 
 let defaultAttrMap = {};
 
@@ -72,6 +73,8 @@ export class LeuContent extends HTMLElement {
                     let tplName = cmdLine.trim().split(" ", 1).join();
                     let varAndStyle = parseVariableAndStyleStr(cmdLine);
 
+                    varAndStyle["$"] = {...leuTemplateVariables, ...varAndStyle["$"]};
+
                     let tpl :HTMLTemplateElement = document.querySelector(`template[id='${tplName}']`);
                     if (tpl === null) {
                         console.error("<template id='", tplName, "'> not found. Selected in ", comment);
@@ -79,7 +82,6 @@ export class LeuContent extends HTMLElement {
                     }
 
                     let elemCtl : any = document.createElement("div");
-                    console.log(varAndStyle);
                     if (Object.keys(varAndStyle["@"]).length === 0) {
                         elemCtl.style.display = "contents";
                     } else {
