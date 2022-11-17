@@ -1,6 +1,5 @@
 import {customElement, ka_create_element, ka_dom_ready, ka_sleep, KaHtmlElement} from "@kasimirjs/embed";
 import {createElement, parseAttributeStr, parseVariableAndStyleStr, parseVariableStr} from "../content/createElement";
-import {ka_query_selector} from "@kasimirjs/embed/dist/core/query-select";
 import {isset} from "../helper/functions";
 import {leuTemplateVariables} from "./leu-var";
 
@@ -240,9 +239,11 @@ export class LeuContent extends HTMLElement {
             console.debug("Register default attribute map: ", defaultAttrMap, "from", this);
         }
 
+
         await ka_sleep(10);
         this.#container.classList.remove("loading");
         this.classList.remove("loading");
+
         this.style.display = "none";
     };
 
