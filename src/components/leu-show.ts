@@ -1,5 +1,5 @@
 import {customElement} from "@kasimirjs/embed";
-import {ka_eval} from "@kasimirjs/embed/dist/core/eval";
+import {ka_eval} from "@kasimirjs/embed";
 
 @customElement("leu-show")
 class LeuShow extends HTMLElement {

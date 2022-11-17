@@ -1,4 +1,4 @@
-import {ka_query_selector} from "@kasimirjs/embed/dist/core/query-select";
+import {ka_query_selector} from "@kasimirjs/embed";
 import {customElement, ka_dom_ready, ka_sleep} from "@kasimirjs/embed";
 import {Leu} from "../index";
 
