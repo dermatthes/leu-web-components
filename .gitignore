@@ -5,3 +5,4 @@ libs/
 /.sass-cache
 /node_modules
 /workspaces
+/dist
