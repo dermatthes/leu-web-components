@@ -147,6 +147,7 @@ export class LeuContent extends HTMLElement {
                         isMoveContainer = true;
                         cmdLine = cmdLine.replace("***", "");
                     }
+                    cmdLine = cmdLine.trim();
                     if (cmdLine.startsWith("/")) {
                         elem = this.#container;
                     } else if (cmdLine.trim() === "§§") {
@@ -154,7 +155,7 @@ export class LeuContent extends HTMLElement {
                     } else if (cmdLine.startsWith("§")) {
                         elem = this.#refs[cmdLine.substring(1)];
                         if ( ! isset(elem)) {
-                            console.error("Cannot select reference: '" + line + "': Not found in block", comment);
+                            console.error(`Cannot select reference: '§${cmdLine.substring(1)}': Not defined in` + line, comment);
                             break;
                         }
                     } else {
