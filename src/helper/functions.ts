@@ -15,3 +15,9 @@ export function isset(val : any) : boolean {
         return false;
     return true;
 }
+
+
+export function triggerError(system : string, msg: string, ...params : any) {
+    console.error(`[${system}]: ${msg}`, ...params);
+    throw `[${system}] ${msg}`
+}

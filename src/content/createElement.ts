@@ -1,5 +1,9 @@
 import {ka_create_element} from "@kasimirjs/embed";
 
+
+
+
+
 export function parseVariableAndStyleStr (varString : string) : any {
     let attrs : any = {"$": {}, "@": {}};
     let regex = new RegExp(`([@$])[^@^$]+`, "gi")
@@ -11,9 +15,8 @@ export function parseVariableAndStyleStr (varString : string) : any {
             attrs[type].class += " " + match;
             attrs[type].class = attrs[type].class.trim();
         } else {
-            let res = match.split("=", 2);
-
-            attrs[type][res[0]] = res[1].trim();
+            let res = match.split("=");
+            attrs[type][res.shift()] = res.join("=").trim();
         }
         return "";
     })
@@ -31,9 +34,9 @@ export function parseVariableStr (varString : string, delimiter = "@") : any {
             attrs.class += " " + match;
             attrs.class = attrs.class.trim();
         } else {
-            let res = match.split("=", 2);
+            let res = match.split("=");
 
-            attrs[res[0]] = res[1];
+            attrs[res.shift()] = res.join("=").trim();
         }
         return "";
     })

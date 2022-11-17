@@ -11,5 +11,11 @@ command:
   dev:
     - "D:npm run watch </dev/zero" # npm won't  work without input on stdin:q
 
+  init-workspaces:
+    - "mkdir -p workspaces"
+    - "git -C ./workspaces/ clone  git@github.com:kasimirjs/kasi-embed.git"
+    - "git -C ./workspaces/ clone  git@github.com:kasimirjs/kasi-elements.git"
+    - "npm install"
+
   killall:
     - killall jekyll
