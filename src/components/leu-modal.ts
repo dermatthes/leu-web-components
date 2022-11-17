@@ -6,7 +6,7 @@ const defaultModalTemplate = `
 <div class="modal-backdrop fade"></div>
 <div class="modal fade d-block" tabindex="-1" data-leu-dismiss="modal" >
 
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable %%classes%%" role="dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">%%title%%</h5>
@@ -53,7 +53,7 @@ class LeuModal extends HTMLElement {
 
         content = content.replace("%%title%%", title)
             .replace("%%body%%", this.innerHTML)
-            .replace("%%classes%%", classes);
+            .replace("%%classes%%", classes ?? "");
         this.showElement.innerHTML = content;
         await ka_sleep(10);
         this.showElement.querySelectorAll(".fade").forEach((e)=>e.classList.add("show"));
