@@ -12,6 +12,7 @@ import "./components/leu-modal";
 import {LeuSwitcher} from "./components/leu-switcher";
 import {findParent} from "./helper/functions";
 import {modal} from "./helper/modal";
+import {leuTemplateVariables} from "./components/leu-var";
 
 
 export const Leu = {
@@ -23,7 +24,8 @@ export const Leu = {
     findParent: findParent,
     modal: modal,
     Switcher: LeuSwitcher,
-    SmoothScroll: SmoothScroll
+    SmoothScroll: SmoothScroll,
+    templateVariables: leuTemplateVariables
 }
 
 declare global {
