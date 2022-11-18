@@ -160,10 +160,12 @@ export class LeuContent extends HTMLElement {
                         elem = this.#attachElement;
                     } else if (cmdLine.startsWith("§")) {
                         elem = this.#refs[cmdLine.substring(1)];
-                        if ( ! isset(elem)) {
+                        if (!isset(elem)) {
                             console.error(`Cannot select reference: '§${cmdLine.substring(1)}': Not defined in` + line, comment);
                             break;
                         }
+                    } else if (cmdLine.trim() === "*") {
+                        elem = this.#curContainer
                     } else {
                         elem = this.#lastElement.querySelector(cmdLine);
                         if (elem === null) {
