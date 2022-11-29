@@ -18,6 +18,7 @@
       "dom"
     ]
   },
+  "include": ["src/**/*"],
   "exclude": [
     "./test",
     "./dist"
