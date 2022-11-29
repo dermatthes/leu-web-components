@@ -1,7 +1,8 @@
-import {customElement, ka_create_element, ka_dom_ready, ka_sleep, KaHtmlElement} from "@kasimirjs/embed";
+import {customElement, ka_create_element, ka_dom_ready, ka_eval, ka_sleep, KaHtmlElement} from "@kasimirjs/embed";
 import {createElement, parseAttributeStr, parseVariableAndStyleStr, parseVariableStr} from "../content/createElement";
 import {isset} from "../helper/functions";
 import {leuTemplateVariables} from "./leu-var";
+import * as events from "events";
 
 let defaultAttrMap = {};
 
@@ -50,13 +51,14 @@ export class LeuContent extends HTMLElement {
         return {start, leaf};
     }
 
-    private parseComment(comment: Comment) {
+    private async parseComment(comment: Comment) {
         this.#attachElement.append(comment.cloneNode(true));
         let lines = comment.textContent.split("\n");
         for(let line of lines) {
             line = line.trim();
             if (line === "")
                 continue;
+            await ka_sleep(1);
 
             let cmdLine = line.substring(1).trim();
             switch (line.substring(0,1)) {
@@ -72,13 +74,13 @@ export class LeuContent extends HTMLElement {
                     let tplName = cmdLine.trim().split(" ", 1).join();
                     let varAndStyle = parseVariableAndStyleStr(cmdLine);
 
-                    varAndStyle["$"] = {...leuTemplateVariables, ...varAndStyle["$"]};
 
                     let tpl :HTMLTemplateElement = document.querySelector(`template[id='${tplName}']`);
                     if (tpl === null) {
                         console.error("<template id='", tplName, "'> not found. Selected in ", comment);
                         break;
                     }
+
 
                     let elemCtl : any = document.createElement("div");
                     if (Object.keys(varAndStyle["@"]).length === 0) {
@@ -90,9 +92,11 @@ export class LeuContent extends HTMLElement {
                     }
 
 
-                    let content = tpl.content.firstElementChild.outerHTML.replace(/\$\{(.*?)(\?(.*?))?\}/gi, (a, varName, e, varDefault) => {
+                    let content = tpl.innerHTML.replace(/\$\{(.*?)(\?(.*?))?\}/gi, (a, varName, e, varDefault) => {
                         if (typeof varAndStyle["$"][varName] !== "undefined")
                             return varAndStyle["$"][varName];
+                        if (typeof leuTemplateVariables[varName] !== "undefined" )
+                            return leuTemplateVariables[varName]
                         return varDefault;
                     });
 
@@ -149,16 +153,19 @@ export class LeuContent extends HTMLElement {
                         isMoveContainer = true;
                         cmdLine = cmdLine.replace("***", "");
                     }
+                    cmdLine = cmdLine.trim();
                     if (cmdLine.startsWith("/")) {
                         elem = this.#container;
                     } else if (cmdLine.trim() === "§§") {
                         elem = this.#attachElement;
                     } else if (cmdLine.startsWith("§")) {
                         elem = this.#refs[cmdLine.substring(1)];
-                        if ( ! isset(elem)) {
-                            console.error("Cannot select reference: '" + line + "': Not found in block", comment);
+                        if (!isset(elem)) {
+                            console.error(`Cannot select reference: '§${cmdLine.substring(1)}': Not defined in` + line, comment);
                             break;
                         }
+                    } else if (cmdLine.trim() === "*") {
+                        elem = this.#curContainer
                     } else {
                         elem = this.#lastElement.querySelector(cmdLine);
                         if (elem === null) {
@@ -224,7 +231,7 @@ export class LeuContent extends HTMLElement {
 
         for (let elem of Array.from(this.childNodes)) {
             if (elem instanceof Comment) {
-                this.parseComment(elem);
+                await this.parseComment(elem);
                 continue;
             }
             let clone : any = elem.cloneNode(true)
