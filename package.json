@@ -1,11 +1,13 @@
 {
   "name": "@leu/leu-web-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
-
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "type": "module",
   "directories": {
     "doc": "docs",
