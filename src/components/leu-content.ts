@@ -18,11 +18,15 @@ export class LeuContent extends HTMLElement {
     #refs : Map<string, HTMLElement> = new Map;
     #curAttrMap: Object = {...defaultAttrMap};
 
-    private createElementTree (def : string) : {start: HTMLElement, leaf: HTMLElement} {
+    private async createElementTree (def : string) : Promise<{start: HTMLElement, leaf: HTMLElement}> {
 
         let start : HTMLElement = null;
         let leaf : HTMLElement = null;
-        for(let cur of def.split(">")) {
+
+        let splitted = def.split(">");
+        while(splitted.length > 0) {
+            let cur = splitted.shift();
+
             let refName = null;
             cur = cur.replace(/§([a-z0-9_\-]+)/, (a, name) => {
                 refName = name;
@@ -32,9 +36,13 @@ export class LeuContent extends HTMLElement {
 
             if (cur.trim().startsWith("|")) {
                 // TextNode
-                let el = document.createElement("<div>");
+                let el = document.createElement("div");
+                if (splitted.length > 0)
+                    cur += ">" + splitted.join(">");
+
                 el.innerHTML = cur.trim().substring(1);
-                el.childNodes.forEach((e) => leaf.appendChild(e));
+                el.childNodes.forEach((e) => leaf.append(e.cloneNode(true)));
+                el.remove();
                 break;
             }
 
@@ -65,7 +73,7 @@ export class LeuContent extends HTMLElement {
             let cmdLine = line.substring(1).trim();
             switch (line.substring(0,1)) {
                 case "/":
-                    let elem1 = this.createElementTree(cmdLine);
+                    let elem1 = await this.createElementTree(cmdLine);
                     this.#curContainer.appendChild(elem1.start);
                     this.#lastElement = elem1.start;
                     this.#selectedElement = this.#attachElement = elem1.leaf;
@@ -136,7 +144,7 @@ export class LeuContent extends HTMLElement {
                     break;
 
                 case ">":
-                    let elem2 = this.createElementTree(cmdLine);
+                    let elem2 = await this.createElementTree(cmdLine);
                     this.#selectedElement.appendChild(elem2.start);
                     this.#attachElement = elem2.leaf;
                     break;
