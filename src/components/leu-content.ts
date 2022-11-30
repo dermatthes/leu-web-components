@@ -29,10 +29,12 @@ export class LeuContent extends HTMLElement {
                 return "";
             });
 
+
             if (cur.trim().startsWith("|")) {
                 // TextNode
-                let tn = document.createTextNode(cur.trim().substring(1));
-                leaf.appendChild(tn)
+                let el = document.createElement("<div>");
+                el.innerHTML = cur.trim().substring(1);
+                el.childNodes.forEach((e) => leaf.appendChild(e));
                 break;
             }
 

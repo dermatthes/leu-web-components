@@ -28,6 +28,8 @@ export const Leu = {
     templateVariables: leuTemplateVariables
 }
 
+
+
 declare global {
     var Leu : any;
 }
