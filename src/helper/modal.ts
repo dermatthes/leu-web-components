@@ -49,7 +49,7 @@ export async function modal(contentSelector : string, templateSelector : string 
     history.pushState({modal: true}, "Modal open", "");
     let listener = () => {
         console.log("popstate");
-        modal.resolve();
+        modal.resolve(null);
     }
 
     window.addEventListener("popstate", listener);

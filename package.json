@@ -1,6 +1,6 @@
 {
   "name": "@leu/leu-web-components",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
   ],
   "author": "",
   "dependencies": {
-    "@kasimirjs/embed": "^1.0.5"
+    "@kasimirjs/embed": ">=1.0.8"
 
   },
   "devDependencies": {
