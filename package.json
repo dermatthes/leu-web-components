@@ -1,10 +1,10 @@
 {
   "name": "@leu/leu-web-components",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/index.mjs",
+  "module": "dist/index.module.js",
   "exports": {
     ".": "./dist/index.js"
   },
@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "watch": "esbuild src/index.ts --bundle --serve=0.0.0.0:4000 --outdir=docs/js --servedir=docs",
-    "make.mjs": "tsc -d && mv dist/index.js dist/index.mjs",
+    "make.mjs": "tsc -d && mv dist/index.js dist/index.module.js",
     "make.cjs": "tsc -m commonjs",
     "build": "npm run make.mjs && npm run make.cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,7 +27,7 @@
   ],
   "author": "",
   "dependencies": {
-    "@kasimirjs/embed": ">=1.0.9"
+    "@kasimirjs/embed": ">=1.0.10"
 
   },
   "devDependencies": {
