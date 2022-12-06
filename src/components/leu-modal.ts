@@ -25,7 +25,7 @@ const defaultModalTemplate = `
 
 
 @customElement("leu-modal")
-class LeuModal extends HTMLElement {
+export class LeuModal extends HTMLElement {
 
     public showElement : HTMLDivElement;
     public origOverflow = "";

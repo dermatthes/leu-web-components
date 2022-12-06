@@ -1,11 +1,21 @@
-import {customElement, ka_create_element, ka_dom_ready, ka_eval, ka_sleep, KaHtmlElement} from "@kasimirjs/embed";
+import {
+    customElement,
+    ka_create_element,
+    ka_dom_ready,
+    ka_eval,
+    ka_sleep,
+    KaHtmlElement,
+    KaModal
+} from "@kasimirjs/embed";
 import {createElement, parseAttributeStr, parseVariableAndStyleStr, parseVariableStr} from "../content/createElement";
 import {isset} from "../helper/functions";
 import {leuTemplateVariables} from "./leu-var";
 import * as events from "events";
+import {LeuModal} from "./leu-modal";
 
 let defaultAttrMap = {};
 
+let elementIndex = 0;
 
 @customElement("leu-content")
 export class LeuContent extends HTMLElement {
@@ -18,10 +28,14 @@ export class LeuContent extends HTMLElement {
     #refs : Map<string, HTMLElement> = new Map;
     #curAttrMap: Object = {...defaultAttrMap};
 
+
+
     private async createElementTree (def : string) : Promise<{start: HTMLElement, leaf: HTMLElement}> {
 
         let start : HTMLElement = null;
         let leaf : HTMLElement = null;
+
+
 
         let splitted = def.split(">");
         while(splitted.length > 0) {
@@ -234,10 +248,28 @@ export class LeuContent extends HTMLElement {
             // Wait for defaults
             await ka_sleep(1);
         }
+
+
         this.#curAttrMap = {...defaultAttrMap}; // Reset Attribute map to default as clone
         this.#container = this.#curContainer = this.#lastElement = this.#attachElement = this.#selectedElement = ka_create_element("div", {class: this.getAttribute("class") + " loading"}, []);
 
         this.parentElement.insertBefore(this.#container, this.nextElementSibling);
+
+        if (this.hasAttribute("showcase")) {
+            console.warn("[Leu-content] showcase mode!");
+            let innerHtml = this.innerHTML;
+            let modal = new LeuModal();
+            modal.id = "_debug_" + elementIndex++;
+            modal.setAttribute("data-leu-title", "Inspect Element");
+            modal.setAttribute("data-leu-class", "modal-fullscreen");
+
+            modal.innerHTML = "<textarea wrap='no' style='width:100%;height:100%;font-family: monospace;font-size: 10px' readonly>" + innerHtml + "</textarea>";
+            document.body.append(modal);
+            this.#container.addEventListener("click", (e : Event) => {
+                e.stopPropagation();
+                modal.show();
+            })
+        }
 
         for (let elem of Array.from(this.childNodes)) {
             if (elem instanceof Comment) {
