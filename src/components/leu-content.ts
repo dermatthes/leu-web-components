@@ -8,7 +8,7 @@ import {
     KaModal
 } from "@kasimirjs/embed";
 import {createElement, parseAttributeStr, parseVariableAndStyleStr, parseVariableStr} from "../content/createElement";
-import {isset} from "../helper/functions";
+import {isset, parseMarkdown, removeTrailingWhitespace} from "../helper/functions";
 import {leuTemplateVariables} from "./leu-var";
 import * as events from "events";
 import {LeuModal} from "./leu-modal";
@@ -255,6 +255,10 @@ export class LeuContent extends HTMLElement {
 
         this.parentElement.insertBefore(this.#container, this.nextElementSibling);
 
+        if (this.hasAttribute("markdown")) {
+            this.innerHTML = removeTrailingWhitespace(this.innerHTML);
+        }
+
         if (this.hasAttribute("showcase")) {
             console.warn("[Leu-content] showcase mode!");
             let innerHtml = this.innerHTML;
@@ -271,6 +275,10 @@ export class LeuContent extends HTMLElement {
             })
         }
 
+        if (this.hasAttribute("markdown")) {
+            this.innerHTML = parseMarkdown(this.innerHTML);
+        }
+
         for (let elem of Array.from(this.childNodes)) {
             if (elem instanceof Comment) {
                 await this.parseComment(elem);
@@ -284,7 +292,7 @@ export class LeuContent extends HTMLElement {
 
         if (this.hasAttribute("default")) {
             // Register defaults
-            defaultAttrMap = this.#curAttrMap;
+            defaultAttrMap = {...this.#curAttrMap};
             console.debug("Register default attribute map: ", defaultAttrMap, "from", this);
         }
 
