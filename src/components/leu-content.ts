@@ -97,7 +97,13 @@ export class LeuContent extends HTMLElement {
                     break;
 
                 case "!":
+                    let refName = null;
+                    cmdLine = cmdLine.replace(/§([a-z0-9_\-]+)/, (a, name) => {
+                        refName = name;
+                        return "";
+                    });
                     let tplName = cmdLine.trim().split(" ", 1).join();
+
                     let varAndStyle = parseVariableAndStyleStr(cmdLine);
 
 
@@ -150,6 +156,9 @@ export class LeuContent extends HTMLElement {
                         if (attachPoint.getAttribute("attach") === "") {
                             this.#attachElement = attachPoint;
                             this.#selectedElement = attachPoint;
+                            if (refName !== null) {
+                                this.#refs[refName] = attachPoint;
+                            }
                         } else {
                             this.#refs[attachPoint.getAttribute("attach")] = attachPoint;
                         }
