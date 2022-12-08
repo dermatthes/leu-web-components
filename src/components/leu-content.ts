@@ -77,7 +77,9 @@ export class LeuContent extends HTMLElement {
 
     private async parseComment(comment: Comment) {
         this.#attachElement.append(comment.cloneNode(true));
-        let lines = comment.textContent.split("\n");
+        let textContent = removeTrailingWhitespace(comment.textContent)
+        let lines = textContent.split("\n");
+
         for(let line of lines) {
             line = line.trim();
             if (line === "")

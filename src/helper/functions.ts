@@ -22,10 +22,11 @@ export function removeTrailingWhitespace (input: string) {
 export function parseMarkdown(input : string) {
     let comments = [];
     // Replace all Comments
-    input = input.replaceAll(/<!--(.*?)-->/g, (p1, p2) => {
+    input = input.replaceAll(/<!--(.*?)-->/gs, (p1, p2) => {
         comments.push(p2);
-           return `${comments.length - 1}`
+        return `<!--${comments.length - 1}-->`
     });
+
 
     input = input.replaceAll(/\n(#+) (.*)/g, (p1, p2, p3) => `\n<h${p2.length}>${p3}</h${p2.length}>`);
     input = input.replaceAll(/\n\n([a-zA-Z].+?)(?=\n\n)/gs, (p1) => `\n\n<p>${p1}</p>`);
