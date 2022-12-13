@@ -30,7 +30,7 @@ export class LeuContent extends HTMLElement {
 
 
 
-    private async createElementTree (def : string) : Promise<{start: HTMLElement, leaf: HTMLElement}> {
+    private createElementTree (def : string) : {start: HTMLElement, leaf: HTMLElement} {
 
         let start : HTMLElement = null;
         let leaf : HTMLElement = null;
@@ -84,12 +84,12 @@ export class LeuContent extends HTMLElement {
             line = line.trim();
             if (line === "")
                 continue;
-            await ka_sleep(1);
+             // <-- Performance Problem wenn größer 0
 
             let cmdLine = line.substring(1).trim();
             switch (line.substring(0,1)) {
                 case "/":
-                    let elem1 = await this.createElementTree(cmdLine);
+                    let elem1 = this.createElementTree(cmdLine);
                     this.#curContainer.appendChild(elem1.start);
                     this.#lastElement = elem1.start;
                     this.#selectedElement = this.#attachElement = elem1.leaf;
@@ -181,10 +181,11 @@ export class LeuContent extends HTMLElement {
                     if (attachPoints.length === 0) {
                         //console.warn("Template has no attach point", tpl, elemCtl)
                     }
+                    await ka_sleep(1);
                     break;
 
                 case ">":
-                    let elem2 = await this.createElementTree(cmdLine);
+                    let elem2 =  this.createElementTree(cmdLine);
                     this.#selectedElement.appendChild(elem2.start);
                     this.#attachElement = elem2.leaf;
                     break;
@@ -323,7 +324,7 @@ export class LeuContent extends HTMLElement {
         }
 
 
-        await ka_sleep(10);
+        await ka_sleep(2);
         this.#container.classList.remove("loading");
         this.classList.remove("loading");
 
