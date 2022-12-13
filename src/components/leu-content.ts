@@ -137,8 +137,6 @@ export class LeuContent extends HTMLElement {
 
                     elemCtl.innerHTML = content;
 
-                    this.#attachElement.append(elemCtl);
-
                     // Execute <script> tags
                     for(let elem of elemCtl.querySelectorAll("script")) {
                         let attrs = {};
@@ -151,11 +149,14 @@ export class LeuContent extends HTMLElement {
                         //this.#attachElement.append(e);
                     }
 
+                    let newAttachElement = null;
+                    let newSelectedElement = null;
+
                     let attachPoints = elemCtl.querySelectorAll("[attach]");
                     for (let attachPoint of attachPoints) {
                         if (attachPoint.getAttribute("attach") === "") {
-                            this.#attachElement = attachPoint;
-                            this.#selectedElement = attachPoint;
+                            newAttachElement = attachPoint;
+                            newSelectedElement = attachPoint;
                             if (refName !== null) {
                                 this.#refs[refName] = attachPoint;
                             }
@@ -163,8 +164,22 @@ export class LeuContent extends HTMLElement {
                             this.#refs[attachPoint.getAttribute("attach")] = attachPoint;
                         }
                     }
+
+                    if (elemCtl.style.display === "contents") {
+                        while (elemCtl.children.length > 0) {
+                            this.#attachElement.append(elemCtl.children[0])
+                        }
+                    } else {
+                        this.#attachElement.append(elemCtl);
+                    }
+
+                    if (newSelectedElement !== null)
+                        this.#selectedElement = newSelectedElement
+                    if (newAttachElement !== null)
+                        this.#attachElement = newAttachElement
+
                     if (attachPoints.length === 0) {
-                        console.warn("Template has no attach point", tpl, elemCtl)
+                        //console.warn("Template has no attach point", tpl, elemCtl)
                     }
                     break;
 
