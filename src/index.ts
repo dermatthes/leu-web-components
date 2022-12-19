@@ -34,8 +34,5 @@ declare global {
     var Leu : any;
 }
 
-if (typeof globalThis.Leu !== "undefined") {
-    console.error("globalThis.Leu is already defined. Possibly double loaded library?")
-}
-
 globalThis.Leu = Leu as any;
+
