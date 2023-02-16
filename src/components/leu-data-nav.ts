@@ -3,8 +3,12 @@ import {customElement} from "@kasimirjs/embed";
 import {ka_dom_ready} from "@kasimirjs/embed";
 import {ka_sleep} from "@kasimirjs/embed";
 
+
+
 @customElement("leu-data-nav")
 export class LeuDataNav extends KaHtmlElement {
+
+
 
 
     async connected() {
