@@ -25,7 +25,7 @@
   ],
   "author": "",
   "dependencies": {
-    "@kasimirjs/embed": ">=1.0.12",
+    "@kasimirjs/embed": ">=1.0.13",
     "@ungap/custom-elements": "1.1.1"
 
   },
