@@ -1,4 +1,6 @@
 
+
+
 import {SmoothScroll} from "./helper/smoothscroll";
 import "./components/leu-data-nav";
 import "./components/leu-data";
@@ -10,7 +12,8 @@ import "./components/leu-use";
 import "./components/leu-var";
 import "./components/leu-modal";
 import "./components/leu-select";
-import "@ungap/custom-elements"; // Polyfill for Webcomponents
+
+
 
 import {LeuSwitcher} from "./components/leu-switcher";
 import {findParent} from "./helper/functions";
