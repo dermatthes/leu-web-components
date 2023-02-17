@@ -31,7 +31,7 @@ export class LeuContent extends HTMLElement {
     #macros : Map<string, string> = new Map;
 
 
-    private callMacro (name: string, varAndStyle : any) {
+    private callMacro (name: string, varAndStyle : any, curElement : HTMLElement | null = null) {
         let macro = this.#macros[name];
         if (! isset(macro)) {
             console.error(`Macro '${name}' not defined.`);
@@ -44,6 +44,16 @@ export class LeuContent extends HTMLElement {
                 return leuTemplateVariables[varName]
             return varDefault;
         });
+
+        if (curElement !== null) {
+            macro = macro.replace(/@@([a-z0-9\-_]+)@@/gim, (p1, name) => {
+                if (name === "") {
+                    return curElement.textContent.trim();
+                }
+                return curElement.getAttribute(name);
+            });
+        }
+
         this.parseComment(new Comment(macro));
     }
 
@@ -306,7 +316,7 @@ export class LeuContent extends HTMLElement {
                     // Call the macro
                     if (curAttrMap.macro !== null) {
                         console.log("call macro", curAttrMap.macro.name);
-                        this.callMacro(curAttrMap.macro.name, curAttrMap.macro.attrMap);
+                        this.callMacro(curAttrMap.macro.name, curAttrMap.macro.attrMap, curElement);
                     }
                 }
             } catch (e) {
