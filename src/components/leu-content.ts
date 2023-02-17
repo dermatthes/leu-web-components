@@ -31,7 +31,7 @@ export class LeuContent extends HTMLElement {
     #macros : Map<string, string> = new Map;
 
 
-    private callMacro (name: string, varAndStyle : any, curElement : HTMLElement | null = null) {
+    private async callMacro (name: string, varAndStyle : any, curElement : HTMLElement | null = null) {
         let macro = this.#macros[name];
         if (! isset(macro)) {
             console.error(`Macro '${name}' not defined.`);
@@ -54,7 +54,7 @@ export class LeuContent extends HTMLElement {
             });
         }
 
-        this.parseComment(new Comment(macro));
+        await this.parseComment(new Comment(macro));
     }
 
 
@@ -299,7 +299,7 @@ export class LeuContent extends HTMLElement {
      * @param el
      * @private
      */
-    private applyAttMap(el : HTMLElement) {
+    private async applyAttMap(el : HTMLElement) {
         let appEl = document.createElement("div");
         appEl.append(el);
         console.log("validate element", el);
@@ -316,7 +316,7 @@ export class LeuContent extends HTMLElement {
                     // Call the macro
                     if (curAttrMap.macro !== null) {
                         console.log("call macro", curAttrMap.macro.name);
-                        this.callMacro(curAttrMap.macro.name, curAttrMap.macro.attrMap, curElement);
+                        await this.callMacro(curAttrMap.macro.name, curAttrMap.macro.attrMap, curElement);
                     }
                 }
             } catch (e) {
@@ -372,7 +372,7 @@ export class LeuContent extends HTMLElement {
             }
             let clone : any = elem.cloneNode(true)
             elem.remove(); // Important: Remove to avoid SEO trouble
-            this.applyAttMap(clone);
+            await this.applyAttMap(clone);
             this.#attachElement.append(clone);
         }
 
