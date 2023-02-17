@@ -26,8 +26,26 @@ export class LeuContent extends HTMLElement {
     #curContainer: HTMLElement = null;
 
     #refs : Map<string, HTMLElement> = new Map;
-    #curAttrMap: Object = {...defaultAttrMap};
+    #curAttrMap: Object = null;
 
+    #macros : Map<string, string> = new Map;
+
+
+    private callMacro (name: string, varAndStyle : any) {
+        let macro = this.#macros[name];
+        if (! isset(macro)) {
+            console.error(`Macro '${name}' not defined.`);
+            throw `Macro '${name}' not defined.`
+        }
+        macro = macro.replace(/\$\{(.*?)(\?(.*?))?\}/gi, (a, varName, e, varDefault) => {
+            if (typeof varAndStyle["$"][varName] !== "undefined")
+                return varAndStyle["$"][varName];
+            if (typeof leuTemplateVariables[varName] !== "undefined" )
+                return leuTemplateVariables[varName]
+            return varDefault;
+        });
+        this.parseComment(new Comment(macro));
+    }
 
 
     private createElementTree (def : string) : {start: HTMLElement, leaf: HTMLElement} {
@@ -76,12 +94,23 @@ export class LeuContent extends HTMLElement {
     }
 
     private async parseComment(comment: Comment) {
+
         this.#attachElement.append(comment.cloneNode(true));
         let textContent = removeTrailingWhitespace(comment.textContent)
+
+        textContent = textContent.replaceAll(/def ([a-z0-9_\-]+)\s(.+?)\send;/gmis, (p1, p2, p3) => {
+            console.log ("match macro", p2, p3);
+            this.#macros[p2] = p3;
+            return "\n".repeat(p1.split("\n").length); // Keep lineNumbers
+        });
+
         let lines = textContent.split("\n");
 
-        for(let line of lines) {
-            line = line.trim();
+        if (this.#curAttrMap === null)
+            this.#curAttrMap = {...defaultAttrMap}; // Reset Attribute map to default as clone
+
+        for(let lineIdx = 0; lineIdx < lines.length; lineIdx++) {
+            let line = lines[lineIdx].trim();
             if (line === "")
                 continue;
              // <-- Performance Problem wenn größer 0
@@ -93,7 +122,7 @@ export class LeuContent extends HTMLElement {
                     this.#curContainer.appendChild(elem1.start);
                     this.#lastElement = elem1.start;
                     this.#selectedElement = this.#attachElement = elem1.leaf;
-                    this.#curAttrMap = {...defaultAttrMap}; // Reset Attribute map to default as clone
+
                     break;
 
                 case "!":
@@ -193,8 +222,20 @@ export class LeuContent extends HTMLElement {
                 case "~":
 
                     let [selector, ...attrMap] = cmdLine.split("=>");
-                    let attrs = parseAttributeStr(attrMap.join(":"));
-                    this.#curAttrMap[selector] = {attrs, line};
+                    let attrStr = attrMap.join(":");
+                    let macro = null;
+
+                    // Search for macro (macroName $parm1=xyz)
+                    attrStr = attrStr.replace(/\(([a-z0-9_\-]+)(.*?)\)/igm, (p1, name, code) => {
+                        let attrMap = parseVariableStr(code, "$");
+                        macro = {
+                            name: name, attrMap: attrMap
+                        }
+                        return "";
+                    });
+
+                    let attrs = parseAttributeStr(attrStr);
+                    this.#curAttrMap[selector] = {attrs, line, macro};
                     break;
 
                 case "?":
@@ -251,13 +292,21 @@ export class LeuContent extends HTMLElement {
     private applyAttMap(el : HTMLElement) {
         let appEl = document.createElement("div");
         appEl.append(el);
+        console.log("validate element", el);
         for (let attrMapSelector in this.#curAttrMap) {
-
+            console.log("check", attrMapSelector);
             try {
                 let result = appEl.querySelectorAll(attrMapSelector)
                 for (let curElement of Array.from(result)) {
-                    for(let attName in this.#curAttrMap[attrMapSelector].attrs) {
-                        curElement.setAttribute(attName, this.#curAttrMap[attrMapSelector].attrs[attName]);
+                    let curAttrMap = this.#curAttrMap[attrMapSelector]
+                    for(let attName in curAttrMap.attrs) {
+                        curElement.setAttribute(attName, curAttrMap.attrs[attName]);
+                    }
+
+                    // Call the macro
+                    if (curAttrMap.macro !== null) {
+                        console.log("call macro", curAttrMap.macro.name);
+                        this.callMacro(curAttrMap.macro.name, curAttrMap.macro.attrMap);
                     }
                 }
             } catch (e) {

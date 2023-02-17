@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/index.js" type="module"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<leu-content default>
+    <!--
+    ~ h1 => @style=border: 1px solid b
+    -->
+</leu-content>
+
+<leu-content>
+    <!--
+    def macro1
+    / @card > @card-body @attach=
+    end;
+
+    / @container > @row
+    > @col-lg-8
+    ~ h2 => (macro1)
+    -->
+
+    <h2>Header1.1</h2>
+
+    <p>Some para</p>
+
+    <h2>Header1.2</h2>
+
+    <p>Some other para</p>
+
+    <!--
+    > @col-lg-4
+    -->
+
+    ## Sprechstunden
+
+
+    <!--
+    > @col-lg-4 >| <b>Some Element</b> Oder so
+    -->
+
+
+</leu-content>
+</body>
+</html>
