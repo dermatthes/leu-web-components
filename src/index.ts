@@ -19,6 +19,7 @@ import {LeuSwitcher} from "./components/leu-switcher";
 import {findParent} from "./helper/functions";
 import {modal} from "./helper/modal";
 import {leuTemplateVariables} from "./components/leu-var";
+import {LazyLoader} from "./helper/lazy-loader";
 
 
 export const Leu = {
@@ -36,9 +37,12 @@ export const Leu = {
 
 
 
+
+
 declare global {
     var Leu : any;
 }
 
 globalThis.Leu = Leu as any;
 
+const ll = new LazyLoader();
