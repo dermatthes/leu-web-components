@@ -12,6 +12,7 @@ import {isset, parseMarkdown, removeTrailingWhitespace} from "../helper/function
 import {leuTemplateVariables} from "./leu-var";
 import * as events from "events";
 import {LeuModal} from "./leu-modal";
+import {LazyLoader} from "../helper/lazy-loader";
 
 let defaultAttrMap = {};
 
@@ -109,7 +110,7 @@ export class LeuContent extends HTMLElement {
         let textContent = removeTrailingWhitespace(comment.textContent)
 
         textContent = textContent.replaceAll(/def ([a-z0-9_\-]+)\s(.+?)\send;/gmis, (p1, p2, p3) => {
-            console.log ("match macro", p2, p3);
+            //console.log ("match macro", p2, p3);
             this.#macros[p2] = p3;
             return "\n".repeat(p1.split("\n").length); // Keep lineNumbers
         });
@@ -302,7 +303,7 @@ export class LeuContent extends HTMLElement {
     private async applyAttMap(el : HTMLElement) {
         let appEl = document.createElement("div");
         appEl.append(el);
-        console.log("validate element", el);
+        //console.log("validate element", el);
         for (let attrMapSelector in this.#curAttrMap) {
             console.log("check", attrMapSelector);
             try {
@@ -335,6 +336,8 @@ export class LeuContent extends HTMLElement {
             await ka_sleep(1);
         }
 
+        let lazyLoader = new LazyLoader();
+        await lazyLoader.convert(this);
 
         this.#curAttrMap = {...defaultAttrMap}; // Reset Attribute map to default as clone
         this.#container = this.#curContainer = this.#lastElement = this.#attachElement = this.#selectedElement = ka_create_element("div", {class: this.getAttribute("class") + " loading"}, []);
@@ -384,6 +387,7 @@ export class LeuContent extends HTMLElement {
 
 
         await ka_sleep(2);
+        await lazyLoader.convert(this.#container);
         this.#container.classList.remove("loading");
         this.classList.remove("loading");
 
