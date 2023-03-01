@@ -302,9 +302,9 @@ export class LeuContent extends HTMLElement {
     private async applyAttMap(el : HTMLElement) {
         let appEl = document.createElement("div");
         appEl.append(el);
-        console.log("validate element", el);
+        //console.log("validate element", el);
         for (let attrMapSelector in this.#curAttrMap) {
-            console.log("check", attrMapSelector);
+            //console.log("check", attrMapSelector);
             try {
                 let result = appEl.querySelectorAll(attrMapSelector)
                 for (let curElement of Array.from(result)) {

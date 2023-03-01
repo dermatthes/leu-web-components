@@ -46,11 +46,13 @@ export class LazyLoader {
         }
 
         const observer = new MutationObserver((mutationList, observer) => {
-
+            console.log("update", mutationList);
             for (let mutation of mutationList) {
                 if (mutation.addedNodes.length === null)
                     continue;
                 for(let addedNode of mutation.addedNodes) {
+                    if(addedNode.nodeName === "IMG")
+                        console.log("IMG", addedNode);
                     if (addedNode instanceof HTMLImageElement) {
                         addedNode.loading = "lazy";
                         let data = cdnParse(addedNode.src);
@@ -64,8 +66,6 @@ export class LazyLoader {
                     }
                 }
             }
-
-            console.log("detected:", mutationList);
         })
 
         observer.observe(targetNode, config);
