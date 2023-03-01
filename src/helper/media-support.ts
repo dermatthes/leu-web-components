@@ -1,6 +1,6 @@
 
 const bestFormats = [
-    "svg", "avif", "webp", "jpg", "png", "gif"
+    "svg", "avif", "webp", "jpg", "jpeg", "png", "gif"
 ]
 class MediaSupport {
 
@@ -9,6 +9,7 @@ class MediaSupport {
     public avif : boolean = null
     public webp : boolean = null
     public jpg : boolean = true
+    public jpeg : boolean = true
     public gif : boolean = true
 
 

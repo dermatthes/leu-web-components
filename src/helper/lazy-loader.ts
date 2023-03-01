@@ -93,6 +93,8 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
             }
             element.width = bestFit.width;
             element.height = bestFit.height;
+            if ( ! element.hasAttribute("alt"))
+                element.setAttribute("alt", data.alt);
         } else {
             element.style.backgroundImage = "url(" + src + ")";
         }
@@ -133,8 +135,12 @@ export class LazyLoader {
                     return;
                 }
 
-
-                let url = new URL(src);
+                let url : Url = null;
+                try {
+                    url = new URL(src);
+                } catch (e) {
+                    return;
+                }
                 for (let curMapper of this.mappers) {
                     if (!curMapper.isSuitable(url)) {
                         continue;
