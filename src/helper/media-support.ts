@@ -18,6 +18,7 @@ class MediaSupport {
     async detect() {
         this.webp = await testWebP() as any;
         this.avif = await testAvif() as any;
+        console.log("Media supports", this);
         this.valid = true;
     }
 
@@ -31,7 +32,7 @@ class MediaSupport {
 
     getBestExtension (extensions : string[]) : string {
         for(let curExt of bestFormats) {
-            if (typeof extensions.find(e => e === curExt) !== "undefined")
+            if (typeof extensions.find(e => e === curExt) !== "undefined" && this.isSupported(curExt))
                 return curExt;
         }
         return null;

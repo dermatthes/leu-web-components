@@ -109,7 +109,7 @@ export class LeuContent extends HTMLElement {
         this.#attachElement.append(comment.cloneNode(true));
         let textContent = removeTrailingWhitespace(comment.textContent)
 
-        textContent = textContent.replaceAll(/def ([a-z0-9_\-]+)\s(.+?)\send;/gmis, (p1, p2, p3) => {
+        textContent = textContent.replace(/def ([a-z0-9_\-]+)\s(.+?)\send;/gmis, (p1, p2, p3) => {
             //console.log ("match macro", p2, p3);
             this.#macros[p2] = p3;
             return "\n".repeat(p1.split("\n").length); // Keep lineNumbers

@@ -55,7 +55,7 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
             console.log("detect name", name, formats);
             ret.formats = formats.split(",");
             ret.filename = name;
-            ret.alt = name.replaceAll("_", " ");
+            ret.alt = name.replace("_", " ");
             return "@file@";
         })
 
