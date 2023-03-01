@@ -3,6 +3,10 @@ import {customElement, ka_dom_ready, ka_sleep} from "@kasimirjs/embed";
 import {Leu} from "../index";
 
 
+
+
+
+
 @customElement("leu-switcher")
 export class LeuSwitcher extends HTMLElement {
     private _oldHash = null;
