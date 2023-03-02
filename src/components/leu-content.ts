@@ -107,7 +107,11 @@ export class LeuContent extends HTMLElement {
     private async parseComment(comment: Comment) {
 
         this.#attachElement.append(comment.cloneNode(true));
-        let textContent = removeTrailingWhitespace(comment.textContent)
+
+        let textContent = comment.textContent;
+        // Sanitize Breaks from Links e.g.
+        textContent = textContent.replace(/\n\s+@/gmi, " @");
+        textContent = removeTrailingWhitespace(textContent);
 
         textContent = textContent.replace(/def ([a-z0-9_\-]+)\s(.+?)\send;/gmis, (p1, p2, p3) => {
             //console.log ("match macro", p2, p3);

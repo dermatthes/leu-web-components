@@ -91,8 +91,11 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
             if (element.getBoundingClientRect().y > window.innerHeight) {
                 element.setAttribute("loading", "lazy");
             }
-            element.width = bestFit.width;
-            element.height = bestFit.height;
+            if ( ! element.hasAttribute("width") && ! element.hasAttribute("height")) {
+                element.width = bestFit.width;
+                element.height = bestFit.height;
+            }
+
             if ( ! element.hasAttribute("alt"))
                 element.setAttribute("alt", data.alt);
         } else {
