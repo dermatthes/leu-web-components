@@ -97,7 +97,12 @@ export class LeuContent extends HTMLElement {
             if (start === null) {
                 start = leaf = el;
             } else {
-                leaf.appendChild(el);
+                if (leaf instanceof HTMLTemplateElement) {
+                    leaf.content.appendChild(el);
+                } else {
+                    leaf.appendChild(el);
+
+                }
                 leaf = el;
             }
         }
@@ -380,7 +385,12 @@ export class LeuContent extends HTMLElement {
             let clone : any = elem.cloneNode(true)
             elem.remove(); // Important: Remove to avoid SEO trouble
             await this.applyAttMap(clone);
-            this.#attachElement.append(clone);
+
+            if (this.#attachElement instanceof HTMLTemplateElement) {
+                this.#attachElement.content.append(clone);
+            } else {
+                this.#attachElement.append(clone);
+            }
         }
 
         if (this.hasAttribute("default")) {
