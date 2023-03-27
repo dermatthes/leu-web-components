@@ -47,7 +47,9 @@ export class LeuContent extends HTMLElement {
         });
 
         if (curElement !== null) {
-            macro = macro.replace(/@@([a-z0-9\-_]+)@@/gim, (p1, name) => {
+            console.log("repace", macro);
+            macro = macro.replace(/@@([a-z0-9\-_]*)@@/gim, (p1, name) => {
+                console.log("macro", curElement)
                 if (name === "") {
                     return curElement.textContent.trim();
                 }
@@ -325,8 +327,8 @@ export class LeuContent extends HTMLElement {
 
                     // Call the macro
                     if (curAttrMap.macro !== null) {
-                        console.log("call macro", curAttrMap.macro.name);
-                        await this.callMacro(curAttrMap.macro.name, curAttrMap.macro.attrMap, curElement);
+                        console.log("call macro", curAttrMap.macro.name, curElement);
+                        await this.callMacro(curAttrMap.macro.name, curAttrMap.macro.attrMap, curElement as HTMLElement);
                     }
                 }
             } catch (e) {
