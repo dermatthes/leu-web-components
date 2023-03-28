@@ -72,7 +72,7 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
     }
 
 
-    async setElement(element: HTMLElement, url: Url) {
+    async setElement(element: HTMLElement, url: URL) {
         let data = this.getData(url.toString());
 
         let bestFit = this.getBestFit(data);
