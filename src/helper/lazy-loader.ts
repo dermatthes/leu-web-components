@@ -1,4 +1,4 @@
-import {Url} from "url";
+
 import {getMediaSupport} from "./media-support";
 
 type LazyLoaderImageVariant = {
@@ -15,14 +15,14 @@ type LazyLoaderData = {
 }
 
 export interface LazyLoaderMapper {
-    isSuitable(url: Url): boolean;
+    isSuitable(url: URL): boolean;
 
-    setElement(element: HTMLElement, url: Url);
+    setElement(element: HTMLElement, url: URL);
 }
 
 
 export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
-    isSuitable(url: Url): boolean {
+    isSuitable(url: URL): boolean {
         return url.toString().startsWith("cdn");
     }
 
@@ -138,7 +138,7 @@ export class LazyLoader {
                     return;
                 }
 
-                let url : Url = null;
+                let url : URL = null;
                 try {
                     url = new URL(src);
                 } catch (e) {
