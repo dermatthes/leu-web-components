@@ -138,6 +138,12 @@ export class LeuContent extends HTMLElement {
              // <-- Performance Problem wenn größer 0
 
             let cmdLine = line.substring(1).trim();
+
+            if (line.trim() === "debug") {
+                console.log("[leu-content] debug on: \nAttr-Map:\n", this.#curAttrMap)
+                continue;
+            }
+
             switch (line.substring(0,1)) {
                 case "/":
                     let elem1 = this.createElementTree(cmdLine);
@@ -242,6 +248,10 @@ export class LeuContent extends HTMLElement {
                     break;
 
                 case "~":
+                    if (cmdLine.trim() === "reset") {
+                        this.#curAttrMap = {...defaultAttrMap};
+                        break;
+                    }
 
                     let [selector, ...attrMap] = cmdLine.split("=>");
                     let attrStr = attrMap.join(":");
