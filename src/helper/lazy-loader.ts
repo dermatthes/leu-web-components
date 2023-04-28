@@ -30,7 +30,7 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
     protected getData(src: string) {
         let ret = {formats: [], variants: []} as LazyLoaderData;
 
-        src = src.replace(/\/(([0-9]+x[0-9]+|,)+)\//ig, (p0, sizes: string) => {
+        src = src.replace(/\/(([0-9]+x[0-9]+|[,_])+)\//ig, (p0, sizes: string) => {
             sizes.split(",").forEach((size) => {
                 ret.variants.push(
                     {
@@ -51,9 +51,9 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
             return 0;
         });
 
-        src = src.replace(/([a-z0-9_\-]+)\.([a-z0-9\,]+)$/ig, (p0, name, formats) => {
+        src = src.replace(/([a-z0-9_\-]+)\.([a-z0-9\,_]+)$/ig, (p0, name, formats) => {
             console.log("detect name", name, formats);
-            ret.formats = formats.split(",");
+            ret.formats = formats.replace(/,/gm, "_").split("_");
             ret.filename = name;
             ret.alt = name.replace("_", " ");
             return "@file@";
