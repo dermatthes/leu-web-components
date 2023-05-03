@@ -13,6 +13,7 @@ import "./components/leu-var";
 import "./components/leu-modal";
 import "./components/leu-select";
 import "./components/leu-leave";
+import "./components/leu-vacation-modal";
 
 
 
