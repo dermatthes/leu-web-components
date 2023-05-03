@@ -73,7 +73,7 @@ export class LeuModal extends HTMLElement {
     }
 
     public checkHref(e) {
-        if (window.location.hash === "#" + this.getAttribute("id")) {
+        if (window.location.hash === "#" + this.getAttribute("id") || window.location.hash === "#modal:" + this.getAttribute("id")) {
             if (e)
                 this.oldUrl = e.oldURL;
             this.show();
