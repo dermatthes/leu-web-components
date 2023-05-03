@@ -52,7 +52,7 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
         });
 
         src = src.replace(/([a-z0-9_\-]+)\.([a-z0-9\,_]+)$/ig, (p0, name, formats) => {
-            console.log("detect name", name, formats);
+            //console.log("detect name", name, formats);
             ret.formats = formats.replace(/,/gm, "_").split("_");
             ret.filename = name;
             ret.alt = name.replace("_", " ");
@@ -85,7 +85,7 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
 
         src = src.replace("@size@", `${bestFit.width}x${bestFit.height}`);
         src = src.replace("@file@", `${data.filename}.${bestExtension}`);
-        element.setAttribute("src", src);
+
 
         if (element instanceof HTMLImageElement) {
             if (element.getBoundingClientRect().y > window.innerHeight) {
@@ -95,10 +95,11 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
                 element.width = bestFit.width;
                 element.height = bestFit.height;
             }
-
+            element.setAttribute("src", src);
             if ( ! element.hasAttribute("alt"))
                 element.setAttribute("alt", data.alt);
         } else {
+            console.log("Setting background image", src);
             element.style.backgroundImage = "url(" + src + ")";
         }
     }
@@ -128,9 +129,12 @@ export class LazyLoader {
         parentNode.querySelectorAll("img,[data-bg-img]").forEach(
             (e) => {
                 let src = "";
+                let type = null;
                 if (e.hasAttribute("data-bg-img")) {
+                    type = "bg";
                     src = e.getAttribute("data-bg-img");
                 } else if (e.hasAttribute("data-src")) {
+                    type = "src";
                     src = e.getAttribute("data-src");
                 } else if (e.hasAttribute("src")) {
                     src = e.getAttribute("src");
@@ -144,14 +148,20 @@ export class LazyLoader {
                 } catch (e) {
                     return;
                 }
+
                 for (let curMapper of this.mappers) {
                     if (!curMapper.isSuitable(url)) {
                         continue;
                     }
                     curMapper.setElement(e as HTMLElement, url);
                 }
-
+                if (type === "bg" && e instanceof HTMLElement) {
+                    e.style.backgroundImage = "url(" + src + ")";
+                } else if (type === "src") {
+                    e.setAttribute("src", src);
+                }
             }
+
         )
 
 

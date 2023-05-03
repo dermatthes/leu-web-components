@@ -47,7 +47,7 @@ export class LeuContent extends HTMLElement {
         });
 
         if (curElement !== null) {
-            console.log("repace", macro);
+            //console.log("repace", macro);
             macro = macro.replace(/@@([a-z0-9\-_]*)@@/gim, (p1, name) => {
                 console.log("macro", curElement)
                 if (name === "") {
@@ -337,7 +337,7 @@ export class LeuContent extends HTMLElement {
 
                     // Call the macro
                     if (curAttrMap.macro !== null) {
-                        console.log("call macro", curAttrMap.macro.name, curElement);
+                        //console.log("call macro", curAttrMap.macro.name, curElement);
                         await this.callMacro(curAttrMap.macro.name, curAttrMap.macro.attrMap, curElement as HTMLElement);
                     }
                 }
