@@ -88,7 +88,8 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
 
 
         if (element instanceof HTMLImageElement) {
-            if (element.getBoundingClientRect().y > window.innerHeight) {
+            if (element.getBoundingClientRect().top > window.innerHeight && ! element.classList.contains("priority")) {
+                console.log("Lazyload", element.getBoundingClientRect(), window.innerHeight)
                 element.setAttribute("loading", "lazy");
             }
             if ( ! element.hasAttribute("width") && ! element.hasAttribute("height")) {
