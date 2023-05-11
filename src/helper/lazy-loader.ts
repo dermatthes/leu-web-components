@@ -15,15 +15,15 @@ type LazyLoaderData = {
 }
 
 export interface LazyLoaderMapper {
-    isSuitable(url: URL): boolean;
+    isSuitable(url: string): boolean;
 
     setElement(element: HTMLElement, url: URL);
 }
 
 
 export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
-    isSuitable(url: URL): boolean {
-        return url.toString().startsWith("cdn");
+    isSuitable(url: string): boolean {
+        return url.startsWith("cdn") || url.startsWith("data:cdn://") || url.startsWith("cdn+https://");
     }
 
 
@@ -81,11 +81,12 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
         let bestExtension = mediaSupport.getBestExtension(data.formats);
 
         let src = data.src.replace("cdn+https://", "https://");
+        src = src.replace("data:cdn://", "cdn://");
         src = src.replace("cdn://", "https://cdn.leuffen.de");
 
         src = src.replace("@size@", `${bestFit.width}x${bestFit.height}`);
         src = src.replace("@file@", `${data.filename}.${bestExtension}`);
-
+        console.log("IMage URL", src);
 
         if (element instanceof HTMLImageElement) {
             if (element.getBoundingClientRect().y > window.innerHeight) {
@@ -142,18 +143,13 @@ export class LazyLoader {
                     return;
                 }
 
-                let url : URL = null;
-                try {
-                    url = new URL(src);
-                } catch (e) {
-                    return;
-                }
+
 
                 for (let curMapper of this.mappers) {
-                    if (!curMapper.isSuitable(url)) {
+                    if (!curMapper.isSuitable(src)) {
                         continue;
                     }
-                    curMapper.setElement(e as HTMLElement, url);
+                    curMapper.setElement(e as HTMLElement, src);
                 }
                 if (type === "bg" && e instanceof HTMLElement) {
                     e.style.backgroundImage = "url(" + src + ")";
