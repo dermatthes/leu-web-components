@@ -86,7 +86,6 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
 
         src = src.replace("@size@", `${bestFit.width}x${bestFit.height}`);
         src = src.replace("@file@", `${data.filename}.${bestExtension}`);
-        console.log("IMage URL", src);
 
         if (element instanceof HTMLImageElement) {
             if (element.getBoundingClientRect().top > window.innerHeight && ! element.classList.contains("priority")) {
