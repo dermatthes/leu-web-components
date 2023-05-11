@@ -23,7 +23,7 @@ export interface LazyLoaderMapper {
 
 export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
     isSuitable(url: string): boolean {
-        return url.startsWith("cdn") || url.startsWith("data:cdn://") || url.startsWith("cdn+https://");
+        return url.startsWith("cdn") || url.startsWith("data:cdn://") || url.startsWith("cdn+https://") || url.startsWith("data:,cdn://");
     }
 
 
@@ -82,13 +82,14 @@ export class LeuCDNLazyLoaderMapper implements LazyLoaderMapper {
 
         let src = data.src.replace("cdn+https://", "https://");
         src = src.replace("data:cdn://", "cdn://");
+        src = src.replace("data:,cdn://", "cdn://");
         src = src.replace("cdn://", "https://cdn.leuffen.de");
 
         src = src.replace("@size@", `${bestFit.width}x${bestFit.height}`);
         src = src.replace("@file@", `${data.filename}.${bestExtension}`);
 
         if (element instanceof HTMLImageElement) {
-            if (element.getBoundingClientRect().top > window.innerHeight && ! element.classList.contains("priority")) {
+            if (element.getBoundingClientRect().top > window.innerHeight && ! element.classList.contains("priority") && ! element.closest(".priority")) {
                 console.log("Lazyload", element.getBoundingClientRect(), window.innerHeight)
                 element.setAttribute("loading", "lazy");
             }
