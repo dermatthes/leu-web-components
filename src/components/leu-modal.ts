@@ -31,6 +31,7 @@ export class LeuModal extends HTMLElement {
     public origOverflow = "";
     public oldUrl = window.location.href.split("#")[0];
 
+    public active = true;
     constructor() {
         super();
     }
@@ -73,6 +74,8 @@ export class LeuModal extends HTMLElement {
     }
 
     public checkHref(e) {
+        if ( ! this.active)
+            return;
         if (window.location.hash === "#" + this.getAttribute("id") || window.location.hash === "#modal:" + this.getAttribute("id")) {
             if (e)
                 this.oldUrl = e.oldURL;
@@ -104,8 +107,7 @@ export class LeuModal extends HTMLElement {
     }
 
     async disconnectedCallback() {
-        window.removeEventListener("hashchange", this.checkHref);
-        this.showElement.remove();
+        this.active = false;
     }
 
 }
