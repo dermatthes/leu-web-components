@@ -5,7 +5,6 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "module": "./dist/index.module.js",
-
   "directories": {
     "doc": "docs",
     "lib": "lib"
@@ -28,13 +27,13 @@
     "@kasimirjs/embed": "^1"
   },
   "devDependencies": {
-    "jest": "^29",
-    "ts-jest": "^29",
     "@types/jest": "*",
     "esbuild": "^0",
     "esbuild-jest": "^0",
     "esbuild-loader": "^2",
+    "jest": "*",
     "jest-environment-jsdom": "*",
+    "ts-jest": "^27.0.3",
     "ts-loader": "^9",
     "ts-node": "^10",
     "typescript": "^4",
